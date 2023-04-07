@@ -1,4 +1,4 @@
-package game.deck;
+package model.deck;
 
 import game.Game;
 import game.Utils;

@@ -1,4 +1,4 @@
-package game.map;
+package model.map;
 
 import game.Colors;
 import game.player.Player;

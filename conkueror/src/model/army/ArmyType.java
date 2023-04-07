@@ -1,4 +1,4 @@
-package game.map;
+package model.army;
 
 public enum ArmyType {
     Infantry,

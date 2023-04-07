@@ -1,4 +1,4 @@
-package game.player;
+package model.player;
 
 import game.Colors;
 

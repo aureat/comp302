@@ -1,4 +1,4 @@
-package game.deck;
+package model.card;
 
 import game.map.Territory;
 

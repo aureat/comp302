@@ -1,4 +1,4 @@
-package ui.map;
+package view.graphics;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

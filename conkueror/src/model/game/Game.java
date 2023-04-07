@@ -1,4 +1,4 @@
-package game;
+package model.game;
 
 import game.player.Player;
 import game.map.WorldMap;
@@ -6,7 +6,6 @@ import game.round.Phase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Game {
 

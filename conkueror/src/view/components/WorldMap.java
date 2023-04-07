@@ -1,4 +1,4 @@
-package ui.map;
+package view.components;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

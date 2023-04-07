@@ -1,4 +1,4 @@
-package game.deck;
+package model.card;
 
 public abstract class Card {
 

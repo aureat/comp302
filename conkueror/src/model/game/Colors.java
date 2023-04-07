@@ -1,4 +1,4 @@
-package game;
+package model.game;
 
 import game.map.Territory;
 import game.player.Avatars;

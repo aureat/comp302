@@ -1,4 +1,4 @@
-package game.round;
+package model.game;
 
 public enum Phase {
     Draft,

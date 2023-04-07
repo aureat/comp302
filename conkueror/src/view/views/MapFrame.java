@@ -1,4 +1,4 @@
-package ui;
+package view.views;
 
 import ui.map.MapGraphics;
 

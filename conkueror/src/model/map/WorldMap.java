@@ -1,4 +1,4 @@
-package game.map;
+package model.map;
 
 public class WorldMap {
 

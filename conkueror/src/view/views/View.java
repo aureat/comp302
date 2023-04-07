@@ -1,7 +1,7 @@
-package view.screens;
+package view.views;
 
 import javax.swing.*;
 
-public class Screen extends JPanel {
+public class View extends JPanel {
 
 }
