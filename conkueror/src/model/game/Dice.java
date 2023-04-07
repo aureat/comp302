@@ -13,8 +13,4 @@ public class Dice {
         return rand.nextInt(sides) + 1;
     }
 
-    public static rollAll(int playerCount) {
-
-    }
-
 }

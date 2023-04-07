@@ -11,6 +11,8 @@ public class Avatars {
         AfricanMale,
         ArabicFemale,
         ArabicMale,
+        AsianFemale,
+        AsianMale,
         BritishFemale,
         BritishMale,
         ChineseFemale,

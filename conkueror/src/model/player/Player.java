@@ -13,7 +13,6 @@ public class Player {
     public Inventory inventory;
 
     public Player() {
-        inventory = new Inventory();
         generateCharacter();
     }
 
@@ -61,13 +60,9 @@ public class Player {
         return Avatars.toString(avatar);
     }
 
-    public int getTerritoryCount() {
-        return territories.size();
-    }
-
-    public int getDraftArmyCount() {
-        return Math.min(3, Math.floorDiv(territories.size(), 3));
-    }
+//    public int getDraftArmyCount() {
+//        return Math.min(3, Math.floorDiv(territories.size(), 3));
+//    }
 
     public void generateCharacter() {
         this.username = "";
