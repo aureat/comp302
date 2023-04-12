@@ -1,6 +1,6 @@
 package model.card;
 
-import game.map.ArmyType;
+import model.army.ArmyType;
 
 public class ArmyCard extends Card {
 
