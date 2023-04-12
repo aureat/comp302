@@ -1,7 +1,5 @@
 package model.game;
 
-import game.player.Player;
-
 import java.util.Random;
 
 public class Dice {

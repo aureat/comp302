@@ -1,50 +1,58 @@
 package model.player;
 
-import game.Colors;
+
+import org.jetbrains.annotations.NotNull;
+
+import model.player.Colors;
 
 public class Player {
 
-    private String username;
-    private String displayName;
-    private Colors.Type color;
-    private Avatars.Type avatar;
+    private String fullName;
+    private String firstName;
+    private Colors.ColorType color;
+    private Avatars.AvatarType avatar;
     private boolean isComputer;
-
-    public Inventory inventory;
 
     public Player() {
         generateCharacter();
     }
 
-    public Colors.Type getColor() {
+    public void generateCharacter() {
+        setColor(Colors.getRandomPlayable());
+        setName(Names.getRandom());
+        setAvatar(Avatars.getRandom());
+    }
+
+    public Colors.ColorType getColor() {
         return color;
     }
 
-    public void setColor(Colors.Type color) {
+    public void setColor(@NotNull Colors.ColorType color) {
         this.color = color;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public void setName(@NotNull String displayName) {
+        this.fullName = displayName;
+        this.firstName = displayName.split(" ")[0];
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public Avatars.Type getAvatar() {
+    public Avatars.AvatarType getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Avatars.Type avatar) {
+    public String getAvatarString() {
+        return Avatars.getAvatarName(avatar);
+    }
+
+    public void setAvatar(@NotNull Avatars.AvatarType avatar) {
         this.avatar = avatar;
     }
 
@@ -52,23 +60,12 @@ public class Player {
         return isComputer;
     }
 
-    public void setComputer(boolean computer) {
+    public void setComputer(@NotNull boolean computer) {
         isComputer = computer;
     }
 
-    public String getAvatarString() {
-        return Avatars.toString(avatar);
-    }
-
-//    public int getDraftArmyCount() {
-//        return Math.min(3, Math.floorDiv(territories.size(), 3));
-//    }
-
-    public void generateCharacter() {
-        this.username = "";
-        this.displayName = Names.getRandomName();
-        this.color = Colors.getRandomColor();
-        this.avatar = Avatars.getRandomCharacter();
+    public boolean equals(Player other) {
+        return this == other;
     }
 
 }

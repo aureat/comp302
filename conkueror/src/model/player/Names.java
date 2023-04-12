@@ -1,10 +1,12 @@
 package model.player;
 
+import model.game.Utils;
+
 import java.util.Random;
 
 public class Names {
 
-    private static String[] displayNames = {
+    private static String[] names = {
             "Sans Betancur",
             "Célia Picazo",
             "Pili Oquendo",
@@ -42,12 +44,35 @@ public class Names {
             "Darya Morozova",
             "Klavdiya Smirnova",
             "Tasha Fedorova",
-            "Yaropolk Kozlov"
+            "Yaropolk Kozlov",
+            "Sevim Adivar",
+            "Lanzo Böhm",
+            "Bamber Southers",
+            "Anselma Knopf",
+            "Banou Ibori",
+            "Zahra Ezekwesili",
+            "Malini Char",
+            "Khashifa Badour",
+            "Zeno Lactuca",
+            "Hermanus Clineas",
+            "Agapius Salvitto",
+            "Eoforhild Airaldii",
+            "Payton Cartwrighte",
+            "Dubhthach O'Byrnei",
+            "Naomh O'Keefei",
+            "Fíona Finnini",
+            "Annveig Ketil",
+            "Adalsteinn Valkyrie",
+            "Unrne Birger",
+            "Ulrandir Nharimlur",
+            "Keezheekoni Miwok",
+            "Kele Hopi",
+            "Pitalesharo Pawnee",
+            "Cheveyo Hopi"
     };
 
-    public static String getRandomName() {
-        Random random = new Random();
-        return displayNames[random.nextInt(displayNames.length)];
+    public static String getRandom() {
+        return Utils.randomChoice(names);
     }
 
 }

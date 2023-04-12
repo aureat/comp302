@@ -1,12 +1,14 @@
 package model.player;
 
+import model.game.Utils;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public class Avatars {
-    public enum Type {
+    public enum AvatarType {
         AfricanFemale,
         AfricanMale,
         ArabicFemale,
@@ -37,30 +39,42 @@ public class Avatars {
         VikingMale
     }
 
-    public static String toString(Type avatar) {
-        return avatar.toString();
+    public static AvatarType[] array = AvatarType.values();
+
+    private static List<AvatarType> getAll() {
+        return new ArrayList<>(Arrays.asList(array));
     }
 
-    public static Type getRandomCharacter() {
-        Type[] avatars = Type.values();
-        Random random = new Random();
-        return avatars[random.nextInt(avatars.length)];
-    }
-
-    public static List<Type> getAllCharacters() {
-        return new ArrayList<>(Arrays.asList(Type.values()));
-    }
-
-    public static List<Type> getMaleCharacters() {
-        List<Type> list = new ArrayList<>(Arrays.asList(Type.values()));
+    private static List<AvatarType> getMales() {
+        List<AvatarType> list = getAll();
         list.removeIf(a -> !a.toString().contains("Male"));
         return list;
     }
 
-    public static List<Type> getFemaleCharacters() {
-        List<Type> list = new ArrayList<>(Arrays.asList(Type.values()));
+    private static List<AvatarType> getFemales() {
+        List<AvatarType> list = getAll();
         list.removeIf(a -> !a.toString().contains("Female"));
         return list;
+    }
+
+    public static List<AvatarType> all = getAll();
+    public static List<AvatarType> males = getMales();
+    public static List<AvatarType> females = getFemales();
+
+    public static String getAvatarName(@NotNull AvatarType avatar) {
+        return avatar.toString();
+    }
+
+    public static AvatarType getRandom() {
+        return Utils.randomChoice(all);
+    }
+
+    public static AvatarType getRandomMale() {
+        return Utils.randomChoice(males);
+    }
+
+    public static AvatarType getRandomFemale() {
+        return Utils.randomChoice(females);
     }
 
 }
