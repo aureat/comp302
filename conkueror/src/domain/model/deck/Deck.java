@@ -1,7 +1,4 @@
-package model.deck;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+package domain.model.deck;
 
 public class Deck {
 

@@ -1,10 +1,9 @@
-package model.map;
+package domain.model.map;
 
 import jdk.jfr.Category;
 import jdk.jfr.Description;
-import jdk.jfr.Label;
-import model.player.Colors;
-import model.player.Player;
+import domain.model.player.Colors;
+import domain.model.player.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -102,6 +101,10 @@ public class Territory {
         else if (owner == null)
             return Colors.unconquered;
         return owner.getColor();
+    }
+
+    public void togglePlayable() {
+        isPlayable = !isPlayable;
     }
 
 }

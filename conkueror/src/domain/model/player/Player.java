@@ -1,9 +1,7 @@
-package model.player;
+package domain.model.player;
 
 
 import org.jetbrains.annotations.NotNull;
-
-import model.player.Colors;
 
 public class Player {
 

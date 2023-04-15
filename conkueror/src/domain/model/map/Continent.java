@@ -1,4 +1,4 @@
-package model.map;
+package domain.model.map;
 
 import java.util.ArrayList;
 import java.util.List;

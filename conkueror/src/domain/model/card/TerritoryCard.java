@@ -1,6 +1,6 @@
-package model.card;
+package domain.model.card;
 
-import game.map.Territory;
+import domain.model.map.Territory;
 
 public class TerritoryCard extends Card {
 

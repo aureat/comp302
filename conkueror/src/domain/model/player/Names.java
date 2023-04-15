@@ -1,8 +1,6 @@
-package model.player;
+package domain.model.player;
 
-import model.game.Utils;
-
-import java.util.Random;
+import domain.model.game.Utils;
 
 public class Names {
 

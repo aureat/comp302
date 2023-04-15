@@ -1,4 +1,4 @@
-package model.army;
+package domain.model.army;
 
 public enum ArmyType {
     Infantry,

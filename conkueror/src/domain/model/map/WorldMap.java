@@ -1,8 +1,7 @@
-package model.map;
+package domain.model.map;
 
 import jdk.jfr.Category;
 import jdk.jfr.Description;
-import jdk.jfr.Label;
 
 import java.util.ArrayList;
 import java.util.List;

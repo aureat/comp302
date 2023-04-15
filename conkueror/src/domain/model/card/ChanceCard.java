@@ -1,7 +1,6 @@
-package model.card;
+package domain.model.card;
 
-import game.Game;
-import game.Utils;
+import domain.model.game.Utils;
 
 import java.util.Arrays;
 
@@ -49,7 +48,7 @@ public class ChanceCard {
     }
 
     public Type getEffect() {
-        Game game = Game.getInstance();
+//        Game game = Game.getInstance();
         if (Arrays.asList(withEffects).contains(type))
             return type;
         return null;

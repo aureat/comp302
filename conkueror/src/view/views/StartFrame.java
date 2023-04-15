@@ -1,69 +1,43 @@
 package view.views;
 
-import game.Game;
+import view.components.WorldMap;
+import view.components.map.defaultMap.NorthAmerica;
+import view.graphics.MapGraphics;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class StartFrame extends JFrame {
 
-    public static final int width = 1280;
-    public static final int height = 720;
+    public static final int width = 1600;
+    public static final int height = 900;
 
     public static void main(String[] args) {
         new StartFrame();
     }
 
     public StartFrame() {
-        initializeStartFrame();
+        initFrame();
     }
 
-    public void initializeStartFrame() {
-        this.setTitle(Game.gameName);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(width, height);
+    public void initFrame() {
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        add(mainPanel);
+        setTitle("ConKUeror");
+        setSize(width, height);
+        setPreferredSize(new Dimension(width, height));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
 
-        JPanel topPanel = new JPanel();
-        topPanel.setLayout(new GridBagLayout());
-        JLabel welcome = new JLabel(Game.gameName);
-        welcome.setSize(width, 200);
-        welcome.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
-        topPanel.add(welcome);
-        mainPanel.add(topPanel);
+        MapGraphics mapGraphics = MapGraphics.getInstance();
+        WorldMap map = new WorldMap();
+        map.setBounds(166, 16, 1534, 985);
 
-        JPanel midPanel = new JPanel();
-        midPanel.setLayout(new GridBagLayout());
+        getContentPane().add(map);
 
-        JButton button = new JButton("New Game");
-        button.setBounds(0, 0, 200, 60);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
 
-        JButton button2 = new JButton("Load Game");
-        button.setBounds(0, 0, 200, 60);
-
-        JButton button3 = new JButton("Exit");
-        button.setBounds(0, 0, 200, 60);
-
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new BuildFrame();
-                dispose();
-            }
-        });
-
-        midPanel.add(button);
-        midPanel.add(button2);
-        midPanel.add(button3);
-        mainPanel.add(midPanel);
-
-        this.setVisible(true);
     }
 
 }

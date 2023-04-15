@@ -1,6 +1,6 @@
-package model.player;
+package domain.model.player;
 
-import model.game.Utils;
+import domain.model.game.Utils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
