@@ -17,7 +17,7 @@ public class Territory {
     private String name;
     private Continent continent;
     private Player owner;
-    private List<Territory> neighbors;
+    private ArrayList<Territory> neighbors;
     private int armies;
     private boolean isPlayable;
 
@@ -95,7 +95,6 @@ public class Territory {
         List<Territory> list = new ArrayList<>(neighbors);
         return list.stream().filter(t -> !t.isOwnedBy(owner) && t.getArmies() < armies).toList();
     }
-
     public Colors.ColorType getColor() {
         if (!isPlayable)
             return Colors.unplayable;
