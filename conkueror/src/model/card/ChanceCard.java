@@ -1,8 +1,7 @@
 package model.card;
 
-import game.Game;
-import game.Utils;
-
+import model.game.Game;
+import model.game.Utils;
 import java.util.Arrays;
 
 public class ChanceCard {
