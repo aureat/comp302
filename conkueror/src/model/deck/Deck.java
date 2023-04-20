@@ -23,6 +23,7 @@ public class Deck {
         this.shuffledCards = new ArrayList<ChanceCard>();
     }
 
+
     private void checkDeck(){
         if (shuffledCards.isEmpty()){
             throw new IllegalStateException("Deck is empty");
