@@ -23,6 +23,7 @@ public class TerritoryState {
         return owner.equals(player);
     }
 
+
     public boolean canStartAttack() {
         return armies > 3;
     }
