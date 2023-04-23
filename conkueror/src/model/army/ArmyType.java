@@ -4,5 +4,9 @@ public enum ArmyType {
     Infantry,
     Cavalry,
     Artillery,
-    Mercenary
+    Mercenary ;
+
+    public String getName() {
+        return name();
+    }
 }

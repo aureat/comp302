@@ -13,6 +13,8 @@ public class Game {
     private int cavalryPerPlayer;
     private int artilleryPerPlayer;
 
+    private ArrayList<Player> playerArrayList;
+
     private static Game instance;
 
     private Game() {
@@ -38,6 +40,32 @@ public class Game {
     public int getInfantryPerPlayer(){
         return infantryPerPlayer;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    public void newGame(){
+        playerArrayList = new ArrayList<>();
+        // Adding AI to the game
+        Player computer = new Player();
+        computer.setComputer(true);
+        playerArrayList.add(computer);
+        // Adding first player into the game
+        playerArrayList.add(new Player());
+    }
+
+
+
+
+
 
 
 

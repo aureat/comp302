@@ -1,6 +1,6 @@
 package view.views;
 
-import game.Game;
+import model.game.Game;
 
 import javax.swing.*;
 import java.awt.*;

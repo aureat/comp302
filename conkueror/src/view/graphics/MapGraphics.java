@@ -185,7 +185,7 @@ public class MapGraphics {
     }
 
     public static Shape createGreenland() {
-
+        return null;
     }
 
 }
