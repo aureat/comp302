@@ -1,6 +1,6 @@
 package domain.model.player;
 
-import domain.model.game.Utils;
+import util.CoreUtils;
 
 public class Names {
 
@@ -9,7 +9,10 @@ public class Names {
             "Célia Picazo",
             "Pili Oquendo",
             "Wiebke Esser",
+            "John C. Ock",
             "Romey Walter",
+            "Ben Dover",
+            "Mike Hunt",
             "Helmine Waltz",
             "Zou Shunyuan",
             "Cai Xia",
@@ -19,9 +22,11 @@ public class Names {
             "Asuman Çalik",
             "Burçin Kayhan",
             "Yaromir Orlov",
+            "Yuri Nate",
             "Zhanna Aleksandrova",
             "Tashiro Haru",
             "Wada Ko",
+            "Dang Lee Wang",
             "Sanda Jurou",
             "Zoé Dufour",
             "Pierrette Olivier",
@@ -32,10 +37,12 @@ public class Names {
             "Zephyrinus Sacerdos",
             "Sisera Clodianus",
             "Raha Ammar",
+            "Ann Al",
             "Aswad Kader",
             "Irene Parham",
             "Frank Baldwin",
             "Ike Byrd",
+            "Vye Agra",
             "Hadwig Dreschnerg",
             "Stígandr Farnhame",
             "Democritus Corculum",
@@ -70,7 +77,7 @@ public class Names {
     };
 
     public static String getRandom() {
-        return Utils.randomChoice(names);
+        return CoreUtils.chooseRandom(names);
     }
 
 }

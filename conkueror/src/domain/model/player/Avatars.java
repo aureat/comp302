@@ -1,6 +1,6 @@
 package domain.model.player;
 
-import domain.model.game.Utils;
+import util.CoreUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -66,15 +66,15 @@ public class Avatars {
     }
 
     public static AvatarType getRandom() {
-        return Utils.randomChoice(all);
+        return CoreUtils.chooseRandom(all);
     }
 
     public static AvatarType getRandomMale() {
-        return Utils.randomChoice(males);
+        return CoreUtils.chooseRandom(males);
     }
 
     public static AvatarType getRandomFemale() {
-        return Utils.randomChoice(females);
+        return CoreUtils.chooseRandom(females);
     }
 
 }

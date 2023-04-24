@@ -1,7 +1,6 @@
 package domain.model.player;
 
-import domain.model.game.Utils;
-import org.jetbrains.annotations.NotNull;
+import util.CoreUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,12 +33,12 @@ public class Colors {
 
     public static final List<ColorType> playableColorsList = new ArrayList<>(Arrays.asList(playableColors));
 
-    public static String getColorName(@NotNull ColorType color) {
+    public static String getColorName( ColorType color) {
         return color.toString();
     }
 
     public static ColorType getRandomPlayable() {
-        return Utils.randomChoice(playableColors);
+        return CoreUtils.chooseRandom(playableColors);
     }
 
 }

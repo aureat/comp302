@@ -1,6 +1,6 @@
 package domain.model.card;
 
-import domain.model.game.Utils;
+import util.CoreUtils;
 
 import java.util.Arrays;
 
@@ -55,7 +55,7 @@ public class ChanceCard {
     }
 
     public static Type getRandomType() {
-        return Utils.randomChoice(Type.values());
+        return CoreUtils.chooseRandom(Type.values());
     }
 
     public static String typeToString(Type type) {

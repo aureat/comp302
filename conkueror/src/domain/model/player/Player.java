@@ -1,7 +1,7 @@
 package domain.model.player;
 
-
 import org.jetbrains.annotations.NotNull;
+import util.CoreUtils;
 
 public class Player {
 
@@ -39,7 +39,7 @@ public class Player {
 
     public void setName(@NotNull String displayName) {
         this.fullName = displayName;
-        this.firstName = displayName.split(" ")[0];
+        this.firstName = CoreUtils.firstWord(displayName);
     }
 
     public Avatars.AvatarType getAvatar() {
