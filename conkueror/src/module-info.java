@@ -5,4 +5,5 @@ module conkueror {
     requires java.xml;
     requires org.jetbrains.annotations;
     requires jdk.jfr;
+    requires org.reflections;
 }

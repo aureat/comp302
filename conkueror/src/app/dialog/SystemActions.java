@@ -3,6 +3,7 @@ package app.dialog;
 import app.App;
 import assets.Assets;
 import configs.AppCfg;
+import util.SwingUtils;
 import util.SystemUtils;
 
 import javax.swing.*;
@@ -21,8 +22,7 @@ public class SystemActions {
     public void openAboutDialog() {
 
         // Create panel
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JPanel panel = SwingUtils.createYBoxedPanel();
 
         // Add icon
         ImageIcon icon = Assets.getImageIcon(AppCfg.aboutIcon, 180, 180);

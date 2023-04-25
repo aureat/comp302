@@ -1,4 +1,4 @@
-package ui.views;
+package ui;
 
 import ui.components.WorldMap;
 import ui.graphics.MapGraphics;

@@ -1,9 +1,14 @@
 package configs;
 
 import app.App;
+import app.router.View;
 import configs.game.*;
 import domain.model.game.GameConfig;
+import ui.ViewPanel;
+
+import javax.swing.*;
 import java.awt.*;
+import java.lang.annotation.Annotation;
 
 /**
  * Contains all the configurations for the application.
@@ -40,5 +45,7 @@ public class AppCfg {
     public static final String aboutIcon = "icon/about.png";
 
     public static final String githubLink = "https://github.com/altunh/2023S_nerd5";
+
+    public static final String RouterViewPackage = "ui.views";
 
 }

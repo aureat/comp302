@@ -1,5 +1,6 @@
 package util;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -26,5 +27,30 @@ public class SwingUtils {
         }
         return null;
     }
+
+    public static void setComponentEnabled(Container parent, boolean enabled) {
+        for (Component child : parent.getComponents()) {
+            child.setEnabled(enabled);
+            if (child instanceof Container) {
+                setComponentEnabled((Container) child, enabled);
+            }
+        }
+    }
+
+    public static void setComponentVisible(Container parent, boolean visible) {
+        for (Component child : parent.getComponents()) {
+            child.setVisible(visible);
+            if (child instanceof Container) {
+                setComponentVisible((Container) child, visible);
+            }
+        }
+    }
+
+    public static JPanel createYBoxedPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        return panel;
+    }
+
 
 }

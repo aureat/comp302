@@ -16,15 +16,15 @@ import java.util.List;
 
 public class App extends JFrame {
 
-    private Router router;
-    private Game game;
-    private SystemActions systemActions;
+    private Router router = new Router(this);
+    private SystemActions systemActions = new SystemActions(this);
+
+    private Game game = Game.getInstance();
 
     public App() {
+        router.setDefaultContainer(getContentPane());
+        router.redirect(router.defaultViewName);
         Game.useConfig(AppCfg.gameConfig);
-        game = Game.getInstance();
-        router = new Router(this);
-        systemActions = new SystemActions(this);
         initApp();
     }
 
