@@ -11,6 +11,10 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Handles system actions such as About, Preferences, Help, etc.
+ * @see App
+ */
 public class SystemActions {
 
     private App app;

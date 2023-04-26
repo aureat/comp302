@@ -12,23 +12,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Manages the views of the application.
+ * Scans for views and registers them to the router.
+ * Handles view redirection.
+ * @see View
+ * @see RouterRedirect
+ * @see ViewPanel
+ * @see ViewPanel#redirect(String, Object...)
+ */
 public class Router {
 
     // containers
     private Container owner;
-    private Container defaultContainer;
-    private Container currentContainer;
+    private Container container;
 
-    // views and properties
-    private final Map<String, Class<? extends ViewPanel>> views = new HashMap<>();
+    // views types and annotations
+    private final Map<String, Class<? extends ViewPanel>> viewTypes = new HashMap<>();
     private final Map<String, View> viewAnnotations = new HashMap<>();
 
-    // default view
-    private Class<? extends ViewPanel> defaultViewClass;
+    // tracking views
+    private ViewPanel currentView;
+    private Class<? extends ViewPanel> defaultViewType;
     private ViewPanel defaultView;
     public String defaultViewName;
-
-    // view cache
     private final Map<String, ViewPanel> cache = new HashMap<>();
 
     public Router(Container owner) {
@@ -38,7 +45,7 @@ public class Router {
 
     protected void initRouter() {
         try {
-            scanViews();
+            registerViewTypes();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,90 +55,82 @@ public class Router {
         return owner;
     }
 
-    public void setOwner(Container owner) {
-        this.owner = owner;
+    public Container getContainer() {
+        return container;
     }
 
-    public Container getDefaultContainer() {
-        return defaultContainer;
+    public void setContainer(Container container) {
+        this.container = container;
     }
 
-    public void setDefaultContainer(Container defaultContainer) {
-        this.defaultContainer = defaultContainer;
+    public Container getCurrentView() {
+        return currentView;
     }
 
-    public Container getCurrentContainer() {
-        return currentContainer;
+    public void setCurrentView(ViewPanel view) {
+        this.currentView = view;
     }
 
-    public void setCurrentContainer(Container currentContainer) {
-        this.currentContainer = currentContainer;
-    }
-
-    public Set<Class<? extends ViewPanel>> getViews() {
+    public Set<Class<? extends ViewPanel>> scanViewTypes() {
         return ClassUtils.getSubTypes(AppCfg.RouterViewPackage, ViewPanel.class, View.class);
     }
 
-    protected void scanViews() throws RouterConfigException {
-        Set<Class<? extends ViewPanel>> types = getViews();
+    protected void registerViewTypes() throws RouterConfigException {
+        Set<Class<? extends ViewPanel>> types = scanViewTypes();
         for (Class<? extends ViewPanel> type : types) {
-            System.out.println("type " + type.toString());
-            registerView(type);
+            registerViewType(type);
         }
         // if default view not found, throw an exception
-        if (defaultViewClass == null) {
+        if (defaultViewType == null) {
             throw new RouterConfigException("Default view not found");
         }
     }
 
-    public void registerView(@NotNull Class<? extends ViewPanel> viewType) throws RouterConfigException {
-        View viewAnnotation = viewType.getAnnotation(View.class);
-        if (viewAnnotation == null) {
-            throw new RouterConfigException("View annotation not found");
-        }
-        views.put(viewAnnotation.name(), viewType);
+    public void registerViewType(@NotNull Class<? extends ViewPanel> type) throws RouterConfigException {
+        View viewAnnotation = type.getAnnotation(View.class);
+        viewTypes.put(viewAnnotation.name(), type);
         viewAnnotations.put(viewAnnotation.name(), viewAnnotation);
         if (viewAnnotation.isDefault()) {
-            if (defaultViewClass != null) {
+            if (defaultViewType != null) {
                 throw new RouterConfigException("Multiple default views found");
             }
-            defaultViewClass = viewType;
-            defaultView = createView(viewAnnotation.name());
+            defaultViewType = type;
             defaultViewName = viewAnnotation.name();
         }
     }
 
-    private void configureDefaultView(@NotNull Class<? extends ViewPanel> viewType) {
-
-    }
-
-    private void configureViewPanel(ViewPanel viewPanel, View viewAnnotation) {
-        viewPanel.setRouter(this);
-        viewPanel.setName(viewAnnotation.name());
-        viewPanel.setCacheable(viewAnnotation.cacheable());
-        viewPanel.setDefault(viewAnnotation.isDefault());
-    }
-
     private ViewPanel createView(String name, Object... args) {
-        return createView(getView(name), getViewAnnotation(name), args);
+        return createView(getViewType(name), getViewAnnotation(name), args);
     }
 
     private ViewPanel createView(
-            @NotNull Class<? extends ViewPanel> viewType,
+            @NotNull Class<? extends ViewPanel> type,
             @NotNull View viewAnnotation,
             Object... args
     ) {
-        ViewPanel view = ClassUtils.newInstance(viewType, args);
-        configureViewPanel(view, viewAnnotation);
-        return view;
+        try {
+            ViewPanel view = ClassUtils.newInstance(type, args);
+            view.setRouter(this);
+            view.setName(viewAnnotation.name());
+            view.setCacheable(viewAnnotation.cacheable());
+            view.setDefault(viewAnnotation.isDefault());
+            return view;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public Class<? extends ViewPanel> getView(String name) {
-        return views.get(name);
+    public Class<? extends ViewPanel> getViewType(String name) {
+        return viewTypes.get(name);
     }
 
-    public boolean hasView(String name) {
-        return views.containsKey(name);
+    public ViewPanel getViewFromCache(String name) {
+        return cache.get(name);
+    }
+
+    public boolean hasViewType(String name) {
+        return viewTypes.containsKey(name);
     }
 
     public boolean isViewCached(String name) {
@@ -146,38 +145,45 @@ public class Router {
         return getViewAnnotation(name).cacheable();
     }
 
-    public boolean isViewDefault(String name) {
-        return getViewAnnotation(name).isDefault();
-    }
-
-    public void redirect(String name, Object... args) {
+    public void redirect(String name, Object... args) throws IllegalRouteException {
         if (args.length == 0 && isViewCached(name)) {
-            navigate(cache.get(name));
+            mountFromCache(name);
             return;
         }
-        if (hasView(name)) {
-            ViewPanel view = createView(name, args);
-            if (isViewCacheable(name)) {
-                cache.put(name, view);
-            }
-            navigate(view);
+        if (!hasViewType(name)) {
+            throw new IllegalRouteException("View not found");
         }
+        mountNewView(name, args);
     }
 
-    public void redirect(@NotNull Class<? extends ViewPanel> view) {
-        redirect(view.getName());
+    public ViewPanel mountFromCache(String name) {
+        ViewPanel view = getViewFromCache(name);
+        replaceContainer(view);
+        view.onMount();
+        return view;
     }
 
-    public void navigate(Container nextContainer) {
-        defaultContainer.removeAll();
-        defaultContainer.add(nextContainer);
-        setCurrentContainer(nextContainer);
-        defaultContainer.revalidate();
-        defaultContainer.repaint();
+    public ViewPanel mountNewView(String name, Object... args) {
+        ViewPanel view = createView(name, args);
+        if (isViewCacheable(name)) {
+            cache.put(name, view);
+        }
+        replaceContainer(view);
+        view.initialize();
+        view.onMount();
+        return view;
     }
 
-    public void navigate() {
-        navigate(defaultView);
+    public void mountNewDefaultView() {
+        defaultView = mountNewView(defaultViewName);
+    }
+
+    private void replaceContainer(ViewPanel nextView) {
+        container.removeAll();
+        container.add(nextView);
+        setCurrentView(nextView);
+        container.revalidate();
+        container.repaint();
     }
 
 }

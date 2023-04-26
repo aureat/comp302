@@ -1,6 +1,7 @@
 package util;
 
 import java.awt.*;
+import java.awt.desktop.QuitStrategy;
 import java.net.URI;
 
 public class SystemUtils {
@@ -35,6 +36,24 @@ public class SystemUtils {
         }
     }
 
+    public static boolean supportsHelpViewer() {
+        return Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.APP_HELP_VIEWER);
+    }
+
+    public static void openHelpViewer() {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().openHelpViewer();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static boolean supportsOpenLink() {
+        return Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
+    }
+
     public static void openLink(String url) {
         if (Desktop.isDesktopSupported()) {
             try {
@@ -42,6 +61,22 @@ public class SystemUtils {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void initializeMacOsQuitStrategy() {
+        if (SystemInfo.isMacOS) {
+            System.setProperty("apple.eawt.quitStrategy", QuitStrategy.CLOSE_ALL_WINDOWS.toString());
+        }
+    }
+
+    public static void initializeMacOsProperties(String appName) {
+        if (SystemInfo.isMacOS) {
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+            System.setProperty("apple.awt.application.appearance", "system");
+            System.setProperty("apple.awt.application.name", appName);
+            System.setProperty("apple.eawt.application.name", appName);
+            System.setProperty("com.apple.mrj.application.apple.menu.about.name", appName);
         }
     }
 

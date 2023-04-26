@@ -1,9 +1,12 @@
 package app.router;
 
+/**
+ * Interface for redirecting to a view.
+ * All view panels must implement this interface.
+ * @see Router
+ */
 public interface RouterRedirect {
-
-    public void redirect(String name, Object... args);
-
-    public void redirect(String name);
-
+    Router getRouter();
+    void setRouter(Router router);
+    void redirect(String name, Object... args);
 }

@@ -1,5 +1,9 @@
 package app.router;
 
+/**
+ * Exception for illegal routes.
+ * @see Router
+ */
 public class IllegalRouteException extends Exception{
 
     public IllegalRouteException(String message){

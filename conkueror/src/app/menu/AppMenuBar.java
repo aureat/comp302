@@ -1,12 +1,22 @@
 package app.menu;
 
 import app.App;
+import app.dialog.SystemActions;
 import util.SystemInfo;
 import util.SystemUtils;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The application menu bar.
+ * Modifies the menu bar based on the operating system.
+ * @see JMenuBar
+ * @see App
+ * @see SystemInfo
+ * @see SystemUtils
+ * @see SystemActions
+ */
 public class AppMenuBar extends JMenuBar {
 
     private App app;

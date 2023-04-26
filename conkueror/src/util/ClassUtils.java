@@ -35,19 +35,25 @@ public class ClassUtils {
         return getSubTypes("", type, annotation);
     }
 
-    public static <T> T newInstance(Class<T> type, Object... args) throws RuntimeException {
+    public static <T> T newInstance(Class<T> type, Object... args) throws NoSuchMethodException, RuntimeException {
+        Class<?>[] argTypes = new Class<?>[args.length];
+        Arrays.stream(argTypes).map(Object::getClass).toArray();
         try {
-            Class<?>[] argTypes = new Class<?>[args.length];
-            Arrays.stream(argTypes).map(Object::getClass).toArray();
             Constructor<T> constructor = type.getDeclaredConstructor(argTypes);
-            if (constructor == null) {
-                throw new RuntimeException("No constructor found for " + type.getName());
+            T instance = constructor.newInstance(args);
+            if (instance == null) {
+                throw new Exception("Constructor for " + type.getName() + " returned null.");
             }
-            return constructor.newInstance(args);
+            return instance;
+        } catch (NoSuchMethodException e) {
+            throw new NoSuchMethodException("No constructor found for " +
+                    type.getName() +
+                    " with arguments " +
+                    Arrays.toString(argTypes) +
+                    ".");
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
 }

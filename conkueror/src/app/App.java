@@ -14,26 +14,77 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * Entry point of the application.
+ * Where the router and game are initialized.
+ * @see JFrame
+ * @see AppCfg
+ * @see Router
+ * @see SystemActions
+ * @see Game
+ */
 public class App extends JFrame {
 
-    private Router router = new Router(this);
-    private SystemActions systemActions = new SystemActions(this);
+    private final Router router;
+    private final SystemActions systemActions;
 
-    private Game game = Game.getInstance();
+    private final Game game = Game.getInstance();
 
     public App() {
-        router.setDefaultContainer(getContentPane());
-        router.redirect(router.defaultViewName);
-        Game.useConfig(AppCfg.gameConfig);
-        initApp();
-    }
+        /*
+         * Initialize application frame
+         * Sets the frame title, icon, size, location, etc.
+         */
+        initFrame();
 
-    private void initApp() {
-        initTitle();
-        initIcon();
+        /*
+         * Specify game configuration.
+         * Initialize System Actions
+         */
+        Game.useConfig(AppCfg.gameConfig);
+        systemActions = new SystemActions(this);
+
+        /*
+         * Create and configure the router.
+         * Scans all types annotated with @View and registers them to the router.
+         * Sets the container of the router to the content pane of the frame.
+         */
+        router = new Router(this);
+        router.setContainer(getContentPane());
+
+        /*
+         * Create system menus.
+         * Initializes and mounts the MenuBar and PopupMenu (MacOS only)
+         */
         initMenuBar();
         initMacOSMenus();
-        initFrame();
+
+        /* Mount the default view */
+        router.mountNewDefaultView();
+    }
+
+    public Router getRouter() {
+        return router;
+    }
+
+    public SystemActions getSystemActions() {
+        return systemActions;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    private void initFrame() {
+        getContentPane().setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(AppCfg.isResizable);
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().setSize(new Dimension(AppCfg.preferredWidth, AppCfg.preferredHeight));
+        getContentPane().setMinimumSize(new Dimension(AppCfg.preferredWidth, AppCfg.preferredHeight));
+        getContentPane().setPreferredSize(new Dimension(AppCfg.preferredWidth, AppCfg.preferredHeight));
+        initTitle();
+        initIcon();
     }
 
     private void initTitle() {
@@ -62,26 +113,10 @@ public class App extends JFrame {
         }
     }
 
-    private void initFrame() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(AppCfg.isResizable);
-        setMinimumSize(new Dimension(AppCfg.preferredWidth, AppCfg.preferredHeight));
-        setPreferredSize(new Dimension(AppCfg.preferredWidth, AppCfg.preferredHeight));
-    }
-
-    public SystemActions getSystemActions() {
-        return systemActions;
-    }
-
     public static void main(String... args) {
 
         // Set macOS specific properties
-        if (SystemInfo.isMacOS) {
-            System.setProperty("apple.laf.useScreenMenuBar", "true");
-            System.setProperty("apple.awt.application.name", "ConKUeror");
-            System.setProperty("apple.awt.application.appearance", "system");
-            System.setProperty("com.apple.mrj.application.apple.menu.about.name", "ConKUeror");
-        }
+        SystemUtils.initializeMacOsProperties(AppCfg.appName);
 
         // Set System Look and Feel
         try {

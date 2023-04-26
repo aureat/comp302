@@ -1,5 +1,9 @@
 package app.router;
 
+/**
+ * Exception for router configuration errors.
+ * @see Router
+ */
 public class RouterConfigException extends Exception{
 
     public RouterConfigException(String message){
