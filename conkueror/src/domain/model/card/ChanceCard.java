@@ -1,4 +1,4 @@
-package model.card;
+package domain.model.card;
 
 import model.game.Game;
 import model.game.Utils;
