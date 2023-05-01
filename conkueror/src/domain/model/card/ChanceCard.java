@@ -1,7 +1,7 @@
-package domain.model.card;
+package model.card;
 
-import util.CoreUtils;
-
+import model.game.Game;
+import model.game.Utils;
 import java.util.Arrays;
 
 public class ChanceCard {
@@ -48,14 +48,14 @@ public class ChanceCard {
     }
 
     public Type getEffect() {
-//        Game game = Game.getInstance();
+        Game game = Game.getInstance();
         if (Arrays.asList(withEffects).contains(type))
             return type;
         return null;
     }
 
     public static Type getRandomType() {
-        return CoreUtils.chooseRandom(Type.values());
+        return Utils.randomChoice(Type.values());
     }
 
     public static String typeToString(Type type) {

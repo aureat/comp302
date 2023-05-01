@@ -11,6 +11,7 @@ public class Player {
     private Avatars.AvatarType avatar;
     private boolean isComputer;
 
+
     public Player() {
         generateCharacter();
     }
