@@ -1,18 +1,21 @@
 package domain.model.map.states;
 
+import domain.model.map.types.TerritoryType;
 import domain.model.player.Colors;
 import domain.model.player.Player;
 
 public class TerritoryState {
 
+    private TerritoryType territory;
     private Player owner;
     private int armies;
     private boolean playable;
 
-    public TerritoryState() {
+    public TerritoryState(TerritoryType territory) {
         owner = null;
         armies = 0;
         playable = true;
+        this.territory = territory;
     }
 
     public Player getOwner() {
@@ -31,11 +34,11 @@ public class TerritoryState {
         this.armies = armies;
     }
 
-    public void addArmies(int amount) {
+    public void incArmies(int amount) {
         this.armies += armies;
     }
 
-    public void removeArmies(int amount) {
+    public void decArmies(int amount) {
         this.armies -= armies;
     }
 
@@ -70,6 +73,22 @@ public class TerritoryState {
     public boolean canStartFortify() {
         return playable && owner != null && armies > 1;
     }
+
+    public boolean isOwnedBy(Player player) {
+        return player.equals(owner);
+    }
+
+    public TerritoryType getTerritoryType() {
+        return territory;
+    }
+
+
+
+
+
+
+
+
 
 
 
