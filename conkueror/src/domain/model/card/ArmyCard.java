@@ -1,6 +1,7 @@
-package model.card;
+package domain.model.card;
 
-import model.army.ArmyType;
+import domain.model.army.ArmyType;
+import domain.model.*;
 
 public class ArmyCard extends Card {
 
