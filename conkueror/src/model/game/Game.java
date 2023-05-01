@@ -1,7 +1,7 @@
 package model.game;
 
-import model.map.WorldMap;
-import model.player.Player;
+import domain.model.map.GameMap;
+import domain.model.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
