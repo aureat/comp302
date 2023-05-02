@@ -1,44 +1,18 @@
-package model.game;
+package domain.model.map.states;
 
-import model.army.ArmyType;
-import model.map.Territory;
-import model.player.Player;
-import model.card.TerritoryCard;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import domain.model.player.Colors;
+import domain.model.player.Player;
 
 public class TerritoryState {
-    private int armyNumber ;
-    private Player owner ;
-    private TerritoryCard territoryCard;
-    private boolean isPlaylable;
-    private List<Territory> neighbors;
-    private int armies ; // TEMPORARY ARMY COUNTER
 
+    private Player owner;
+    private int armies;
+    private boolean playable;
 
-
-    public boolean isOwnedBy(Player player) {
-        return owner.equals(player);
-    }
-
-
-    public boolean canStartAttack() {
-        return armies > 3;
-    }
-
-    public List<Territory> getAttackableNeighbors() {
-        List<Territory> list = new ArrayList<>(neighbors);
-        return list.stream().filter(t -> !t.isOwnedBy(owner) && t.getArmies() < armies).toList();
-    }
-
-    public int getArmyNumber() {
-        return armyNumber;
-    }
-
-    public void setArmyNumber(int armyNumber) {
-        this.armyNumber = armyNumber;
+    public TerritoryState() {
+        owner = null;
+        armies = 0;
+        playable = true;
     }
 
     public Player getOwner() {
@@ -49,31 +23,54 @@ public class TerritoryState {
         this.owner = owner;
     }
 
-    public TerritoryCard getTerritoryCard() {
-        return territoryCard;
+    public int getArmies() {
+        return armies;
     }
 
-    public void setTerritoryCard(TerritoryCard territoryCard) {
-        this.territoryCard = territoryCard;
+    public void setArmies(int armies) {
+        this.armies = armies;
     }
 
-    public boolean isPlaylable() {
-        return isPlaylable;
+    public void addArmies(int amount) {
+        this.armies += armies;
     }
 
-    public void setPlaylable(boolean playlable) {
-        isPlaylable = playlable;
+    public void removeArmies(int amount) {
+        this.armies -= armies;
     }
 
-    public void increaseArmyNumber(ArmyType armyType) {
-        if (armyType.getName().equals("Infantry")){
-            armies ++;
-        }
-        if (armyType.getName().equals("Cavalry")){
-            armies += 5;
-        }
-        if (armyType.getName().equals("Artillery")){
-            armies += 10;
-        }
+    public boolean isPlayable() {
+        return playable;
     }
+
+    public void setPlayable(boolean playable) {
+        this.playable = playable;
+    }
+
+    public void togglePlayable() {
+        playable = !playable;
+    }
+
+    public Colors.ColorType getColor() {
+        if (!playable)
+            return Colors.unplayable;
+        else if (owner == null)
+            return Colors.unconquered;
+        return owner.getColor();
+    }
+
+    public boolean isConquered() {
+        return owner != null;
+    }
+
+    public boolean canStartAttack() {
+        return playable && owner != null && armies > 3;
+    }
+
+    public boolean canStartFortify() {
+        return playable && owner != null && armies > 1;
+    }
+
+
+
 }
