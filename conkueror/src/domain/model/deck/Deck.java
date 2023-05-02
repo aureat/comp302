@@ -1,10 +1,11 @@
-package model.deck;
+package domain.model.deck;
 
-import model.card.*;
-import model.game.Game;
-import model.army.ArmyType;
+
+import domain.model.card.*;
+import domain.model.game.Game;
+import domain.model.army.ArmyType;
 import model.game.Utils;
-
+import util.CoreUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 

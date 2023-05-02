@@ -3,6 +3,7 @@ package domain.model.map.states;
 import domain.model.map.GameMap;
 import domain.model.map.types.ContinentType;
 import domain.model.map.types.TerritoryType;
+import domain.model.player.Player;
 
 import java.util.HashMap;
 
@@ -20,7 +21,4 @@ public class MapState {
         MapState mapState = new MapState();
         return null;
     }
-
-
-
 }
