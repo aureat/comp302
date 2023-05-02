@@ -8,6 +8,7 @@ public class PlayersOrder {
     private ArrayList<Player> playerOrder;
     private int[] diceOrder;
 
+    // when click on roll dice for player orders get players method is initialized in game class
     public PlayersOrder(){
         this.playerOrder = Game.getInstance().getPlayers();
         this.diceOrder = new int[playerOrder.size()];
