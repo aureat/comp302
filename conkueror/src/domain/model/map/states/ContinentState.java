@@ -12,6 +12,10 @@ public class ContinentState {
         this.continent = continent;
     }
 
+    public ContinentType getContinent() {
+        return continent;
+    }
+
     public ArrayList<TerritoryType> getTerritories(){
         return getTerritories();
     }

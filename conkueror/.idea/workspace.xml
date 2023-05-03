@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fd32ed6-0fc3-48bd-947f-9accdd414a3e" name="Changes" comment="tried to merge from omer's branch">
+    <list default="true" id="1fd32ed6-0fc3-48bd-947f-9accdd414a3e" name="Changes" comment="tried to merge from omer's branch for the part we did together map state">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/model/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/model/map/states/ContinentState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/model/map/states/ContinentState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/model/map/states/MapState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/model/map/states/MapState.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +79,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683054771991</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="tried to merge from omer's branch for the part we did together map state">
+      <created>1683140356061</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1683140356061</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -96,6 +104,7 @@
     <MESSAGE value="continent state test" />
     <MESSAGE value="fixed some package problems and added some methods to decide order of players." />
     <MESSAGE value="tried to merge from omer's branch" />
-    <option name="LAST_COMMIT_MESSAGE" value="tried to merge from omer's branch" />
+    <MESSAGE value="tried to merge from omer's branch for the part we did together map state" />
+    <option name="LAST_COMMIT_MESSAGE" value="tried to merge from omer's branch for the part we did together map state" />
   </component>
 </project>
