@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import domain.model.card.Card;
+
 import domain.model.card.ChanceCard;
 import domain.model.map.GameMap;
-import domain.model.map.states.MapState;
-import domain.model.map.states.TerritoryState;
-import domain.model.map.types.ContinentType;
-import domain.model.map.types.TerritoryType;
 import domain.model.player.Player;
+import domain.model.map.states.*;
 
 public class Game {
 
@@ -119,7 +116,7 @@ public class Game {
     public boolean attackPhase(TerritoryState startLocation, TerritoryState attackLocation) {
         currentplayer = players.get(++roundCount % playerCount);
         //Should modify MapState
-        if (MapState.createFromMap(map).getAttackingTerritories(currentplayer).containsValue(startLocation)  && MapState.createFromMap(map).getAttackableTerritoriesFrom(startLocation).containsValue(attackLocation)) {
+        if (MapState.createFromMap(map).getAttackingTerritories(currentplayer).containsValue(startLocation)  && MapState.createFromMap(map).getAttackableTerritoriesFrom(startLocation).contains(attackLocation)) {
             Scanner inputarmies = new Scanner(System.in);
             int armies = 0;
             while(armies<2 && armies<startLocation.getArmies() -1){
