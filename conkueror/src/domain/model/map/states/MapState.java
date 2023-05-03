@@ -48,31 +48,37 @@ public class MapState {
     }
 
 
-    public HashMap<TerritoryType, TerritoryState> getAttackingTerritories(Player player) {
-        HashMap<TerritoryType, TerritoryState> attackbase = new HashMap<TerritoryType, TerritoryState>();
-
+//    public HashMap<TerritoryType, TerritoryState> getAttackingTerritories(Player player) {
+//        HashMap<TerritoryType, TerritoryState> attackbase = new HashMap<TerritoryType, TerritoryState>();
+//        for (TerritoryState terr : territories.values()) {
+//            if (terr.canStartAttack()) attackbase.put(terr.getTerritoryType(), terr);
+//        }
+//        return attackbase;
+//    }
+    public List<TerritoryState> getAttackingTerritories(Player player) {
+        List<TerritoryState> attackbase = new ArrayList<>(territories.values().stream().toList());
         for (TerritoryState terr : territories.values()) {
             if (terr.canStartAttack()) attackbase.put(terr.getTerritoryType(), terr);
         }
         return attackbase;
     }
 
-    public HashMap<TerritoryState, TerritoryState> getAttackableTerritoriesFrom(TerritoryState territoryState) {
-        HashMap<TerritoryState, TerritoryState> attackloc = new HashMap<TerritoryState, TerritoryState>();
-
-        for (TerritoryType terr: territories.keySet()) {
+    public List<TerritoryState> getAttackableTerritoriesFrom(TerritoryState territoryState) {
+        List<TerritoryState> attackableTerritories = new ArrayList<>();
+        for (TerritoryType terr : territories.keySet()) {
             if (territoryState.equals(territories.get(terr))) {
-                for (TerritoryType t: terr.getNeighbors()) {
-                    for (TerritoryState terrs: territories.values()) {
+                for (TerritoryType t : terr.getNeighbors()) {
+                    for (TerritoryState terrs : territories.values()) {
                         if (territories.get(terr).equals(terrs) && terrs.getArmies() == territories.get(t).getArmies()) {
-                            attackloc.put(terrs,territories.get(t));
+                            attackableTerritories.add(territories.get(t));
                         }
                     }
                 }
             }
         }
-        return attackloc;
+        return attackableTerritories;
     }
+
 
     public HashMap<ContinentType, ContinentState> continentsConqueredBySinglePlayer() {
         HashMap<ContinentType, ContinentState> continentsconquered = new HashMap<ContinentType, ContinentState>();
@@ -84,10 +90,9 @@ public class MapState {
             }
             if (contplayers.size() == 1) continentsconquered.put(contype, continents.get(contype));
         }
-
         return continentsconquered;
-
     }
+
     public HashMap<TerritoryType, TerritoryState> getTerritories() {
         return territories;
     }
