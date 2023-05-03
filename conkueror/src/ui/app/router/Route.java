@@ -17,10 +17,10 @@ public enum Route {
     Splash,
 
     /** Main menu of the application */
-    Main,
+    Main(true),
 
     /** Screen for adding players to the game */
-    Players(true),
+    Players,
 
     /** Screen for editing players */
     EditPlayer,

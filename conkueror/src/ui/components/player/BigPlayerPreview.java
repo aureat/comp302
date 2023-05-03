@@ -19,7 +19,10 @@ public class BigPlayerPreview extends ImageButton {
     private final JLabel nameLabel;
 
     public BigPlayerPreview(Player player) {
-        super(null, 40, 40);
+        super(
+                Assets.ColorCardLg.getAsset(player.getColor().toString().toLowerCase()).getImageIcon(),
+                40, 40
+        );
 
         this.player = player;
         setCursor(Cursor.getDefaultCursor());
@@ -47,7 +50,7 @@ public class BigPlayerPreview extends ImageButton {
 
         info.add(Box.createVerticalGlue());
         info.add(avatarPanel);
-        info.add(Box.createVerticalStrut(30));
+        info.add(Box.createVerticalStrut(25));
         info.add(namePanel);
         info.add(Box.createVerticalGlue());
 
@@ -55,7 +58,7 @@ public class BigPlayerPreview extends ImageButton {
     }
 
     public ImageIcon getBackgroundCard() {
-        Assets.ColorCardLg.getAsset(player.getColor().toString().toLowerCase()).getImageIcon();
+        return Assets.ColorCardLg.getAsset(player.getColor().toString().toLowerCase()).getImageIcon();
     }
 
     @Override
@@ -79,8 +82,7 @@ public class BigPlayerPreview extends ImageButton {
     }
 
     public void updateColor() {
-
+        setIcon(getBackgroundCard());
     }
-
 
 }

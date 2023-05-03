@@ -107,7 +107,10 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
             }
 
             @Override
-            public void removeUpdate(DocumentEvent e) {}
+            public void removeUpdate(DocumentEvent e) {
+                getController().getPlayer().setName(nameField.getText());
+                preview.updateText();
+            }
 
             @Override
             public void changedUpdate(DocumentEvent e) {}
@@ -120,11 +123,31 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
                     getController().getPlayer().setColor(Colors.ColorType.Yellow);
                     preview.updateColor();
                 });
-        colorButtons.addButton(Assets.ColorBall.getAsset("green"));
-        colorButtons.addButton(Assets.ColorBall.getAsset("purple"));
-        colorButtons.addButton(Assets.ColorBall.getAsset("red"));
-        colorButtons.addButton(Assets.ColorBall.getAsset("orange"));
-        colorButtons.addButton(Assets.ColorBall.getAsset("blue"));
+        colorButtons.addButton(Assets.ColorBall.getAsset("green"))
+                .addActionListener(e -> {
+                    getController().getPlayer().setColor(Colors.ColorType.Green);
+                    preview.updateColor();
+                });
+        colorButtons.addButton(Assets.ColorBall.getAsset("purple"))
+                .addActionListener(e -> {
+                    getController().getPlayer().setColor(Colors.ColorType.Purple);
+                    preview.updateColor();
+                });
+        colorButtons.addButton(Assets.ColorBall.getAsset("red"))
+                .addActionListener(e -> {
+                    getController().getPlayer().setColor(Colors.ColorType.Red);
+                    preview.updateColor();
+                });
+        colorButtons.addButton(Assets.ColorBall.getAsset("orange"))
+                .addActionListener(e -> {
+                    getController().getPlayer().setColor(Colors.ColorType.Orange);
+                    preview.updateColor();
+                });
+        colorButtons.addButton(Assets.ColorBall.getAsset("blue"))
+                .addActionListener(e -> {
+                    getController().getPlayer().setColor(Colors.ColorType.Blue);
+                    preview.updateColor();
+                });
 
         // Add all to right container
         rightContainer.add(avatarGridMales);
