@@ -1,9 +1,7 @@
 package domain.maps;
 
-import domain.model.map.*;
-import domain.model.map.types.ContinentType;
-import domain.model.map.types.TerritoryType;
-import util.CoreUtils;
+import domain.gamemap.*;
+import domain.util.CoreUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,20 +13,14 @@ import java.util.List;
  * This map is based on the classic Risk map.
  * It has 6 continents and 39 territories.
  *
- * @see domain.model.map.GameMap
+ * @see domain.gamemap.UseMap
+ * @see domain.gamemap.GameMap
+ * @see domain.gamemap.ContinentType
+ * @see domain.gamemap.TerritoryType
  */
+@UseMap(name="Classic")
+@MapDescription("Play the classic world map of ConKUeror.")
 public class ClassicMap extends GameMap {
-
-    private String name = "Classic";
-    private String description = "Play the classic world map of ConKUeror.";
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 
     private enum Continent implements ContinentType {
         NorthAmerica,

@@ -1,3 +1,12 @@
+import util.module.Developer;
+import util.module.Version;
+
+/**
+ * This module contains the core classes and
+ * the application classes for the game ConKUeror.
+ */
+@Version("0.4.0")
+@Developer("Nerd^5")
 module conkueror {
     requires java.desktop;
     requires java.base;
