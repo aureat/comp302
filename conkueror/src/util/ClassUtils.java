@@ -46,6 +46,28 @@ public class ClassUtils {
         return getSubTypes("", type, annotation);
     }
 
+    public static void invokeMethod(Object object, String method, Object... args) throws NoSuchMethodException, RuntimeException {
+        // Get classes of objects
+        Class<?>[] argTypes = Arrays.stream(args).map(arg -> {
+            if (arg == null)
+                return Object.class;
+            return arg.getClass();
+        }).toArray(Class<?>[]::new);
+
+        // Get method
+        try {
+            object.getClass().getDeclaredMethod(method, argTypes).invoke(object, args);
+        } catch (NoSuchMethodException e) {
+            throw new NoSuchMethodException("No constructor found for " +
+                    object.getClass().getName() +
+                    " with arguments " +
+                    Arrays.toString(argTypes) +
+                    ".");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static <T> T newInstance(Class<T> type, Object... args) throws NoSuchMethodException, RuntimeException {
 
         // Get classes of objects

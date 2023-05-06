@@ -41,6 +41,11 @@ public class Colors {
         return getColorName(color).toLowerCase();
     }
 
+    public static ColorType getColorType(String color) {
+        String name = color.toLowerCase().replace(" ", "");
+        return ColorType.valueOf(name.substring(0, 1).toUpperCase() + name.substring(1));
+    }
+
     public static ColorType getRandomPlayable() {
         return CoreUtils.chooseRandom(playableColors);
     }

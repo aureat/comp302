@@ -70,12 +70,13 @@ public abstract class ViewPanel<Controller extends ViewController> extends JPane
      * Method for getting the controller associated with this view.
      * @return {@link ViewController} for this view
      */
-    public Controller createController(Object... args) {
-        if (controller != null && (args == null || args.length == 0)) {
+    public Controller createController() {
+        if (controller != null) {
             return controller;
         }
         try {
-            controller = ClassUtils.newInstance(controllerType, args);
+            System.out.println("Creating controller in view panel for " + this);
+            controller = ClassUtils.newInstance(controllerType);
             controller.setRoute(route);
             controller.initialize();
         } catch (Exception e) {
@@ -144,6 +145,19 @@ public abstract class ViewPanel<Controller extends ViewController> extends JPane
         revalidate();
         repaint();
         onUpdate();
+        System.out.println("Updated view " + this.getClass().getSimpleName());
+    }
+
+    /**
+     * API for rebuilding the view.
+     * @see ViewController
+     * @see Router
+     */
+    public void rebuildView() {
+        removeAll();
+        initialize();
+        onUpdate();
+        System.out.println("Rebuilt view " + this.getClass().getSimpleName());
     }
 
     public void setSizeOnCenter(Container container, Dimension dimension) {

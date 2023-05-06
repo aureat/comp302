@@ -22,7 +22,7 @@ public abstract class ViewController extends AbstractController implements Route
     }
 
     /**
-     * Controller's initializer besides the constructor.
+     * Controller's initializer.
      */
     public abstract void initialize();
 

@@ -6,6 +6,7 @@ import domain.gamemap.GameMap;
 import domain.player.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -52,6 +53,10 @@ public class Game {
 
     public int getPlayersCount() {
         return players.size();
+    }
+
+    public void shufflePlayers() {
+        Collections.shuffle(players);
     }
 
     private void findAndSetConfig() {

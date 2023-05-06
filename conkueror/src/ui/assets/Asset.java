@@ -63,4 +63,8 @@ public class Asset {
         return icon;
     }
 
+    public ImageIcon getImageIcon(int width, int height) {
+        return AssetLoader.getImageIcon(fullPath, width, height);
+    }
+
 }

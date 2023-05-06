@@ -71,6 +71,7 @@ public class Router {
     }
 
     public void redirect(Route route, Object... args) throws IllegalRouteException {
+        System.out.println("Redirecting to " + route);
         route.setRoute(this, args);
     }
 
@@ -83,7 +84,6 @@ public class Router {
         container.add(view);
         container.revalidate();
         container.repaint();
-        view.repaint();
     }
 
     /**
@@ -143,6 +143,8 @@ public class Router {
                 Controller controllerAnnotation = type.getAnnotation(Controller.class);
                 Route route = controllerAnnotation.at();
                 route.setControllerType((Class<ViewController>) type);
+                route.createController();
+                route.preloadView();
             });
         } catch (Exception e) {
             e.printStackTrace();

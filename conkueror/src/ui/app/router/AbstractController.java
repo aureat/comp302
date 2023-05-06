@@ -20,7 +20,6 @@ public abstract class AbstractController implements RouterRedirect {
     /**
      * Redirects the application to a specified route.
      * @param route route being redirected to
-     * @param args arguments to the controller constructor
      */
     public void redirect(Route route, Object... args) {
         try {

@@ -18,9 +18,13 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+import java.util.stream.Stream;
 
 @View(at = Route.EditPlayer)
 public class EditPlayerView extends ViewPanel<EditPlayerController> {
+
+    private BigPlayerPreview preview;
+    private ImageTextField nameField;
 
     public EditPlayerView() {
         setLayout(null);
@@ -31,8 +35,14 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
         Assets.Background.loadAsset("sunburst");
     }
 
-    public void initialize() {
+    @Override
+    public void onMount() {
+        preview.setPlayer(getController().getPlayer());
+        preview.update();
+        nameField.setText(getController().getPlayer().getFullName());
+    }
 
+    public void initialize() {
         setViewBackground(Assets.Background.getAsset("sunburst"));
 
         JPanel container = new JPanel(new FlowLayout(FlowLayout.CENTER, 60, 0));
@@ -42,20 +52,24 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
         JPanel leftContainer = new JPanel();
         leftContainer.setLayout(new BoxLayout(leftContainer, BoxLayout.Y_AXIS));
         leftContainer.setOpaque(false);
+        leftContainer.setMaximumSize(new Dimension(300, getContainerHeight()));
 
         // Avatar Preview
-        BigPlayerPreview preview = new BigPlayerPreview(getController().getPlayer());
+        preview = new BigPlayerPreview(getController().getPlayer());
+        preview.setMaximumSize(new Dimension(300, 397));
+        getController().setPreview(preview);
 
         // Male Female Buttons
-        ImageBtnStack maleFemaleButtons = new ImageBtnStack(ImageBtnStack.HORIZONTAL, 140, 49, 20, 30);
+        ImageBtnStack maleFemaleButtons = new ImageBtnStack(ImageBtnStack.HORIZONTAL, 140, 49, 10, 30);
         ImageButton btnMales = maleFemaleButtons.addButton(Assets.ButtonMd.getAsset("male"));
         ImageButton btnFemales = maleFemaleButtons.addButton(Assets.ButtonMd.getAsset("female"));
+        maleFemaleButtons.setMaximumSize(maleFemaleButtons.getPreferredSize());
 
         // Add to left container
         leftContainer.add(preview);
         leftContainer.add(Box.createVerticalStrut(30));
         leftContainer.add(maleFemaleButtons);
-        container.add(leftContainer);
+        leftContainer.setMaximumSize(leftContainer.getPreferredSize());
 
         // Right Container
         JPanel rightContainer = new JPanel();
@@ -68,12 +82,10 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
             ImageButton button = new ImageButton(
                     Assets.AvatarRounded.getAsset(avatar.toString())
                             .getImageIcon(), 10, 10);
-            button.addActionListener(e -> {
-                getController().getPlayer().setAvatar(avatar);
-                preview.updateAvatar();
-            });
+            button.addActionListener(e -> getController().setAvatar(avatar));
             avatarGridMales.add(button);
         });
+        avatarGridMales.setMaximumSize(avatarGridMales.getPreferredSize());
         avatarGridMales.setOpaque(false);
         avatarGridMales.setVisible(true);
 
@@ -83,33 +95,29 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
             ImageButton button = new ImageButton(
                     Assets.AvatarRounded.getAsset(avatar.toString())
                             .getImageIcon(), 10, 10);
-            button.addActionListener(e -> {
-                getController().getPlayer().setAvatar(avatar);
-                preview.updateAvatar();
-            });
+            button.addActionListener(e -> getController().setAvatar(avatar));
             avatarGridFemales.add(button);
         });
+        avatarGridFemales.setMaximumSize(avatarGridFemales.getPreferredSize());
         avatarGridFemales.setOpaque(false);
         avatarGridFemales.setVisible(false);
 
         // Name Field
-        ImageTextField nameField = new ImageTextField(
+        nameField = new ImageTextField(
                 Assets.InputText.getAsset("player-name").getImageIcon(), 30, 30);
-        nameField.setInsets(10, 20, 10, 20);
+        nameField.setInsets(12, 20, 10, 20);
         nameField.setForeground(Color.BLACK);
         nameField.setFont(Fonts.GilroyExtraBold.deriveFont(24f));
         nameField.setText(getController().getPlayer().getFullName());
         nameField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                getController().getPlayer().setName(nameField.getText());
-                preview.updateText();
+                getController().setName(nameField.getText());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                getController().getPlayer().setName(nameField.getText());
-                preview.updateText();
+                getController().setName(nameField.getText());
             }
 
             @Override
@@ -118,45 +126,35 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
 
         // Colors
         ImageBtnStack colorButtons = new ImageBtnStack(ImageBtnStack.HORIZONTAL, 39, 40, 8, 100);
-        colorButtons.addButton(Assets.ColorBall.getAsset("yellow"))
-                .addActionListener(e -> {
-                    getController().getPlayer().setColor(Colors.ColorType.Yellow);
-                    preview.updateColor();
-                });
-        colorButtons.addButton(Assets.ColorBall.getAsset("green"))
-                .addActionListener(e -> {
-                    getController().getPlayer().setColor(Colors.ColorType.Green);
-                    preview.updateColor();
-                });
-        colorButtons.addButton(Assets.ColorBall.getAsset("purple"))
-                .addActionListener(e -> {
-                    getController().getPlayer().setColor(Colors.ColorType.Purple);
-                    preview.updateColor();
-                });
-        colorButtons.addButton(Assets.ColorBall.getAsset("red"))
-                .addActionListener(e -> {
-                    getController().getPlayer().setColor(Colors.ColorType.Red);
-                    preview.updateColor();
-                });
-        colorButtons.addButton(Assets.ColorBall.getAsset("orange"))
-                .addActionListener(e -> {
-                    getController().getPlayer().setColor(Colors.ColorType.Orange);
-                    preview.updateColor();
-                });
-        colorButtons.addButton(Assets.ColorBall.getAsset("blue"))
-                .addActionListener(e -> {
-                    getController().getPlayer().setColor(Colors.ColorType.Blue);
-                    preview.updateColor();
-                });
+        Stream.of("yellow", "green", "purple", "red", "orange", "blue").forEach(color -> {
+            colorButtons.addButton(Assets.ColorBall.getAsset(color))
+                    .addActionListener(e -> getController().setColor(color));
+        });
+
+        // Form Buttons
+        JPanel formButtons = new JPanel();
+        formButtons.setLayout(new BoxLayout(formButtons, BoxLayout.X_AXIS));
+        formButtons.setOpaque(false);
+        formButtons.setMaximumSize(avatarGridMales.getMaximumSize());
+        ImageButton shuffleButton = new ImageButton(
+                Assets.MenuLg.getAsset("shuffle").getImageIcon(), 20, 20);
+        ImageButton saveButton = new ImageButton(
+                Assets.ButtonSave.getAsset("save").getImageIcon(), 20, 20);
+        formButtons.add(shuffleButton);
+        formButtons.add(Box.createHorizontalGlue());
+        formButtons.add(saveButton);
+        shuffleButton.addActionListener(e -> getController().randomizePlayer(preview));
+        saveButton.addActionListener(e -> getController().savePlayer());
 
         // Add all to right container
         rightContainer.add(avatarGridMales);
         rightContainer.add(avatarGridFemales);
-        rightContainer.add(Box.createVerticalStrut(20));
+        rightContainer.add(Box.createVerticalStrut(40));
         rightContainer.add(nameField);
         rightContainer.add(Box.createVerticalStrut(20));
         rightContainer.add(colorButtons);
-        container.add(rightContainer);
+        rightContainer.add(Box.createVerticalStrut(60));
+        rightContainer.add(formButtons);
 
         btnMales.addActionListener(e -> {
             avatarGridMales.setVisible(true);
@@ -168,9 +166,10 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
             avatarGridFemales.setVisible(true);
         });
 
+        container.add(leftContainer);
+        container.add(rightContainer);
         setSizeOnCenter(container);
         add(container);
-
     }
 
 }

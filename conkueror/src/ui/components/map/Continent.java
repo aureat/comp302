@@ -1,15 +1,19 @@
 package ui.components.map;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class Continent extends JPanel {
+public class Continent extends JComponent {
 
-    public Continent() {
+    private Shape shape;
 
+    public Continent(Shape shape) {
+        setOpaque(false);
     }
 
-    @SuppressWarnings("unchecked")
-    public void initComponent() {
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
     }
 

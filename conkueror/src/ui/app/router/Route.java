@@ -17,7 +17,7 @@ public enum Route {
     Splash,
 
     /** Main menu of the application */
-    Main(true),
+    Main,
 
     /** Screen for adding players to the game */
     Players,
@@ -29,7 +29,7 @@ public enum Route {
     ChooseMap,
 
     /** Screen for configuring the map */
-    BuildMap,
+    BuildMap(true),
 
     /** Screen for deciding who goes first */
     ShufflePlayers,
@@ -92,13 +92,19 @@ public enum Route {
             if (view == null) {
                 view = ClassUtils.newInstance(viewType);
                 view.setRoute(this);
-                view.preload();
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
         return view;
+    }
+
+    public ViewController createController() {
+        if (controller == null) {
+            controller = view.createController();
+        }
+        return controller;
     }
 
     public ViewPanel<? extends ViewController> getView() {
@@ -109,9 +115,21 @@ public enum Route {
         return view;
     }
 
+    public void preloadView() {
+        view.preload();
+    }
+
     public ViewController getController(Object... args) {
         if (controller == null) {
-            controller = view.createController(args);
+            createController();
+        }
+        if (args.length > 0) {
+            System.out.println("Calling onRoute for " + controller.getClass());
+            try {
+                ClassUtils.invokeMethod(controller, "onRoute", args);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return controller;
     }
@@ -119,6 +137,7 @@ public enum Route {
     public void setRoute(Router router, Object... args) {
         router.setCurrentRoute(this);
         ViewController controller = getController(args);
+        controller.update();
         controller.onMount();
         router.replaceContainer(view);
         ViewPanel<? extends ViewController> view = getView();
@@ -127,6 +146,10 @@ public enum Route {
 
     public void update() {
         controller.update();
+    }
+
+    public void rebuild() {
+        view.rebuildView();
     }
 
 }
