@@ -110,8 +110,11 @@ public class WorldMap extends JPanel implements MouseListener {
     public void drawTerritory(Graphics g, MapTerritory territory) {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setStroke(new BasicStroke(MapGraphics.territoryStroke));
-        g2d.translate(x, y);
-        g2d.draw(shape);
+        g2d.translate(territory.getX(), territory.getY());
+        g2d.setColor(territory.getStrokeColor());
+        g2d.draw(territory.getShape());
+        g2d.setColor(territory.getFillColor());
+        g2d.fill(territory.getShape());
     }
 
     public void drawTerritories(Graphics g) {
