@@ -1,7 +1,10 @@
 package domain.model.player;
 
 import org.jetbrains.annotations.NotNull;
+import ui.components.map.Territory;
 import util.CoreUtils;
+
+import java.util.List;
 
 public class Player {
 
@@ -11,6 +14,15 @@ public class Player {
     private Avatars.AvatarType avatar;
     private boolean isComputer;
 
+    private List<Territory> playersTerritory;
+
+    public List<Territory> getPlayersTerritory() {
+        return playersTerritory;
+    }
+
+    public void setPlayersTerritory(List<Territory> playersTerritory) {
+        this.playersTerritory = playersTerritory;
+    }
 
     public Player() {
         generateCharacter();

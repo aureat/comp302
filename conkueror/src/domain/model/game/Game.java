@@ -1,6 +1,7 @@
 package domain.model.game;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,6 +13,8 @@ import domain.model.map.states.TerritoryState;
 import domain.model.map.types.ContinentType;
 import domain.model.map.types.TerritoryType;
 import domain.model.player.Player;
+import ui.components.map.Territory;
+import util.CoreUtils;
 
 public class Game {
 
@@ -20,12 +23,14 @@ public class Game {
     private Phase phase;
     private Player currentplayer;
     private GameMap map;
+    private MapState mapState;
 
     private int roundCount = -1;
 
     private ArrayList<Player> players = new ArrayList<>();
     private int playerCount;
     private ChanceCard currentcard;
+    private ArrayList<TerritoryState> initialTerrDistrubution;
 
     private static class GameContainer {
         private static Game instance;
@@ -38,6 +43,41 @@ public class Game {
     private Game() {
         this.players.add(new Player());
         this.players.add(new Player());
+    }
+
+
+    public void randomizeOwners() {
+        int i;
+        if (players.size()==2){
+        i=20;
+        } else if (players.size()==3) {
+        i=13;
+        } else if (players.size()==4) {
+        i=10;
+        } else if (players.size()==5) {
+        i=8;
+        }else {
+        i=7;
+        }
+        List<TerritoryState> states = mapState.getTerritoryStates();
+        for(int j =0; j<players.size(); j++){
+            Player player = CoreUtils.chooseRandom(players);
+            while (!states.isEmpty() || i!=0) {
+                TerritoryState state = CoreUtils.chooseRandom(states);
+                state.setOwner(player);
+                List<TerritoryType> neighbors = state.getTerritoryType().getNeighbors();
+                i--;
+                for (TerritoryType neighbor : neighbors) {
+                    TerritoryState neighborState = mapState.getTerritories().get(neighbor);
+                    neighborState.setOwner(player);
+                    states.remove(neighborState);
+                    i--;
+                }
+                states.remove(state);
+            }
+            players.remove(player);
+        }
+
     }
 
     public void addPlayer() {
@@ -69,7 +109,7 @@ public class Game {
 
     public void createGameMap() {
         map.createMap();
-
+        mapState = MapState.createFromMap(map);
     }
 
     public void moveArmies(TerritoryState a, TerritoryState b,int amount) {
@@ -119,7 +159,7 @@ public class Game {
     public boolean attackPhase(TerritoryState startLocation, TerritoryState attackLocation) {
         currentplayer = players.get(++roundCount % playerCount);
         //Should modify MapState
-        if (MapState.createFromMap(map).getAttackingTerritories(currentplayer).containsValue(startLocation)  && MapState.createFromMap(map).getAttackableTerritoriesFrom(startLocation).containsValue(attackLocation)) {
+        if (MapState.createFromMap(map).getAttackingTerritories(currentplayer).contains(startLocation)  && MapState.createFromMap(map).getAttackableTerritoriesForm(startLocation).contains(attackLocation)) {
             Scanner inputarmies = new Scanner(System.in);
             int armies = 0;
             while(armies<2 && armies<startLocation.getArmies() -1){

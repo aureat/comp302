@@ -74,6 +74,9 @@ public class MapState {
 //        return continentsconquered;
 //    }
 
+    public List<TerritoryState> getTerritoryStates() {
+        return new ArrayList<>(territories.values());
+    }
 
     public List<TerritoryState> getTerritoryStates(ContinentState continent) {
         List<TerritoryState> terrs = new ArrayList<>(territories.values());
