@@ -38,6 +38,12 @@ public class ShufflePlayersController extends ViewController {
         game.shufflePlayers();
     }
 
+    public void nextStep() {
+        game.createGameMap();
+        game.shareTerritories();
+        redirect(Route.BuildMap);
+    }
+
     @Override
     public void onUpdate() {
 

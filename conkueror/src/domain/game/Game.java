@@ -34,8 +34,13 @@ public class Game {
     }
 
     private void initializePlayers() {
-        IntStream.range(0, config.getInitialPlayers())
+        IntStream.range(0, 6)
                 .forEach(i -> addPlayer());
+    }
+
+    public void createGameMap() {
+        map.createMap();
+        mapState = MapState.createInstance(map);
     }
 
     public Player addPlayer() {
@@ -57,6 +62,44 @@ public class Game {
 
     public void shufflePlayers() {
         Collections.shuffle(players);
+    }
+
+    public void shareTerritories() {
+        mapState.getTerritoryStates().forEach(territory -> {
+            Player player = CoreUtils.chooseRandom(players);
+            territory.setOwner(player);
+        });
+//        List<Player> tempPlayers = new ArrayList<>(players);
+//        int i;
+//        if (players.size()==2){
+//            i=20;
+//        } else if (players.size()==3) {
+//            i=13;
+//        } else if (players.size()==4) {
+//            i=10;
+//        } else if (players.size()==5) {
+//            i=8;
+//        }else {
+//            i=7;
+//        }
+//        List<TerritoryState> states = mapState.getTerritoryStates();
+//        for(int j =0; j < players.size(); j++) {
+//            Player player = CoreUtils.chooseRandom(tempPlayers);
+//            while (!states.isEmpty() || i!=0) {
+//                TerritoryState state = CoreUtils.chooseRandom(states);
+//                state.setOwner(player);
+//                List<TerritoryType> neighbors = state.getTerritoryType().getNeighbors();
+//                i--;
+//                for (TerritoryType neighbor : neighbors) {
+//                    TerritoryState neighborState = mapState.getTerritories().get(neighbor);
+//                    neighborState.setOwner(player);
+//                    states.remove(neighborState);
+//                    i--;
+//                }
+//                states.remove(state);
+//            }
+//            tempPlayers.remove(player);
+//        }
     }
 
     private void findAndSetConfig() {

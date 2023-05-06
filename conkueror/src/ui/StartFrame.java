@@ -1,6 +1,6 @@
 package ui;
 
-import ui.components.WorldMap;
+import ui.components.map.WorldMap;
 import ui.graphics.MapGraphics;
 
 import javax.swing.*;

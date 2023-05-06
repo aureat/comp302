@@ -1,18 +1,35 @@
 package domain.mapstate;
 
+import domain.gamemap.ContinentType;
+import domain.gamemap.TerritoryType;
 import domain.player.Colors;
 import domain.player.Player;
 
 public class TerritoryState {
 
+    private TerritoryType territoryType;
+
     private Player owner;
     private int armies;
     private boolean playable;
 
-    public TerritoryState() {
+    public TerritoryState(TerritoryType territoryType) {
+        this.territoryType = territoryType;
         owner = null;
         armies = 0;
         playable = true;
+    }
+
+    public TerritoryType getTerritoryType() {
+        return territoryType;
+    }
+
+    public ContinentType getContinent() {
+        return territoryType.getContinent();
+    }
+
+    public String getName() {
+        return territoryType.getName();
     }
 
     public Player getOwner() {
@@ -70,7 +87,5 @@ public class TerritoryState {
     public boolean canStartFortify() {
         return playable && owner != null && armies > 1;
     }
-
-
 
 }

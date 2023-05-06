@@ -62,7 +62,7 @@ public class ShufflePlayersView extends ViewPanel<ShufflePlayersController> {
                     players.repaint();
                 });
         stack.addButton(Assets.ButtonLg.getAsset("continue"))
-                .addActionListener(e -> getController().redirect(Route.Main));
+                .addActionListener(e -> getController().nextStep());
 
         stack.setBounds(
                 (getWidth() - stack.getPreferredSize().width) / 2,
