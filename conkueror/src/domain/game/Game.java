@@ -1,18 +1,36 @@
 package domain.game;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.stream.IntStream;
+import java.util.Collections;
 
+import domain.game.Phase;
+import domain.maps.ClassicMap;
+import domain.player.Player;
 import domain.game.config.GameConfig;
 import domain.gamemap.GameMap;
-import domain.player.Player;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.IntStream;
+import domain.util.CoreUtils;
+import domain.card.ChanceCard;
+import domain.mapstate.MapState;
+import domain.mapstate.TerritoryState;
+import domain.gamemap.TerritoryType;
 
 public class Game {
 
     private static GameConfig config;
+    private MapState mapState;
+    private final GameMap map = new ClassicMap();
+    private final List<Player> players = new ArrayList<>();
+    private int playerCount;
+
+    private Phase phase;
+    private Player currentplayer;
+
+    private ChanceCard currentcard;
+    private ArrayList<TerritoryState> initialTerrDistrubution;
 
     private static class GameContainer {
         private static final Game instance = new Game();
@@ -22,11 +40,9 @@ public class Game {
         return GameContainer.instance;
     }
 
-    private Phase phase;
-    private Player currentPlayer;
-    private GameMap map;
-
-    private final List<Player> players = new ArrayList<>();
+    public int getPlayerCount() {
+        return players.size();
+    }
 
     private Game() {
         findAndSetConfig();
