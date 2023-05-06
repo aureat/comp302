@@ -71,7 +71,7 @@ public class AppFrame extends JFrame {
     private void initIcon() {
         List<Image> icons = AssetLoader.getImages(Config.defaultAppIcon, 1024, 512, 256, 128, 64, 48, 32, 24, 16);
         setIconImages(icons);
-        if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE))) {
+        if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE)) {
             Taskbar.getTaskbar().setIconImage(AssetLoader.getImage(Config.taskbarAppIcon));
         }
     }
