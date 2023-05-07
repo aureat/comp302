@@ -29,7 +29,7 @@ public class Palette {
     }
 
     public Color makeHoverColor(Color color) {
-        return new Color(color.getRed(), color.getGreen(), color.getBlue(), 204);
+        return new Color(color.getRed(), color.getGreen(), color.getBlue()).brighter();
     }
 
 }

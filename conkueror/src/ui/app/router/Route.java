@@ -13,7 +13,7 @@ import util.ClassUtils;
  */
 public enum Route {
 
-    Main(),
+    Main(true),
 
     /** Screen for adding players to the game */
     Players,
@@ -25,7 +25,7 @@ public enum Route {
     ChooseMap,
 
     /** Screen for configuring the map */
-    BuildMap(),
+    BuildMap,
 
     /** Screen for deciding who goes first */
     ShufflePlayers,
@@ -34,7 +34,7 @@ public enum Route {
     Loading,
 
     /** Screen for playing the game */
-    Map(true),
+    GameMap,
 
     /** Screen where the chance card is shown */
     ChanceCard,

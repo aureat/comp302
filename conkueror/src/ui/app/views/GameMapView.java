@@ -9,7 +9,7 @@ import ui.assets.Assets;
 import ui.components.core.ImageBtnStack;
 
 
-@View(at = Route.Map)
+@View(at = Route.GameMap)
 public class GameMapView extends ViewPanel<GameMapController> {
 
     private final Assets backgrounds = Assets.Background;
