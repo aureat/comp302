@@ -88,4 +88,11 @@ public class TerritoryState {
         return playable && owner != null && armies > 1;
     }
 
+    public void decArmies(int amount) {
+        this.armies -= armies;
+    }
+
+    public void incArmies(int amount) {
+        this.armies += armies;
+    }
 }

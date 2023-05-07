@@ -29,8 +29,29 @@ public class Game {
     private Phase phase = Phase.Draft;
     private Player currentplayer;
 
+    private int phaseCounter;
+    private int turnCounter;
+    private int roundCounter;
+    private int draftArmies;
     private ChanceCard currentcard;
     private ArrayList<TerritoryState> initialTerrDistrubution;
+
+    private int roundCount;
+
+    public void nextPhase() {
+        if(phase == Phase.Draft) {
+            phase = Phase.Attack;
+        } else if (phase == Phase.Attack) {
+            phase = Phase.Fortify;
+        } else if (phase == Phase.Fortify) {
+            phase = Phase.Draft;
+            currentplayer = players.get((players.indexOf(currentplayer) + 1) % players.size());
+            if (players.indexOf(currentplayer) == players.size()){
+                phaseCounter++;
+            }
+            doDraftPhase();
+        }
+    }
 
     private static class GameContainer {
         private static final Game instance = new Game();
@@ -107,38 +128,95 @@ public class Game {
                 territory.setOwner(player);
             }
         });
-//        List<Player> tempPlayers = new ArrayList<>(players);
-//        int i;
-//        if (players.size()==2){
-//            i=20;
-//        } else if (players.size()==3) {
-//            i=13;
-//        } else if (players.size()==4) {
-//            i=10;
-//        } else if (players.size()==5) {
-//            i=8;
-//        }else {
-//            i=7;
-//        }
-//        List<TerritoryState> states = mapState.getTerritoryStates();
-//        for(int j =0; j < players.size(); j++) {
-//            Player player = CoreUtils.chooseRandom(tempPlayers);
-//            while (!states.isEmpty() || i!=0) {
-//                TerritoryState state = CoreUtils.chooseRandom(states);
-//                state.setOwner(player);
-//                List<TerritoryType> neighbors = state.getTerritoryType().getNeighbors();
-//                i--;
-//                for (TerritoryType neighbor : neighbors) {
-//                    TerritoryState neighborState = mapState.getTerritories().get(neighbor);
-//                    neighborState.setOwner(player);
-//                    states.remove(neighborState);
-//                    i--;
-//                }
-//                states.remove(state);
-//            }
-//            tempPlayers.remove(player);
-//        }
+        int armies = getInitialArmies();
+        mapState.getTerritoryStates().forEach(state -> {
+            state.setArmies(Math.floorDiv(armies,state.getOwner().getTerritoryCount()));
+        });
+
+        currentplayer = players.get(0);
+        doDraftPhase();
     }
+
+    public int getInitialArmies(){
+        int armies;
+        int players = getPlayerCount();
+        switch(players) {
+            case 2:
+                armies = 40;
+                break;
+            case 3:
+                armies = 35;
+                break;
+            case 4:
+                armies = 30;
+                break;
+            case 5:
+                armies = 25;
+                break;
+            case 6:
+                armies = 20;
+                break;
+            default:
+                armies = 40;
+                break;
+        }
+        return armies;
+    }
+
+    public void attackPhase(TerritoryState startLocation, TerritoryState attackLocation) {
+
+        boolean condition;
+        //This could be work on clicked
+        Dice dice = new Dice();
+        if (startLocation.getArmies() > attackLocation.getArmies()){
+            condition = true;
+            while(condition){
+                //Roll the dice
+                boolean diceValue;
+                int diceValueStart = dice.roll();
+                int diceValueAttack = dice.roll();
+                if(diceValueStart > diceValueAttack){
+                    diceValue = true;
+                }
+                else{
+                    diceValue = false;
+                }
+                //Check the dice condition
+                if (diceValue){//To be true if start location won.
+                    attackLocation.setArmies(attackLocation.getArmies()-1);
+                }
+                else {
+                    startLocation.setArmies(startLocation.getArmies() - 1);
+                }
+                //Check the current value of territories
+                if (startLocation.getArmies() <= attackLocation.getArmies()){
+                    condition = false;
+                    break;
+                }
+
+                //Look at the current condition.
+                //If wanted add a click here.
+                if (startLocation.getArmies() > attackLocation.getArmies()){
+                    condition = true;
+                }
+
+
+            }
+
+        }
+
+
+
+
+
+
+    }
+
+    public void fortifyPhase(TerritoryState stateToSendArmiesFrom, TerritoryState stateToSendArmiesTo, int amount) {
+        if (amount<=stateToSendArmiesFrom.getArmies()) {
+            stateToSendArmiesFrom.decArmies(amount);
+            stateToSendArmiesTo.incArmies(amount);
+        }}
 
     private void findAndSetConfig() {
         try {

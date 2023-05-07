@@ -131,7 +131,6 @@ public class GameMapView extends ViewPanel<GameMapController> {
         ImageIcon blackBack = phase.getAsset("bg").getImageIcon(391,77);
         phaseLabel.setBounds(getContainerWidth()/2-195,getContainerHeight()-77,391,77);
         phaseLabel.setIcon(blackBack);
-        ImageButton nextButton = new ImageButton(phase.getAsset("next").getImageIcon(64,64),500,500);
         nextButton.setBounds(phaseLabel.getWidth()-70,5,64,64);
         phaseLabel.add(nextButton);
 
@@ -145,13 +144,13 @@ public class GameMapView extends ViewPanel<GameMapController> {
         }
 
         ImageIcon attackPhase = phases.getAsset("attack").getImageIcon(206,77);
-        JLabel attackLabel = new JLabel(attackPhase);
+        attackLabel.setIcon(attackPhase);
         attackLabel.setBounds(103,0,206,77);
         phaseLabel.add(attackLabel);
         attackLabel.setVisible(false);
 
         ImageIcon draftPhase = phases.getAsset("draft").getImageIcon(206,77);
-        JLabel draftLabel = new JLabel(draftPhase);
+        draftLabel.setIcon(draftPhase);
         draftLabel.setBounds(103,0,206,77);
         phaseLabel.add(draftLabel);
 
