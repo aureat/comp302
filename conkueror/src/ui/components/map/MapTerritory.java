@@ -200,6 +200,7 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
                 repaint();
             }
         }
+
     }
 
     @Override

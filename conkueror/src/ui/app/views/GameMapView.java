@@ -30,10 +30,17 @@ public class GameMapView extends ViewPanel<GameMapController> {
     private final Assets phases = Assets.PanelPhases;
     private final Assets avatars = Assets.AvatarCircular;
     private final Assets colors = Assets.ColorFrame;
+    private final Assets drafts = Assets.PanelDraft;
     private int turn = 0;
     private JLabel phaseLabel = new JLabel();
     private JLabel avatarLabel = new JLabel();
     private JLabel colorLabel = new JLabel();
+
+    private JLabel attackLabel= new JLabel();
+    private JLabel draftLabel= new JLabel();
+    ImageButton nextButton = new ImageButton(phase.getAsset("next").getImageIcon(64,64),500,500);
+
+
     private ArrayList<JLabel> avatarLabels = new ArrayList<>();
     private ArrayList<JLabel> colorLabels = new ArrayList<>();
 
@@ -48,6 +55,10 @@ public class GameMapView extends ViewPanel<GameMapController> {
         buttons.loadAsset("pause");
         buttons.loadAsset("help");
         buttons.loadAsset("cards");
+
+        for (int i = 1;i<=20;i++){
+            drafts.loadAsset(String.format("%d",i));
+        }
 
         cards.loadAsset("army");
         cards.loadAsset("territory");
@@ -124,6 +135,15 @@ public class GameMapView extends ViewPanel<GameMapController> {
         nextButton.setBounds(phaseLabel.getWidth()-70,5,64,64);
         phaseLabel.add(nextButton);
 
+        ArrayList<ImageButton> draftButtons = new ArrayList<>();
+        for (int i = 0; i<20;i++){
+            ImageButton draftButton = new ImageButton(drafts.getAsset(String.format("%d",i+1)).getImageIcon(64,64),500,500);
+            draftButton.setBounds(phaseLabel.getWidth()-70,5,64,64);
+            draftButton.setVisible(false);
+            phaseLabel.add(draftButton);
+            draftButtons.add(draftButton);
+        }
+
         ImageIcon attackPhase = phases.getAsset("attack").getImageIcon(206,77);
         JLabel attackLabel = new JLabel(attackPhase);
         attackLabel.setBounds(103,0,206,77);
@@ -156,6 +176,7 @@ public class GameMapView extends ViewPanel<GameMapController> {
                 if (draftLabel.isVisible()){
                     attackLabel.setVisible(true);
                     draftLabel.setVisible(false);
+                    nextButton.setVisible(true);
                 }else if (attackLabel.isVisible()) {
                     fortifyLabel.setVisible(true);
                     attackLabel.setVisible(false);
@@ -178,9 +199,17 @@ public class GameMapView extends ViewPanel<GameMapController> {
 
 
 
+
         add(phaseLabel);
 
     }
+
+    public void drafter(){
+        attackLabel.setVisible(true);
+        draftLabel.setVisible(false);
+        nextButton.setVisible(true);
+    }
+
     public void rounder(int i){
 
         i = i%(Game.getInstance().getPlayersCount());

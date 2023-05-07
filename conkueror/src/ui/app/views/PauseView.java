@@ -132,7 +132,7 @@ public class PauseView extends ViewPanel<PauseController> {
             aLabel.setBounds(blackBack.getIconWidth()-160,21+73*i,70,57);
             aLabel.setLayout(new BorderLayout());
             JTextField aCount = new JTextField();
-            aCount.setText("AC");
+            aCount.setText(String.format("%d",Game.getInstance().getPlayers().get(i).getTerritories().size()));
             aCount.setEditable(false);
             aCount.setBorder(new LineBorder(new Color(1f,0f,0f,0f )));
             aCount.setFont(Fonts.GilroyBold.deriveFont(24f));
@@ -146,7 +146,7 @@ public class PauseView extends ViewPanel<PauseController> {
             tLabel.setBounds(blackBack.getIconWidth()-60,21+73*i,70,57);
             tLabel.setLayout(new BorderLayout());
             JTextField tCount = new JTextField();
-            tCount.setText("TC");
+            tCount.setText(String.format("%d",Game.getInstance().getPlayers().get(i).getTerritoryCount()));
             tCount.setEditable(false);
             tCount.setBorder(new LineBorder(new Color(1f,0f,0f,0f )));
             tCount.setFont(Fonts.GilroyBold.deriveFont(24f));
