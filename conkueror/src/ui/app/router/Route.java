@@ -13,6 +13,7 @@ import util.ClassUtils;
  */
 public enum Route {
 
+    /** Main View */
     Main(true),
 
     /** Screen for adding players to the game */
@@ -49,7 +50,7 @@ public enum Route {
     Inventory,
 
     /** Screen where the player can pause the game and see the leaderboard */
-    Pause,
+    Pause(),
 
     /** Screen where the player can get help */
     Help;
