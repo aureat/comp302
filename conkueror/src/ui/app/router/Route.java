@@ -12,6 +12,8 @@ import util.ClassUtils;
  * @see Controller
  */
 public enum Route {
+
+    /** Main View */
     Main(true),
 
     /** Screen for adding players to the game */
@@ -24,7 +26,7 @@ public enum Route {
     ChooseMap,
 
     /** Screen for configuring the map */
-    BuildMap(),
+    BuildMap,
 
     /** Screen for deciding who goes first */
     ShufflePlayers,
@@ -33,7 +35,7 @@ public enum Route {
     Loading,
 
     /** Screen for playing the game */
-    Map(),
+    GameMap,
 
     /** Screen where the chance card is shown */
     ChanceCard,

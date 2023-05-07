@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 
-@View(at = Route.Map)
+@View(at = Route.GameMap)
 public class GameMapView extends ViewPanel<GameMapController> {
 
     private final Assets backgrounds = Assets.Background;

@@ -5,7 +5,12 @@ import ui.app.router.Route;
 import ui.app.router.View;
 import ui.app.router.ViewPanel;
 import ui.assets.Assets;
+import ui.assets.Fonts;
+import ui.components.core.ImageButton;
 import ui.components.map.WorldMap;
+
+import javax.swing.*;
+import java.awt.*;
 
 
 @View(at = Route.BuildMap)
@@ -30,6 +35,22 @@ public class BuildMapView extends ViewPanel<BuildMapController> {
         WorldMap map = new WorldMap();
         getController().setMap(map);
         setSizeOnCenter(map);
+
+        JLabel label = new JLabel("BUILD MAP");
+        label.setFont(Fonts.GilroyExtraBold.deriveFont(32f));
+        label.setBounds(30, 20, 400, 44);
+        label.setForeground(Color.WHITE);
+        add(label);
+
+        ImageButton continueBtn = new ImageButton(Assets.ButtonLg.getAsset("continue").getImageIcon(), 40, 40);
+        continueBtn.addActionListener(e -> getController().redirect(Route.GameMap));
+        continueBtn.setBounds(
+                (getContainerWidth() - continueBtn.getPreferredSize().width) / 2,
+                getContainerHeight() - continueBtn.getPreferredSize().height - 20,
+                continueBtn.getPreferredSize().width,
+                continueBtn.getPreferredSize().height
+        );
+        add(continueBtn);
 
         add(map);
 

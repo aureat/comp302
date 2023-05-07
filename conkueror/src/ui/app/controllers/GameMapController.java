@@ -5,7 +5,7 @@ import ui.app.router.Controller;
 import ui.app.router.Route;
 import ui.app.router.ViewController;
 
-@Controller(at = Route.Map)
+@Controller(at = Route.GameMap)
 public class GameMapController extends ViewController {
 
     private final Game game;
