@@ -22,11 +22,18 @@ public class WorldMap extends JPanel {
     private MapTerritory hoveredTerritory;
     private MapTerritory selectedTerritory;
 
-    public WorldMap() {
+    private final boolean isBuildMode;
+
+    public WorldMap(boolean isBuildMode) {
         setLayout(null);
         setSize(1091, 710);
         setPreferredSize(new Dimension(1091, 710));
         setOpaque(false);
+        this.isBuildMode = isBuildMode;
+    }
+
+    public boolean isBuildMode() {
+        return isBuildMode;
     }
 
     public void setMapState() {
@@ -35,8 +42,11 @@ public class WorldMap extends JPanel {
         for (MapTerritory territory : territories) {
             territory.setBounds(territory.getX(), territory.getY(),
                     (int) territory.getShape().getBounds().getWidth(), (int) territory.getShape().getBounds().getHeight());
+            if (isBuildMode)
+                territory.setBuildMode();
             add(territory);
             territory.setVisible(true);
+            territory.update();
             territory.repaint();
         }
         revalidate();

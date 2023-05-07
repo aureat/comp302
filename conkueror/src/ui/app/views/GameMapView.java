@@ -1,6 +1,7 @@
 package ui.app.views;
 
 import domain.game.Game;
+import domain.game.Phase;
 import ui.app.Context;
 import ui.app.router.Route;
 import ui.app.controllers.GameMapController;
@@ -9,6 +10,7 @@ import ui.app.router.ViewPanel;
 import ui.assets.Assets;
 import ui.components.core.ImageBtnStack;
 import ui.components.core.ImageButton;
+import ui.components.core.ImageTextField;
 import ui.components.map.WorldMap;
 
 import javax.swing.*;
@@ -67,9 +69,14 @@ public class GameMapView extends ViewPanel<GameMapController> {
         setViewBackground(backgrounds.getAsset("map"));
 
         // map
-        WorldMap map = new WorldMap();
+        WorldMap map = new WorldMap(false);
         getController().setMap(map);
-        setSizeOnCenter(map);
+        map.setBounds(
+                (getWidth() - map.getWidth())/2,
+                15,
+                map.getWidth(),
+                map.getHeight()
+        );
         add(map);
 
         // Button Stack
@@ -78,8 +85,8 @@ public class GameMapView extends ViewPanel<GameMapController> {
                 .addActionListener(e -> getController().redirect(Route.Pause));
         stack1.addButton(buttons.getAsset("help"))
                 .addActionListener(e -> getController().redirect(Route.Help));
-        stack1.addButton(buttons.getAsset("cards"))
-                .addActionListener(e -> System.exit(0));
+//        stack1.addButton(buttons.getAsset("cards"))
+//                .addActionListener(e -> System.exit(0));
 
         // place the stack in the panel
         stack1.setBounds(
@@ -94,11 +101,11 @@ public class GameMapView extends ViewPanel<GameMapController> {
         // Card Stack
         ImageBtnStack stack2 = new ImageBtnStack(ImageBtnStack.HORIZONTAL, 37, 49, 22, 20);
         stack2.addButton(cards.getAsset("army"))
-                .addActionListener(e -> getController().redirect(Route.Pause));
+                .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
         stack2.addButton(cards.getAsset("territory"))
-                .addActionListener(e -> getController().redirect(Route.Help));
+                .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
         stack2.addButton(cards.getAsset("effect"))
-                .addActionListener(e -> System.exit(0));
+                .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
 
         // place stack in the panel
         stack2.setBounds(
@@ -134,11 +141,17 @@ public class GameMapView extends ViewPanel<GameMapController> {
         phaseLabel.add(fortifyLabel);
         fortifyLabel.setVisible(false);
 
-        for(int n = 0;n<Game.getInstance().getPlayersCount();n++){
-            avatarLabels.add(new JLabel());
-            colorLabels.add(new JLabel());
-        }
+//        for(int n = 0;n<Game.getInstance().getPlayersCount();n++){
+//            avatarLabels.add(new JLabel());
+//            colorLabels.add(new JLabel());
+//        }
 
+
+        ImageTextField field = new ImageTextField(
+                Assets.ArmyInput.getAsset("army-count").getImageIcon(),
+                30,
+                8);
+        add(field);
 
         rounder(turn);
 
@@ -160,6 +173,12 @@ public class GameMapView extends ViewPanel<GameMapController> {
                     fortifyLabel.setVisible(false);
                     turn++;
                     rounder(turn);
+                }
+                Phase nextPhase = Game.getInstance().nextPhase();
+                if (nextPhase == Phase.Draft) {
+                    int armies = Game.getInstance().getDraftArmies();
+                    draftButtons.get(armies-1).setVisible(true);
+                    nextButton.setVisible(false);
                 }
             }
         });

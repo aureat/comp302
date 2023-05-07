@@ -18,6 +18,7 @@ public enum Assets {
     ColorCard("colors/card", 180, 238),
     ColorCardLg("colors/card", 300, 397),
     InputText("inputs/text", 503, 59),
+    ArmyInput("inputs/text", 153, 59),
     ColorFrame("colors/frame"),
     Icon("icon"),
     Logo("logo"),

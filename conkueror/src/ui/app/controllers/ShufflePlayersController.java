@@ -40,7 +40,7 @@ public class ShufflePlayersController extends ViewController {
 
     public void nextStep() {
         game.createGameMap();
-        game.shareTerritories();
+//        game.shareTerritories();
         redirect(Route.BuildMap);
     }
 

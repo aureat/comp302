@@ -26,7 +26,7 @@ public class Game {
     private final List<Player> players = new ArrayList<>();
     private int playerCount;
 
-    private Phase phase;
+    private Phase phase = Phase.Draft;
     private Player currentplayer;
 
     private ChanceCard currentcard;
@@ -47,6 +47,10 @@ public class Game {
     private Game() {
         findAndSetConfig();
         initializePlayers();
+    }
+
+    public Phase getPhase() {
+        return phase;
     }
 
     private void initializePlayers() {
@@ -82,8 +86,11 @@ public class Game {
 
     public void shareTerritories() {
         mapState.getTerritoryStates().forEach(territory -> {
-            Player player = CoreUtils.chooseRandom(players);
-            territory.setOwner(player);
+            if (territory.isPlayable()) {
+                Player player = CoreUtils.chooseRandom(players);
+                player.addTerritory(territory);
+                territory.setOwner(player);
+            }
         });
 //        List<Player> tempPlayers = new ArrayList<>(players);
 //        int i;

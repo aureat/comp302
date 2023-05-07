@@ -41,6 +41,10 @@ public class MapState {
         }
     }
 
+    public GameMap getMap() {
+        return map;
+    }
+
     public List<ContinentState> getContinentStates() {
         return new ArrayList<>(continents.values());
     }

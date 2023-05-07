@@ -32,9 +32,14 @@ public class BuildMapView extends ViewPanel<BuildMapController> {
         // Set Background
         setViewBackground(backgrounds.getAsset("map"));
 
-        WorldMap map = new WorldMap();
+        WorldMap map = new WorldMap(true);
         getController().setMap(map);
-        setSizeOnCenter(map);
+        map.setBounds(
+                (getWidth() - map.getWidth())/2,
+                15,
+                map.getWidth(),
+                map.getHeight()
+        );
 
         JLabel label = new JLabel("BUILD MAP");
         label.setFont(Fonts.GilroyExtraBold.deriveFont(32f));
@@ -43,7 +48,7 @@ public class BuildMapView extends ViewPanel<BuildMapController> {
         add(label);
 
         ImageButton continueBtn = new ImageButton(Assets.ButtonLg.getAsset("continue").getImageIcon(), 40, 40);
-        continueBtn.addActionListener(e -> getController().redirect(Route.GameMap));
+        continueBtn.addActionListener(e -> getController().nextStep());
         continueBtn.setBounds(
                 (getContainerWidth() - continueBtn.getPreferredSize().width) / 2,
                 getContainerHeight() - continueBtn.getPreferredSize().height - 20,

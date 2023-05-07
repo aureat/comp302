@@ -1,7 +1,11 @@
 package domain.player;
 
+import domain.mapstate.TerritoryState;
 import org.jetbrains.annotations.NotNull;
 import domain.util.CoreUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
@@ -10,6 +14,8 @@ public class Player {
     private Colors.ColorType color;
     private Avatars.AvatarType avatar;
     private boolean isComputer;
+
+    private List<TerritoryState> territories = new ArrayList<>();
 
     public Player() {
         generateCharacter();
@@ -52,6 +58,26 @@ public class Player {
 
     public void setAvatar(@NotNull Avatars.AvatarType avatar) {
         this.avatar = avatar;
+    }
+
+    public void addTerritory(TerritoryState territory) {
+        territories.add(territory);
+    }
+
+    public List<TerritoryState> getTerritories() {
+        return territories;
+    }
+
+    public void removeTerritory(TerritoryState territory) {
+        territories.remove(territory);
+    }
+
+    public boolean hasTerritory(TerritoryState territory) {
+        return territories.contains(territory);
+    }
+
+    public int getTerritoryCount() {
+        return territories.size();
     }
 
     public boolean isComputer() {

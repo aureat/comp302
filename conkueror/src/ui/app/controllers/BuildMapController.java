@@ -26,6 +26,11 @@ public class BuildMapController extends ViewController {
         map.setMapState();
     }
 
+    public void nextStep() {
+        game.shareTerritories();
+        redirect(Route.GameMap);
+    }
+
     public void initialize() {
 
     }

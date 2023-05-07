@@ -1,9 +1,16 @@
 package ui.components.map;
 
+import domain.game.Game;
+import domain.game.Phase;
 import domain.mapstate.TerritoryState;
+import domain.player.Colors;
+import domain.player.Player;
+import ui.app.router.Route;
+import ui.app.views.GameMapView;
 import ui.assets.Fonts;
 import ui.graphics.color.ColorGraphics;
 import ui.graphics.color.Palette;
+import util.ClassUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +26,11 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
     private boolean isSelected = false;
     private final int x, y;
 
+    private boolean isBuildMode = false;
+
     private JLabel label;
+
+    private boolean isPlayable;
 
     public MapTerritory(TerritoryState state, Shape shape, int x, int y) {
         this.state = state;
@@ -33,6 +44,7 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
         int height = (int) shape.getBounds().getHeight();
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
+        isPlayable = state.isPlayable();
         label = new JLabel("0");
         label.setFont(Fonts.GilroyExtraBold.deriveFont(25f));
         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -40,9 +52,20 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
         label.setVerticalAlignment(SwingConstants.CENTER);
         label.setForeground(Color.WHITE);
         label.setBounds(width/2, height/2, 30, 30);
-        add(label);
+        if (isPlayable)
+            add(label);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
+    }
+
+    public void setBuildMode() {
+        this.isBuildMode = true;
+        this.isSelected = true;
+        label.setVisible(false);
+    }
+
+    public boolean isBuildMode() {
+        return isBuildMode;
     }
 
     public TerritoryState getState() {
@@ -70,6 +93,10 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
     }
 
     public Palette getPalette() {
+        if (isBuildMode)
+            return ColorGraphics.getPalette(Colors.ColorType.Blue);
+        if (!isPlayable)
+            return ColorGraphics.getPalette(Colors.ColorType.Gray);
         return ColorGraphics.getPalette(state.getOwner().getColor());
     }
 
@@ -94,18 +121,22 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
     }
 
     public Color getFillColor() {
-        if (isSelected) {
-            if (isHovered) {
-                return getPalette().territoryFillSelectedHover;
+        if (isBuildMode || isPlayable) {
+            if (isSelected) {
+                if (isHovered) {
+                    return getPalette().territoryFillSelectedHover;
+                } else {
+                    return getPalette().territoryFillSelect;
+                }
             } else {
-                return getPalette().territoryFillSelect;
+                if (isHovered) {
+                    return getPalette().territoryFillHover;
+                } else {
+                    return getPalette().territoryFill;
+                }
             }
         } else {
-            if (isHovered) {
-                return getPalette().territoryFillHover;
-            } else {
-                return getPalette().territoryFill;
-            }
+            return getPalette().territoryFill;
         }
     }
 
@@ -123,12 +154,14 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (contains(e.getPoint())) {
-            isHovered = true;
-            repaint();
-        } else {
-            isHovered = false;
-            repaint();
+        if (!isBuildMode && isPlayable) {
+            if (contains(e.getPoint())) {
+                isHovered = true;
+                repaint();
+            } else {
+                isHovered = false;
+                repaint();
+            }
         }
     }
 
@@ -148,9 +181,22 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (contains(e.getPoint())) {
-            setSelected(!isSelected);
-            repaint();
+        if (!isBuildMode && isPlayable) {
+            if (Game.getInstance().getPhase()== Phase.Draft){
+                this.state.addArmies(Game.getInstance().getDraftArmies());
+                update();
+            } else if (Game.getInstance().getPhase() == Phase.Attack) {
+
+            } else if (Game.getInstance().getPhase() == Phase.Fortify) {
+
+            }
+        }
+        if (isBuildMode) {
+            if (contains(e.getPoint())) {
+                setSelected(!isSelected);
+                state.setPlayable(isSelected);
+                repaint();
+            }
         }
     }
 
