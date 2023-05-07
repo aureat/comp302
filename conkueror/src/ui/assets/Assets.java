@@ -28,7 +28,9 @@ public enum Assets {
     PanelFloating("panel/floating"),
     PanelDraft("panel/draft"),
     PanelPhases("panel/phases"),
-    PanelPhase("panel/phase");
+    PanelPhase("panel/phase"),
+    AvatarCircular("avatars/circular", 390, 390);
+
 
 
     private final Map<String, Asset> cache = new HashMap<>();

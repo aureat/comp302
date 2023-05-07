@@ -12,8 +12,7 @@ import util.ClassUtils;
  * @see Controller
  */
 public enum Route {
-
-    Main(),
+    Main(true),
 
     /** Screen for adding players to the game */
     Players,
@@ -34,7 +33,7 @@ public enum Route {
     Loading,
 
     /** Screen for playing the game */
-    Map(true),
+    Map(),
 
     /** Screen where the chance card is shown */
     ChanceCard,
@@ -49,7 +48,7 @@ public enum Route {
     Inventory,
 
     /** Screen where the player can pause the game and see the leaderboard */
-    Pause,
+    Pause(),
 
     /** Screen where the player can get help */
     Help;
