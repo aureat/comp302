@@ -47,20 +47,30 @@ public class Game {
 
 
     public void randomizeOwners() {
+        //after first itteration in the while loop the first player most likely get the higher number of territories
+        //since the number of territories is 39 therefore neeed to assign each time the value of i for correct termination
+        // of the program
         int i;
+        int a;
         if (players.size()==2){
         i=20;
+        a=19;
         } else if (players.size()==3) {
         i=13;
+        a=13;
         } else if (players.size()==4) {
         i=10;
+        a=9;
         } else if (players.size()==5) {
         i=8;
+        a=7;
         }else {
         i=7;
+        a=6;
         }
         List<TerritoryState> states = mapState.getTerritoryStates();
-        for(int j =0; j<players.size(); j++){
+        int playercount = players.size();
+        for(int j =0; j<playercount; j++){
             Player player = CoreUtils.chooseRandom(players);
             while (!states.isEmpty() || i!=0) {
                 TerritoryState state = CoreUtils.chooseRandom(states);
@@ -75,6 +85,7 @@ public class Game {
                 }
                 states.remove(state);
             }
+            i=a;
             players.remove(player);
         }
 
