@@ -61,7 +61,7 @@ public class PauseView extends ViewPanel<PauseController> {
         // Button Stack
         ImageBtnStack stack1 = new ImageBtnStack(ImageBtnStack.VERTICAL, 48, 50, 16, 20);
         stack1.addButton(menu.getAsset("resume"))
-                .addActionListener(e -> getController().redirect(Route.Map));
+                .addActionListener(e -> getController().redirect(Route.GameMap));
         stack1.addButton(menu.getAsset("help"))
                 .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
 

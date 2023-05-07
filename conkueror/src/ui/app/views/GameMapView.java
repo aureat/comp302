@@ -9,6 +9,7 @@ import ui.app.router.ViewPanel;
 import ui.assets.Assets;
 import ui.components.core.ImageBtnStack;
 import ui.components.core.ImageButton;
+import ui.components.map.WorldMap;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,6 +65,12 @@ public class GameMapView extends ViewPanel<GameMapController> {
 
         // Set Background
         setViewBackground(backgrounds.getAsset("map"));
+
+        // map
+        WorldMap map = new WorldMap();
+        getController().setMap(map);
+        setSizeOnCenter(map);
+        add(map);
 
         // Button Stack
         ImageBtnStack stack1 = new ImageBtnStack(ImageBtnStack.VERTICAL, 48, 50, 22, 20);
@@ -185,18 +192,6 @@ public class GameMapView extends ViewPanel<GameMapController> {
         //naLabel1.setBounds(getContainerWidth()-105,21,70,70);
         //naLabel1.add(ncLabel1);
         //phaseLabel.add(naLabel1);
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 }
