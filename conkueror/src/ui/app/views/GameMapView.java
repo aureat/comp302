@@ -141,21 +141,12 @@ public class GameMapView extends ViewPanel<GameMapController> {
         phaseLabel.add(fortifyLabel);
         fortifyLabel.setVisible(false);
 
-//        for(int n = 0;n<Game.getInstance().getPlayersCount();n++){
-//            avatarLabels.add(new JLabel());
-//            colorLabels.add(new JLabel());
-//        }
-
-
-        ImageTextField field = new ImageTextField(
-                Assets.ArmyInput.getAsset("army-count").getImageIcon(),
-                30,
-                8);
-        add(field);
-
         rounder(turn);
 
 
+        int armies = Game.getInstance().getDraftArmies();
+        draftButtons.get(armies - 1).setVisible(true);
+        nextButton.setVisible(false);
 
 
 
@@ -174,10 +165,10 @@ public class GameMapView extends ViewPanel<GameMapController> {
                     turn++;
                     rounder(turn);
                 }
-                Phase nextPhase = Game.getInstance().nextPhase();
-                if (nextPhase == Phase.Draft) {
+                Game.getInstance().nextPhase();
+                if (Game.getInstance().getPhase() == Phase.Draft) {
                     int armies = Game.getInstance().getDraftArmies();
-                    draftButtons.get(armies-1).setVisible(true);
+                    draftButtons.get(armies - 1).setVisible(true);
                     nextButton.setVisible(false);
                 }
             }

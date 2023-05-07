@@ -58,6 +58,21 @@ public class Game {
                 .forEach(i -> addPlayer());
     }
 
+    public void doDraftPhase() {
+        draftArmies = Math.floorDiv(currentplayer.getTerritoryCount(), 2);
+    }
+
+    public int getDraftArmies() {
+        return draftArmies;
+    }
+
+    public void setDraftArmies(TerritoryState state) {
+        if (draftArmies > 0) {
+            state.addArmies(1);
+            draftArmies--;
+        }
+    }
+
     public void createGameMap() {
         map.createMap();
         mapState = MapState.createInstance(map);

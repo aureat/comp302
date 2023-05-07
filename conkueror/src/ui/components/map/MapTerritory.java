@@ -5,6 +5,7 @@ import domain.game.Phase;
 import domain.mapstate.TerritoryState;
 import domain.player.Colors;
 import domain.player.Player;
+import ui.app.Context;
 import ui.app.router.Route;
 import ui.app.views.GameMapView;
 import ui.assets.Fonts;
@@ -182,8 +183,9 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
     @Override
     public void mousePressed(MouseEvent e) {
         if (!isBuildMode && isPlayable) {
-            if (Game.getInstance().getPhase()== Phase.Draft){
-                this.state.addArmies(Game.getInstance().getDraftArmies());
+            if (Game.getInstance().getPhase() == Phase.Draft){
+                Game.getInstance().setDraftArmies(state);
+                Route.GameMap.getController().update();
                 update();
             } else if (Game.getInstance().getPhase() == Phase.Attack) {
 
