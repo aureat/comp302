@@ -72,13 +72,22 @@ public class SystemUtils {
         }
     }
 
-    public static void initializeMacOsProperties(String appName) {
+    public static void initializeSystemProperties(String appName) {
+        System.setProperty("sun.java2d.dpiaware", "false");
         if (SystemInfo.isMacOS) {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
             System.setProperty("apple.awt.application.appearance", "system");
             System.setProperty("apple.awt.application.name", appName);
             System.setProperty("apple.eawt.application.name", appName);
             System.setProperty("com.apple.mrj.application.apple.menu.about.name", appName);
+            System.setProperty("sun.java2d.uiScale.enabled", "true");
+            System.setProperty("sun.java2d.uiScale", "2.0");
+            System.setProperty("sun.java2d.metal", "true");
+        }
+        if (SystemInfo.isWindows) {
+            System.setProperty("sun.java2d.opengl", "true");
+            System.setProperty("sun.java2d.uiScale.enabled", "false");
+            System.setProperty("sun.java2d.xrender", "true");
         }
     }
 

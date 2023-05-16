@@ -37,7 +37,7 @@ public class AnimatedBurst extends JPanel {
     }
 
     public AnimatedBurst(int size) {
-        this(size, 0.03);
+        this(size, 0.008);
     }
 
     public void setSpeed(double speed) {
@@ -55,10 +55,11 @@ public class AnimatedBurst extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        Graphics2D g2d = SwingUtils.setQualityGraphics2D(g);
+        super.paintComponent(g);
+        Graphics2D g2d = SwingUtils.setFastGraphics2D((Graphics2D) g.create());
         g2d.rotate(angle, ctrX, ctrY);
         g2d.drawImage(image, 0, 0, this);
-        super.paintComponent(g);
+        g2d.dispose();
     }
 
 }
