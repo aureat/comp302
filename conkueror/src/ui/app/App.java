@@ -20,6 +20,14 @@ public class App {
         /* Set macOS specific properties */
         SystemUtils.initializeMacOsProperties(Config.appName);
 
+        /* Enable OpenGL acceleration */
+//        System.setProperty("sun.java2d.opengl", "true");
+        System.setProperty("sun.java2d.metal", "true");
+        System.setProperty("sun.java2d.uiScale.enabled", "true");
+        System.setProperty("sun.java2d.uiScale", "2.0");
+        System.setProperty("sun.java2d.dpiaware", "false");
+        System.setProperty("sun.java2d.xrender", "true");
+
         /* Set System Look and Feel */
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

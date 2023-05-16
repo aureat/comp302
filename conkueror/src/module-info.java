@@ -5,7 +5,7 @@ import util.module.Version;
  * This module contains the core classes and
  * the application classes for the game ConKUeror.
  */
-@Version("0.5.0")
+@Version("0.5.4")
 @Developer("Nerd^5")
 module conkueror {
     requires java.desktop;

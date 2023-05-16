@@ -55,6 +55,10 @@ public class Asset {
         return image;
     }
 
+    public Image getImage(int width, int height) {
+        return AssetLoader.getImage(fullPath, width, height);
+    }
+
     public ImageIcon getImageIcon() {
         load();
         if (icon == null) {

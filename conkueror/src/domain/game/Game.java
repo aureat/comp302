@@ -75,7 +75,7 @@ public class Game {
     }
 
     private void initializePlayers() {
-        IntStream.range(0, 6)
+        IntStream.range(0, config.getInitialPlayers())
                 .forEach(i -> addPlayer());
     }
 

@@ -118,13 +118,12 @@ public abstract class ViewPanel<Controller extends ViewController> extends JPane
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics graphics = g.create();
         if (background != null) {
-            Graphics2D g2 = SwingUtils.getGraphics2D(graphics);
+            Graphics2D g2 = SwingUtils.setQualityGraphics2D(g);
             Image bgImage = background.getImage();
             g2.drawImage(bgImage, 0, 0, getContainerWidth(), getContainerHeight(), null);
+            g2.dispose();
         }
-        graphics.dispose();
     }
 
     /**

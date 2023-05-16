@@ -14,10 +14,10 @@ import util.ClassUtils;
 public enum Route {
 
     /** Main View */
-    Main(true),
+    Main,
 
     /** Screen for adding players to the game */
-    Players,
+    Players(true),
 
     /** Screen for editing players */
     EditPlayer,

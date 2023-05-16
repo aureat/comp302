@@ -25,11 +25,13 @@ public class Config {
 
     public static final int preferredWidth = 1366;
     public static final int preferredHeight = 768;
-    public static final boolean isResizable = false;
+    public static final boolean isResizable = true;
 
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public static int screenWidth = (int) screenSize.getWidth();
     public static int screenHeight = (int) screenSize.getHeight();
+
+    public static int animationDelay = 1000 / 60;
 
     public static final String defaultAppIcon = "icon/default.png";
     public static final String taskbarAppIcon = "icon/taskbar.png";

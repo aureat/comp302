@@ -20,6 +20,7 @@ public enum Assets {
     InputText("inputs/text", 503, 59),
     ArmyInput("inputs/text", 153, 59),
     ColorFrame("colors/frame"),
+    Animated("animated"),
     Icon("icon"),
     Logo("logo"),
     MenuMd("menu", 48, 50),

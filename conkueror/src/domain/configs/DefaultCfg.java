@@ -12,7 +12,7 @@ public class DefaultCfg extends GameConfig {
 
     public DefaultCfg() {}
 
-    public int getInitialPlayers() { return getMinimumPlayers(); }
+    public int getInitialPlayers() { return 3; }
 
     public int getMinimumPlayers() { return 2; }
 

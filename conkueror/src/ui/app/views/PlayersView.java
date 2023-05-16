@@ -7,6 +7,7 @@ import ui.app.router.View;
 import ui.app.router.ViewPanel;
 import ui.assets.Asset;
 import ui.assets.Assets;
+import ui.components.animated.AnimatedBurst;
 import ui.components.core.ImageBtnStack;
 import ui.components.core.RoundedImage;
 import ui.components.player.PlayerPreview;
@@ -44,14 +45,28 @@ public class PlayersView extends ViewPanel<PlayersController> {
     }
 
     public void initialize() {
-        setViewBackground(Assets.Background.getAsset("sunburst-logo-md"));
 
+        // background
+        setViewBackground(Assets.Background.getAsset("sunburst"));
+
+        // background burst animation
+        AnimatedBurst burst = new AnimatedBurst(AnimatedBurst.LG);
+        setSizeOnCenter(burst);
+
+        // logo
+        ImageIcon logo = Assets.Logo.getAsset("conkueror").getImageIcon(690, 110);
+        JLabel logoLabel = new JLabel(logo);
+        logoLabel.setBounds(
+                (getWidth() - logo.getIconWidth()) / 2,
+                60,
+                logo.getIconWidth(),
+                logo.getIconHeight()
+        );
+
+        // players
         players = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
         getController().getPlayers().forEach(this::createPreview);
-
         players.setOpaque(false);
-
-        add(players);
 
         ImageBtnStack stack = new ImageBtnStack(ImageBtnStack.HORIZONTAL, 325, 59, 50, 30);
         stack.addButton(Assets.ButtonLg.getAsset("add-player"))
@@ -72,7 +87,14 @@ public class PlayersView extends ViewPanel<PlayersController> {
                 stack.getPreferredSize().height
         );
 
+        add(burst);
+        add(logoLabel);
+        add(players);
         add(stack);
+
+        setComponentZOrder(logoLabel, 0);
+        setComponentZOrder(players, 1);
+        setComponentZOrder(stack, 2);
     }
 
 }
