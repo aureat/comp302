@@ -26,14 +26,14 @@ public class TerritoryCardView  extends JFrame {
         // Create some sample territory cards
         territoryCards = new ArrayList<>();
 
-        List<TerritoryType> territories = MapState.getInstance().getMap().getTerritories();
-        for (TerritoryType territory : territories) {
-            territoryCards.add(new TerritoryCard(territory.getName(), territory, territory.getContinent(), CardType.TERRITORY, "This is a description of " + territory.getName() + ".", true, 1));
-        }
+//        List<TerritoryType> territories = MapState.getInstance().getMap().getTerritories();
+//        for (TerritoryType territory : territories) {
+//            territoryCards.add(new TerritoryCard(territory.getName(), territory, territory.getContinent(), CardType.TERRITORY, "This is a description of " + territory.getName() + ".", true, 1));
+//        }
 
-        //territoryCards.add(new TerritoryCard("Alaska", TerritoryType.ALASKA, ContinentType.NORTH_AMERICA, CardType.TERRITORY,  "This is a description of Alaska.", true, 2));
-        //territoryCards.add(new TerritoryCard("Brazil", TerritoryType.BRAZIL, ContinentType.SOUTH_AMERICA, CardType.TERRITORY,  "This is a description of Brazil.", true, 3));
-        //territoryCards.add(new TerritoryCard("China", TerritoryType.CHINA, ContinentType.ASIA, CardType.TERRITORY,  "This is a description of China.", true, 4));
+        territoryCards.add(new TerritoryCard("Alaska",  CardType.TERRITORY,  "This is a description of Alaska.", true, 2));
+        territoryCards.add(new TerritoryCard("Brazil",  CardType.TERRITORY,  "This is a description of Brazil.", true, 3));
+        territoryCards.add(new TerritoryCard("China",  CardType.TERRITORY,  "This is a description of China.", true, 4));
 
         // Create a panel to hold the territory cards
         cardPanel = new JPanel();

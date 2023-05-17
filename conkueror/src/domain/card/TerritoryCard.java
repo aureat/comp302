@@ -29,11 +29,11 @@ public class TerritoryCard extends Card {
     private int tradeValue;
 
 
-    public TerritoryCard(String name, TerritoryType territory, ContinentType continent, CardType cardType,   String description, boolean canBeTraded, int tradeValue) {
+    public TerritoryCard(String name,  CardType cardType,   String description, boolean canBeTraded, int tradeValue) {
         this.name = name;
 //        this.owner = owner;
-        this.territory = territory;
-        this.continent = continent;
+        //this.territory = territory;
+        //this.continent = continent;
         this.cardType = cardType;
        // this.imageUrl = imageUrl;
         this.description = description;
