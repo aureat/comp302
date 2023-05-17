@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fd32ed6-0fc3-48bd-947f-9accdd414a3e" name="Changes" comment="initial territory placement and changes in game class, also added some helper methods to other classes">
+    <list default="true" id="1fd32ed6-0fc3-48bd-947f-9accdd414a3e" name="Changes" comment="fixed a bug in randomizeOwners in game class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/model/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/model/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/card/TerritoryCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/card/TerritoryCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/game/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/mapstate/MapState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/mapstate/MapState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/app/views/GameMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/app/views/GameMapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/app/views/TerritoryCardView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/app/views/TerritoryCardView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ui/components/map/MapTerritory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ui/components/map/MapTerritory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +46,40 @@
     &quot;last_opened_file_path&quot;: &quot;/Users/mertbalcik/IdeaProjects/2023S_nerd5/conkueror&quot;
   }
 }</component>
+  <component name="RunManager" selected="Application.App">
+    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ui.app.App" />
+      <module name="conkueror" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ui.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TerritoryCardView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ui.app.views.TerritoryCardView" />
+      <module name="conkueror" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ui.app.views.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.App" />
+        <item itemvalue="Application.TerritoryCardView" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -99,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683395701935</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="fixed a bug in randomizeOwners in game class">
+      <created>1683420423148</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1683420423148</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -120,6 +166,7 @@
     <MESSAGE value="tried to merge from omer's branch for the part we did together map state" />
     <MESSAGE value="after meging with omer's code fixed some issues in the map state according to the changes in territory" />
     <MESSAGE value="initial territory placement and changes in game class, also added some helper methods to other classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial territory placement and changes in game class, also added some helper methods to other classes" />
+    <MESSAGE value="fixed a bug in randomizeOwners in game class" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed a bug in randomizeOwners in game class" />
   </component>
 </project>

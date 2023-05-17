@@ -32,6 +32,8 @@ public class Game {
     private ChanceCard currentcard;
     private ArrayList<TerritoryState> initialTerrDistrubution;
 
+    private int roundCount;
+
     private static class GameContainer {
         private static final Game instance = new Game();
     }
@@ -54,14 +56,17 @@ public class Game {
     }
 
     private void initializePlayers() {
-        IntStream.range(0, 6)
+        IntStream.range(0, 2)
                 .forEach(i -> addPlayer());
     }
 
     public void createGameMap() {
         map.createMap();
-        mapState = MapState.createInstance(map);
+        //mapState = MapState.createInstance(map);
     }
+
+
+
 
     public Player addPlayer() {
         if (getPlayersCount() < config.getMaximumPlayers()) {

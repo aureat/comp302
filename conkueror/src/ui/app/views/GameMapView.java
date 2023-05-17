@@ -174,12 +174,12 @@ public class GameMapView extends ViewPanel<GameMapController> {
                     turn++;
                     rounder(turn);
                 }
-                Phase nextPhase = Game.getInstance().nextPhase();
-                if (nextPhase == Phase.Draft) {
-                    int armies = Game.getInstance().getDraftArmies();
-                    draftButtons.get(armies-1).setVisible(true);
-                    nextButton.setVisible(false);
-                }
+   //             Phase nextPhase = Game.getInstance().nextPhase();
+//                if (nextPhase == Phase.Draft) {
+//                    int armies = Game.getInstance().getDraftArmies();
+//                    draftButtons.get(armies-1).setVisible(true);
+//                    nextButton.setVisible(false);
+//                }
             }
         });
 

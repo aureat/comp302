@@ -20,11 +20,12 @@ public class MapState {
         return MapStateContainer.instance;
     }
 
-    public static MapState createInstance(GameMap map) {
+    public Object MapState(GameMap map) {
         if (MapStateContainer.instance == null) {
             MapStateContainer.instance = new MapState(map);
         }
-        return getInstance();
+        return null;
+
     }
 
     private GameMap map;
