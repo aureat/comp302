@@ -28,7 +28,7 @@ public class AppFrame extends JFrame {
          * Initializes and mounts the MenuBar and PopupMenu (MacOS only)
          */
         initMenuBar();
-        initMacOSMenus();
+        initPopupMenu();
 
     }
 
@@ -54,7 +54,6 @@ public class AppFrame extends JFrame {
         getContentPane().setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(Config.isResizable);
-        getContentPane().setLayout(new BorderLayout());
         initSize();
         initTitle();
         initIcon();
@@ -77,11 +76,13 @@ public class AppFrame extends JFrame {
     }
 
     private void initMenuBar() {
-        menuBar = new AppMenuBar(this);
-        setJMenuBar(menuBar);
+        if (SystemInfo.isMacOS) {
+            menuBar = new AppMenuBar(this);
+            setJMenuBar(menuBar);
+        }
     }
 
-    private void initMacOSMenus() {
+    private void initPopupMenu() {
         if (Taskbar.getTaskbar().isSupported(Taskbar.Feature.MENU)) {
             popupMenu = new AppPopupMenu(this);
             Taskbar.getTaskbar().setMenu(popupMenu);

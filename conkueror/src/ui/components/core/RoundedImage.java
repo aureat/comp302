@@ -42,11 +42,11 @@ public class RoundedImage extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = SwingUtils.getGraphics2D(g.create());
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setClip(outline);
-        g2.drawImage(image, 0, 0, width, height, null);
-        g2.dispose();
+        Graphics2D g2d = SwingUtils.setQualityGraphics2D((Graphics2D) g.create());
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setClip(outline);
+        g2d.drawImage(image, 0, 0, width, height, null);
+        g2d.dispose();
     }
 
 }

@@ -41,6 +41,10 @@ public class Asset {
         }
     }
 
+    public boolean isLoaded() {
+        return image != null;
+    }
+
     public void reload() {
         if (width == 0 || height == 0) {
             image = AssetLoader.getImage(fullPath);

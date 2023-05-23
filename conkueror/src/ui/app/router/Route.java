@@ -31,9 +31,6 @@ public enum Route {
     /** Screen for deciding who goes first */
     ShufflePlayers,
 
-    /** Loading screen before the game starts */
-    Loading,
-
     /** Screen for playing the game */
     GameMap,
 

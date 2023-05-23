@@ -106,10 +106,10 @@ public class ImageButton extends JComponent implements MouseListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = SwingUtils.getGraphics2D(g.create());
-        g2.setClip(outline);
-        g2.drawImage(image, 0, 0, width, height, null);
-        g2.dispose();
+        Graphics2D g2d = SwingUtils.setQualityGraphics2D((Graphics2D) g.create());
+        g2d.setClip(outline);
+        g2d.drawImage(image, 0, 0, width, height, null);
+        g2d.dispose();
     }
 
 }

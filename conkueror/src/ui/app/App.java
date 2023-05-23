@@ -1,6 +1,9 @@
 package ui.app;
 
 import ui.app.frame.AppController;
+import ui.app.frame.AppFrame;
+import ui.app.frame.LoadingScreen;
+import ui.app.router.Router;
 import ui.app.util.SystemUtils;
 
 import javax.swing.*;
@@ -27,16 +30,38 @@ public class App {
             e.printStackTrace();
         }
 
-        /* Create app frame */
+        /* Create app controller */
         AppController appController = new AppController();
 
+        /* Run application */
         SwingUtilities.invokeLater(() -> {
-            /* Create app components */
-            appController.create();
-            /* Show default view */
-            appController.routeDefault();
-            /* Show app frame */
-            appController.show();
+
+            /* Create a loader */
+            appController.runPreloader();
+            appController.createLoadScreen();
+            appController.showLoadScreen();
+
+            /* Load application in the background */
+            (new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    appController.create();
+                    appController.runApplicationLoader();
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    appController.hideLoadScreen();
+                    appController.show();
+                }
+            }).execute();
+
         });
 
     }

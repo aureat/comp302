@@ -3,32 +3,54 @@ package ui.app.frame;
 import ui.app.Context;
 import ui.app.router.AbstractController;
 import ui.app.router.Router;
+import ui.assets.Assets;
 import ui.assets.Fonts;
 
 
-public class AppController extends AbstractController {
+public class AppController {
 
+    private LoadingScreen loadingScreen;
     private AppFrame appFrame;
     private Router router;
 
-    public AppController() {
-        super();
-    }
+    public AppController() {}
 
     public AppFrame getAppFrame() {
         return appFrame;
     }
 
-    public void create() {
-        if (appFrame != null) {
-            return;
-        }
+    public AppFrame create() {
+        if (appFrame == null)
+            appFrame = new AppFrame();
+        return appFrame;
+    }
 
-        /* Register fonts */
+    public void runPreloader() {
         Fonts.register();
+        Assets.Background.loadAsset("loading");
+        Assets.Animated.loadAsset("spinner");
+    }
 
-        /* Create the app frame and router */
-        appFrame = new AppFrame();
+    public LoadingScreen createLoadScreen() {
+        if (loadingScreen == null)
+            loadingScreen = new LoadingScreen();
+        return loadingScreen;
+    }
+
+    public void showLoadScreen() {
+        loadingScreen.pack();
+        loadingScreen.setLocationRelativeTo(null);
+        loadingScreen.setVisible(true);
+        loadingScreen.startAnimation();
+    }
+
+    public void hideLoadScreen() {
+        loadingScreen.setVisible(false);
+        loadingScreen.stopAnimation();
+    }
+
+    public void runApplicationLoader() {
+        /* Create the router */
         router = new Router();
 
         /* Create context */
@@ -40,6 +62,8 @@ public class AppController extends AbstractController {
         router.setContainer(appFrame.getContentPane());
         router.initRouter();
 
+        /* Show default view */
+        routeDefault();
     }
 
     public void show() {

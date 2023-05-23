@@ -5,15 +5,16 @@ import ui.app.router.Route;
 import ui.app.controllers.MainController;
 import ui.app.router.View;
 import ui.app.router.ViewPanel;
+import ui.assets.Asset;
 import ui.assets.Assets;
+import ui.components.core.AssetRenderer;
 import ui.components.core.ImageBtnStack;
+
+import javax.swing.*;
 
 
 @View(at = Route.Main)
 public class MainView extends ViewPanel<MainController> {
-
-    private final Assets backgrounds = Assets.Background;
-    private final Assets buttons = Assets.ButtonLg;
 
     public MainView() {
         setLayout(null);
@@ -21,19 +22,28 @@ public class MainView extends ViewPanel<MainController> {
 
     @Override
     public void preload() {
-        backgrounds.loadAsset("main");
-        buttons.loadAsset("new-game");
-        buttons.loadAsset("continue-game");
-        buttons.loadAsset("exit");
+        Assets.Background.loadAsset("main");
+        Assets.LogoSlogan.loadAsset("conkueror-slogan");
+        Assets.DevLogo.loadAsset("nerd5");
+        Assets.ButtonLg.loadAsset("new-game");
+        Assets.ButtonLg.loadAsset("continue-game");
+        Assets.ButtonLg.loadAsset("exit");
     }
 
     public void initialize() {
 
-        Assets backgrounds = Assets.Background;
         Assets buttons = Assets.ButtonLg;
 
         // Set Background
-        setViewBackground(backgrounds.getAsset("main"));
+        setViewBackground(Assets.Background.getAsset("main"));
+
+        // Logo
+        AssetRenderer logo = new AssetRenderer(Assets.LogoSlogan.getAsset("conkueror-slogan"));
+        centerComponentWithOffset(logo, 0, -200);
+
+        // Developer Logo
+        AssetRenderer devLogo = new AssetRenderer(Assets.DevLogo.getAsset("nerd5"));
+        positionSouthWest(devLogo, 30, 30);
 
         // Button Stack
         ImageBtnStack stack = new ImageBtnStack(ImageBtnStack.VERTICAL, 325, 59, 15, 30);
@@ -43,15 +53,11 @@ public class MainView extends ViewPanel<MainController> {
                 .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
         stack.addButton(buttons.getAsset("exit"))
                 .addActionListener(e -> System.exit(0));
+        centerComponentWithOffset(stack, 0, 50);
 
-        // center the stack in the panel
-        stack.setBounds(
-                (getWidth() - stack.getPreferredSize().width) / 2,
-                (getHeight() - stack.getPreferredSize().height) / 2 + 50,
-                stack.getPreferredSize().width,
-                stack.getPreferredSize().height
-        );
-
+        // add components
+        add(logo);
+        add(devLogo);
         add(stack);
 
     }

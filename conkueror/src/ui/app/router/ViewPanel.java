@@ -30,6 +30,7 @@ public abstract class ViewPanel<Controller extends ViewController> extends JPane
      * Asset for the background image for this view.
      */
     private Asset background;
+    private Image backgroundImage;
 
     public ViewPanel() {
         setLayout(new BorderLayout());
@@ -75,7 +76,6 @@ public abstract class ViewPanel<Controller extends ViewController> extends JPane
             return controller;
         }
         try {
-            System.out.println("Creating controller in view panel for " + this);
             controller = ClassUtils.newInstance(controllerType);
             controller.setRoute(route);
             controller.initialize();
@@ -108,6 +108,7 @@ public abstract class ViewPanel<Controller extends ViewController> extends JPane
     public void setViewBackground(Asset bg) {
         background = bg;
         background.load();
+        backgroundImage = background.getImage();
     }
 
     /**
@@ -118,10 +119,9 @@ public abstract class ViewPanel<Controller extends ViewController> extends JPane
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (background != null) {
-            Graphics2D g2 = SwingUtils.setQualityGraphics2D(g);
-            Image bgImage = background.getImage();
-            g2.drawImage(bgImage, 0, 0, getContainerWidth(), getContainerHeight(), null);
+        if (backgroundImage != null) {
+            Graphics2D g2 = SwingUtils.setQualityGraphics2D((Graphics2D) g.create());
+            g2.drawImage(backgroundImage, 0, 0, getContainerWidth(), getContainerHeight(), null);
             g2.dispose();
         }
     }
@@ -144,7 +144,6 @@ public abstract class ViewPanel<Controller extends ViewController> extends JPane
         revalidate();
         repaint();
         onUpdate();
-        System.out.println("Updated view " + this.getClass().getSimpleName());
     }
 
     /**
@@ -156,21 +155,50 @@ public abstract class ViewPanel<Controller extends ViewController> extends JPane
         removeAll();
         initialize();
         onUpdate();
-        System.out.println("Rebuilt view " + this.getClass().getSimpleName());
     }
 
-    public void setSizeOnCenter(Container container, Dimension dimension) {
-        setSizeOnCenter(container, dimension.width, dimension.height);
+    public void centerComponent(Container container, Dimension dimension) {
+        centerComponent(container, dimension.width, dimension.height);
     }
 
-    public void setSizeOnCenter(Container container) {
-        setSizeOnCenter(container, container.getPreferredSize());
+    public void centerComponent(Container container) {
+        centerComponent(container, container.getPreferredSize());
     }
 
-    public void setSizeOnCenter(Container container, int width, int height) {
+    public void centerComponentWithOffset(Container container, int XOffset, int YOffset) {
+        int width = container.getPreferredSize().width;
+        int height = container.getPreferredSize().height;
+        int x = (getWidth() - width) / 2 + XOffset;
+        int y = (getHeight() - height) / 2 + YOffset;
+        container.setBounds(x, y, width, height);
+    }
+
+    public void centerComponent(Container container, int width, int height) {
         int x = (getWidth() - width) / 2;
         int y = (getHeight() - height) / 2;
         container.setBounds(x, y, width, height);
+    }
+
+    public void positionNorthWest(Container container, int XOffset, int YOffset) {
+        container.setBounds(XOffset, YOffset, container.getPreferredSize().width, container.getPreferredSize().height);
+    }
+
+    public void positionNorthEast(Container container, int XOffset, int YOffset) {
+        int width = container.getPreferredSize().width;
+        int height = container.getPreferredSize().height;
+        container.setBounds(getWidth() - width - XOffset, YOffset, width, height);
+    }
+
+    public void positionSouthWest(Container container, int XOffset, int YOffset) {
+        int width = container.getPreferredSize().width;
+        int height = container.getPreferredSize().height;
+        container.setBounds(XOffset, getHeight() - height - YOffset, width, height);
+    }
+
+    public void positionSouthEast(Container container, int XOffset, int YOffset) {
+        int width = container.getPreferredSize().width;
+        int height = container.getPreferredSize().height;
+        container.setBounds(getWidth() - XOffset, getHeight() - YOffset, width, height);
     }
 
     /**
@@ -214,7 +242,6 @@ public abstract class ViewPanel<Controller extends ViewController> extends JPane
     public Container getPanel() {
         return this;
     }
-
 
     /**
      * Hook for initializing the view.

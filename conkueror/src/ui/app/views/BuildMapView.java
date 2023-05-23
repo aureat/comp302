@@ -16,21 +16,20 @@ import java.awt.*;
 @View(at = Route.BuildMap)
 public class BuildMapView extends ViewPanel<BuildMapController> {
 
-    private final Assets backgrounds = Assets.Background;
-
     public BuildMapView() {
         setLayout(null);
     }
 
     @Override
     public void preload() {
-        backgrounds.loadAsset("map");
+        Assets.Background.loadAsset("map");
+        Assets.ButtonLg.loadAsset("continue");
     }
 
     public void initialize() {
 
         // Set Background
-        setViewBackground(backgrounds.getAsset("map"));
+        setViewBackground(Assets.Background.getAsset("map"));
 
         WorldMap map = new WorldMap(true);
         getController().setMap(map);

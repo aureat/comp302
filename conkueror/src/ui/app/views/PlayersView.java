@@ -26,7 +26,8 @@ public class PlayersView extends ViewPanel<PlayersController> {
 
     @Override
     public void preload() {
-        Assets.Background.loadAsset("sunburst-logo-md");
+        Assets.Background.loadAsset("sunburst");
+        Assets.LogoBasic.loadAsset("conkueror");
         Assets.ButtonLg.loadAsset("add-player");
         Assets.ButtonLg.loadAsset("continue");
     }
@@ -51,17 +52,12 @@ public class PlayersView extends ViewPanel<PlayersController> {
 
         // background burst animation
         AnimatedBurst burst = new AnimatedBurst(AnimatedBurst.LG);
-        setSizeOnCenter(burst);
+        centerComponent(burst);
 
         // logo
-        ImageIcon logo = Assets.Logo.getAsset("conkueror").getImageIcon(690, 110);
+        ImageIcon logo = Assets.LogoBasic.getAsset("conkueror").getImageIcon();
         JLabel logoLabel = new JLabel(logo);
-        logoLabel.setBounds(
-                (getWidth() - logo.getIconWidth()) / 2,
-                60,
-                logo.getIconWidth(),
-                logo.getIconHeight()
-        );
+        centerComponentWithOffset(logoLabel, 0, -200);
 
         // players
         players = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
@@ -79,13 +75,7 @@ public class PlayersView extends ViewPanel<PlayersController> {
                 });
         stack.addButton(Assets.ButtonLg.getAsset("continue"))
                 .addActionListener(e -> getController().redirect(Route.ShufflePlayers));
-
-        stack.setBounds(
-                (getWidth() - stack.getPreferredSize().width) / 2,
-                getHeight() - stack.getPreferredSize().height - 50,
-                stack.getPreferredSize().width,
-                stack.getPreferredSize().height
-        );
+        centerComponentWithOffset(stack, 0, -50);
 
         add(burst);
         add(logoLabel);

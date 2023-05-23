@@ -33,6 +33,18 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
     @Override
     public void preload() {
         Assets.Background.loadAsset("sunburst");
+        Assets.ButtonMd.loadAsset("male");
+        Assets.ButtonMd.loadAsset("female");
+        Assets.ButtonLg.loadAsset("save");
+        Assets.MenuLg.loadAsset("shuffle");
+        Assets.ButtonSave.loadAsset("save");
+        Assets.InputText.loadAsset("player-name");
+        Avatars.all.forEach(avatar -> Assets.AvatarRounded.loadAsset(avatar.toString()));
+        Avatars.all.forEach(avatar -> Assets.AvatarLg.loadAsset(avatar.toString()));
+        Stream.of("yellow", "green", "purple", "red", "orange", "blue").forEach(color -> {
+            Assets.ColorBall.loadAsset(color);
+            Assets.ColorCardLg.loadAsset(color);
+        });
     }
 
     @Override
@@ -168,7 +180,7 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
 
         container.add(leftContainer);
         container.add(rightContainer);
-        setSizeOnCenter(container);
+        centerComponent(container);
         add(container);
     }
 

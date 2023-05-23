@@ -23,7 +23,7 @@ public class AnimatedBurst extends JPanel {
 
     public AnimatedBurst(int size, double speed) {
         this.size = size;
-        this.image = Assets.Animated.getAsset("sunburst").getImage(size, size);
+        this.image = Assets.Animated.getAsset("sunburst2").getImage(size, size);
         this.ctrX = size / 2.0;
         this.ctrY = size / 2.0;
         setSpeed(speed);
@@ -44,17 +44,13 @@ public class AnimatedBurst extends JPanel {
         this.speed = Math.toRadians(speed);
     }
 
-    public void setSpeed(int speed) {
-        setSpeed(speed / 10.0);
-    }
-
     @Override
     public Dimension getPreferredSize() {
         return new Dimension(size, size);
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = SwingUtils.setFastGraphics2D((Graphics2D) g.create());
         g2d.rotate(angle, ctrX, ctrY);
