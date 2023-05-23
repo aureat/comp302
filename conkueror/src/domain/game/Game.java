@@ -120,6 +120,23 @@ public class Game {
         Collections.shuffle(players);
     }
 
+    public void selectTerritories(){
+       mapState.getTerritoryStates().forEach(territory ->{
+           if(territory.isPlayable() && (territory.getOwner()==null)){
+               List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
+               Player player = currentplayer;
+               player.addTerritory(territory);
+               territory.setOwner(player);
+               for(TerritoryState neighbor : neighbors){
+                   if(neighbor.isPlayable() && (neighbor.getOwner()==null)){
+                       player.addTerritory(neighbor);
+                       neighbor.setOwner(player);
+                   }
+               }
+           }
+       });
+    }
+
     public void shareTerritories() {
         mapState.getTerritoryStates().forEach(territory -> {
             if (territory.isPlayable()) {
@@ -193,23 +210,13 @@ public class Game {
                     condition = false;
                     break;
                 }
-
                 //Look at the current condition.
                 //If wanted add a click here.
                 if (startLocation.getArmies() > attackLocation.getArmies()){
                     condition = true;
                 }
-
-
             }
-
         }
-
-
-
-
-
-
     }
 
     public void fortifyPhase(TerritoryState stateToSendArmiesFrom, TerritoryState stateToSendArmiesTo, int amount) {

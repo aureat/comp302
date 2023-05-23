@@ -55,6 +55,16 @@ public class MapState {
         return states;
     }
 
+
+    public List<TerritoryState> getNeighborsOf(TerritoryState territoryState) {
+        List<TerritoryState> neighbors = new ArrayList<>();
+        territoryState
+                .getTerritoryType()
+                .getNeighbors()
+                .forEach(type -> neighbors.add(territories.get(type)));
+        return neighbors;
+    }
+
     public List<TerritoryState> getTerritoryStates(ContinentState continentState) {
         List<TerritoryState> states = getTerritoryStates();
         states.removeIf(state -> state.getContinent() != continentState.getContinentType());

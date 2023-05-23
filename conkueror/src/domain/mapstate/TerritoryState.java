@@ -5,6 +5,8 @@ import domain.gamemap.TerritoryType;
 import domain.player.Colors;
 import domain.player.Player;
 
+import java.util.List;
+
 public class TerritoryState {
 
     private TerritoryType territoryType;
@@ -19,6 +21,7 @@ public class TerritoryState {
         armies = 0;
         playable = true;
     }
+
 
     public TerritoryType getTerritoryType() {
         return territoryType;
