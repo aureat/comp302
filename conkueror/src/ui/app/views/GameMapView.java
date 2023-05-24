@@ -38,6 +38,7 @@ public class GameMapView extends ViewPanel<GameMapController> {
 
     private JLabel attackLabel= new JLabel();
     private JLabel draftLabel= new JLabel();
+    private ArrayList<ImageButton> draftButtons;
     ImageButton nextButton = new ImageButton(phase.getAsset("next").getImageIcon(64,64),500,500);
 
 
@@ -134,7 +135,7 @@ public class GameMapView extends ViewPanel<GameMapController> {
         nextButton.setBounds(phaseLabel.getWidth()-70,5,64,64);
         phaseLabel.add(nextButton);
 
-        ArrayList<ImageButton> draftButtons = new ArrayList<>();
+        draftButtons = new ArrayList<>();
         for (int i = 0; i<20;i++){
             ImageButton draftButton = new ImageButton(drafts.getAsset(String.format("%d",i+1)).getImageIcon(64,64),500,500);
             draftButton.setBounds(phaseLabel.getWidth()-70,5,64,64);
@@ -177,24 +178,23 @@ public class GameMapView extends ViewPanel<GameMapController> {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Game.getInstance().getPhase() == Phase.Draft){
+                Game.getInstance().nextPhase();
+                if (Game.getInstance().getPhase() == Phase.Attack){
                     attackLabel.setVisible(true);
                     draftLabel.setVisible(false);
                     nextButton.setVisible(true);
-                    int armies = Game.getInstance().getDraftArmies();
-                    draftButtons.get(armies).setVisible(false);
-                    draftButtons.get(armies - 1).setVisible(true);
-                    nextButton.setVisible(false);
-                }else if (Game.getInstance().getPhase()==Phase.Attack) {
+                }else if (Game.getInstance().getPhase()==Phase.Fortify) {
                     fortifyLabel.setVisible(true);
                     attackLabel.setVisible(false);
-                }else if (Game.getInstance().getPhase()==Phase.Fortify) {
+                }else if (Game.getInstance().getPhase()==Phase.Draft) {
                     draftLabel.setVisible(true);
                     fortifyLabel.setVisible(false);
+                    nextButton.setVisible(false);
+                    draftButtons.get(Game.getInstance().getDraftArmies()-1).setVisible(true);
                     turn++;
                     rounder(turn);
+
                 }
-                Game.getInstance().nextPhase();
             }
         });
 
@@ -207,15 +207,6 @@ public class GameMapView extends ViewPanel<GameMapController> {
 
     }
 
-    public void drafter(){
-        attackLabel.setVisible(true);
-        draftLabel.setVisible(false);
-        nextButton.setVisible(true);
-    }
-
-    public void Phaser(){
-
-    }
     public void rounder(int i){
 
         i = i%(Game.getInstance().getPlayersCount());
@@ -237,6 +228,21 @@ public class GameMapView extends ViewPanel<GameMapController> {
         //naLabel1.setBounds(getContainerWidth()-105,21,70,70);
         //naLabel1.add(ncLabel1);
         //phaseLabel.add(naLabel1);
+    }
+    public ArrayList<ImageButton> getDraftButtons(){ return draftButtons; }
+    public void onUpdate(){
+        if(Game.getInstance().getPhase()==Phase.Draft){
+
+            int armies = Game.getInstance().getDraftArmies();
+            draftButtons.get(armies).setVisible(false);
+            if (armies >= 1){
+                draftButtons.get(armies - 1).setVisible(true);
+                nextButton.setVisible(false);
+            }else{
+                draftButtons.get(0).setVisible(false);
+                nextButton.setVisible(true);
+            }
+        }
     }
 
 }

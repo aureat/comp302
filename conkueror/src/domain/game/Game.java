@@ -25,7 +25,6 @@ public class Game {
     private final GameMap map = new ClassicMap();
     private final List<Player> players = new ArrayList<>();
     private int playerCount;
-
     private Phase phase = Phase.Draft;
     private Player currentplayer;
 
@@ -46,10 +45,10 @@ public class Game {
 
         } else if (phase == Phase.Fortify) {
             phase = Phase.Draft;
-            currentplayer = players.get((players.indexOf(currentplayer) + 1) % players.size());
             if (players.indexOf(currentplayer) == players.size()){
-                phaseCounter++;
+                roundCounter++;
             }
+            currentplayer = players.get((players.indexOf(currentplayer) + 1) % players.size());
             doDraftPhase();
         }
     }
@@ -94,6 +93,7 @@ public class Game {
             draftArmies--;
         }
     }
+    public Player getCurrentplayer(){ return currentplayer; }
 
     public void createGameMap() {
         map.createMap();

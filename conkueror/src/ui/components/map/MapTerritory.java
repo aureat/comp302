@@ -12,6 +12,7 @@ import ui.assets.Fonts;
 import ui.graphics.color.ColorGraphics;
 import ui.graphics.color.Palette;
 import util.ClassUtils;
+import ui.app.views.GameMapView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -184,12 +185,11 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
     public void mousePressed(MouseEvent e) {
         if (!isBuildMode && isPlayable) {
             if (Game.getInstance().getPhase() == Phase.Draft){
-                Game.getInstance().setDraftArmies(state);
-                if (Game.getInstance().getDraftArmies()==0){
-                    Game.getInstance().nextPhase();
+                if(state.getOwner()==Game.getInstance().getCurrentplayer()) {
+                    Game.getInstance().setDraftArmies(state);
+                    Route.GameMap.getController().update();
+                    update();
                 }
-                Route.GameMap.getController().update();
-                update();
             } else if (Game.getInstance().getPhase() == Phase.Attack) {
 
             } else if (Game.getInstance().getPhase() == Phase.Fortify) {

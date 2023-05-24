@@ -44,6 +44,7 @@ public class PlayersController extends ViewController {
     @Override
     public void onUpdate() {
         previews.forEach(PlayerPreview::update);
+
     }
 
     public void updatePreviewFor(Player player) {
