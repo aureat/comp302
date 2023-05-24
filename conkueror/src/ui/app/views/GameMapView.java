@@ -242,6 +242,9 @@ public class GameMapView extends ViewPanel<GameMapController> {
                 draftButtons.get(0).setVisible(false);
                 nextButton.setVisible(true);
             }
+        } else if (Game.getInstance().getPhase()==Phase.Attack) {
+            repaint();
+
         }
     }
 

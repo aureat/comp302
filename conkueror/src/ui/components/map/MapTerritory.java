@@ -2,10 +2,13 @@ package ui.components.map;
 
 import domain.game.Game;
 import domain.game.Phase;
+import domain.gamemap.GameMap;
+import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
 import domain.player.Colors;
 import domain.player.Player;
 import ui.app.Context;
+import ui.app.controllers.MapController;
 import ui.app.router.Route;
 import ui.app.views.GameMapView;
 import ui.assets.Fonts;
@@ -191,8 +194,34 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
                     update();
                 }
             } else if (Game.getInstance().getPhase() == Phase.Attack) {
+                if (state.getOwner() == Game.getInstance().getCurrentplayer() && state.canStartAttack()) {
+                    MapController.deselectAll();
+                    for (TerritoryState territory : MapState.getInstance().getTerritories().values()) {
+                        if (territory.isAttacker()) {
+                            territory.setAttacker(false);
+                        }
+                    }
+                    setSelected(true);
+                    state.setAttacker(true);
+                    Route.GameMap.getController().update();
+                    MapController.map.repaint();
+                } else if (state.getOwner() != Game.getInstance().getCurrentplayer()) {
+                    for (TerritoryState territory : MapState.getInstance().getTerritories().values()) {
+                        if (territory.isAttacker()) {
+                            for (TerritoryState t : MapState.getInstance().getNeighborsOf(territory) ){
+                                if(t==state){
+                                    Game.getInstance().attackPhase(territory,state);
+                                    territory.setAttacker(false);
+                                    Route.GameMap.getController().update();
+                                    MapController.map.repaint();
+                                }
+                            }
+                        }
+                }
+            }
 
-            } else if (Game.getInstance().getPhase() == Phase.Fortify) {
+
+        } else if (Game.getInstance().getPhase() == Phase.Fortify) {
 
             }
         }

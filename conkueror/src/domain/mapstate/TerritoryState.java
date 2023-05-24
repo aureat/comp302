@@ -14,6 +14,8 @@ public class TerritoryState {
     private Player owner;
     private int armies;
     private boolean playable;
+    private boolean attacker;
+    private boolean defender;
 
     public TerritoryState(TerritoryType territoryType) {
         this.territoryType = territoryType;
@@ -90,5 +92,19 @@ public class TerritoryState {
     public boolean canStartFortify() {
         return playable && owner != null && armies > 1;
     }
+    public boolean isAttacker(){
+        return attacker;
+    }
 
+    public boolean isDefender() {
+        return defender;
+    }
+
+    public void setDefender(boolean defender) {
+        this.defender = defender;
+    }
+
+    public void setAttacker(boolean attacker) {
+        this.attacker = attacker;
+    }
 }

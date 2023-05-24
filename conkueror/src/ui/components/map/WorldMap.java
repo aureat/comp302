@@ -2,6 +2,7 @@ package ui.components.map;
 
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
+import ui.app.controllers.MapController;
 import ui.graphics.MapGraphics;
 
 import javax.swing.*;
@@ -30,6 +31,7 @@ public class WorldMap extends JPanel {
         setPreferredSize(new Dimension(1091, 710));
         setOpaque(false);
         this.isBuildMode = isBuildMode;
+        MapController.map = this;
     }
 
     public boolean isBuildMode() {
@@ -145,6 +147,10 @@ public class WorldMap extends JPanel {
         drawOutline(g, mapGraphics.shapeIndonesiaOutline, 775, 412);
         drawOutline(g, mapGraphics.shapeNewGuineaOutline, 939, 408);
         drawOutline(g, mapGraphics.shapeOceaniaOutline, 868, 497);
+    }
+
+    public List<MapTerritory> getTerritories(){
+        return territories;
     }
 
 }
