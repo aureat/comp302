@@ -43,6 +43,7 @@ public class Game {
             phase = Phase.Attack;
         } else if (phase == Phase.Attack) {
             phase = Phase.Fortify;
+
         } else if (phase == Phase.Fortify) {
             phase = Phase.Draft;
             currentplayer = players.get((players.indexOf(currentplayer) + 1) % players.size());
@@ -221,8 +222,8 @@ public class Game {
 
     public void fortifyPhase(TerritoryState stateToSendArmiesFrom, TerritoryState stateToSendArmiesTo, int amount) {
         if (amount<=stateToSendArmiesFrom.getArmies()) {
-            stateToSendArmiesFrom.decArmies(amount);
-            stateToSendArmiesTo.incArmies(amount);
+            stateToSendArmiesFrom.removeArmies(amount);
+            stateToSendArmiesTo.addArmies(amount);
         }}
 
     private void findAndSetConfig() {

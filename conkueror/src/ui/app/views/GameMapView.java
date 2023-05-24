@@ -164,33 +164,37 @@ public class GameMapView extends ViewPanel<GameMapController> {
 
 
         int armies = Game.getInstance().getDraftArmies();
-        draftButtons.get(armies - 1).setVisible(true);
-        nextButton.setVisible(false);
+        if (armies == 0){
+            nextButton.setVisible(false);
+        }else{
+            draftButtons.get(armies - 1).setVisible(true);
+            nextButton.setVisible(false);
+        }
+
 
 
 
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (draftLabel.isVisible()){
+                if (Game.getInstance().getPhase() == Phase.Draft){
                     attackLabel.setVisible(true);
                     draftLabel.setVisible(false);
                     nextButton.setVisible(true);
-                }else if (attackLabel.isVisible()) {
+                    int armies = Game.getInstance().getDraftArmies();
+                    draftButtons.get(armies).setVisible(false);
+                    draftButtons.get(armies - 1).setVisible(true);
+                    nextButton.setVisible(false);
+                }else if (Game.getInstance().getPhase()==Phase.Attack) {
                     fortifyLabel.setVisible(true);
                     attackLabel.setVisible(false);
-                }else if (fortifyLabel.isVisible()) {
+                }else if (Game.getInstance().getPhase()==Phase.Fortify) {
                     draftLabel.setVisible(true);
                     fortifyLabel.setVisible(false);
                     turn++;
                     rounder(turn);
                 }
                 Game.getInstance().nextPhase();
-                if (Game.getInstance().getPhase() == Phase.Draft) {
-                    int armies = Game.getInstance().getDraftArmies();
-                    draftButtons.get(armies - 1).setVisible(true);
-                    nextButton.setVisible(false);
-                }
             }
         });
 
@@ -209,6 +213,9 @@ public class GameMapView extends ViewPanel<GameMapController> {
         nextButton.setVisible(true);
     }
 
+    public void Phaser(){
+
+    }
     public void rounder(int i){
 
         i = i%(Game.getInstance().getPlayersCount());

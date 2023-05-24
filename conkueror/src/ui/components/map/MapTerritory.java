@@ -185,6 +185,9 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
         if (!isBuildMode && isPlayable) {
             if (Game.getInstance().getPhase() == Phase.Draft){
                 Game.getInstance().setDraftArmies(state);
+                if (Game.getInstance().getDraftArmies()==0){
+                    Game.getInstance().nextPhase();
+                }
                 Route.GameMap.getController().update();
                 update();
             } else if (Game.getInstance().getPhase() == Phase.Attack) {

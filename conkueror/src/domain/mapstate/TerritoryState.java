@@ -52,11 +52,11 @@ public class TerritoryState {
     }
 
     public void addArmies(int amount) {
-        this.armies += armies;
+        this.armies += amount;
     }
 
     public void removeArmies(int amount) {
-        this.armies -= armies;
+        this.armies -= amount;
     }
 
     public boolean isPlayable() {
@@ -91,11 +91,4 @@ public class TerritoryState {
         return playable && owner != null && armies > 1;
     }
 
-    public void decArmies(int amount) {
-        this.armies -= armies;
-    }
-
-    public void incArmies(int amount) {
-        this.armies += armies;
-    }
 }
