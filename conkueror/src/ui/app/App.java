@@ -47,11 +47,11 @@ public class App {
                 protected Void doInBackground() throws Exception {
                     appController.create();
                     appController.runApplicationLoader();
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        Thread.sleep(2000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                     return null;
                 }
 

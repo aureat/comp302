@@ -2,12 +2,10 @@ package domain.game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import java.util.Collections;
 
-import domain.game.Phase;
 import domain.maps.ClassicMap;
 import domain.player.Player;
 import domain.game.config.GameConfig;
@@ -16,7 +14,6 @@ import domain.util.CoreUtils;
 import domain.card.ChanceCard;
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
-import domain.gamemap.TerritoryType;
 
 public class Game {
 
@@ -34,6 +31,7 @@ public class Game {
     private int draftArmies;
     private ChanceCard currentcard;
     private ArrayList<TerritoryState> initialTerrDistrubution;
+
 
     private int roundCount;
 
@@ -139,21 +137,65 @@ public class Game {
     }
 
     public void shareTerritories() {
+        players.forEach(player -> {
+            player.setNumberOfTerritories(0);
+        });
+        int territorycount = Math.floorDiv(mapState.getTerritoryStates().size(), players.size());
         mapState.getTerritoryStates().forEach(territory -> {
-            if (territory.isPlayable()) {
-                Player player = CoreUtils.chooseRandom(players);
+            Player player = CoreUtils.chooseRandom(players);
+            if (territory.isPlayable()  && territorycount>player.getNumberOfTerritories() && territory.getOwner()==null) {
                 player.addTerritory(territory);
+                player.increaseNumberOfTerrirtories();
                 territory.setOwner(player);
+                List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
+                for (TerritoryState neighbor : neighbors) {
+                    if(territorycount>player.getNumberOfTerritories() && neighbor.getOwner()==null ){
+                        player.addTerritory(neighbor);
+                        neighbor.setOwner(player);
+                        player.increaseNumberOfTerrirtories();
+                    }
+
+                }
             }
         });
+        for (int i =0; i< players.size(); i++){
+
+            System.out.println(players.get(i).getFullName());
+            System.out.println(players.get(i).getNumberOfTerritories());
+        }
+        mapState.getTerritoryStates().forEach(terr ->{
+            if(terr.getOwner()==null){
+                players.forEach(player -> {
+                    if(player.getNumberOfTerritories()<territorycount){
+                        player.addTerritory(terr);
+                        player.increaseNumberOfTerrirtories();
+                        terr.setOwner(player);
+                    }
+                });
+                if(terr.getOwner()==null){
+                    terr.setPlayable(false);
+                }
+            }
+
+        });
+        for (int i =0; i< players.size(); i++){
+
+            System.out.println(players.get(i).getFullName());
+            System.out.println(players.get(i).getNumberOfTerritories());
+        }
+
         int armies = getInitialArmies();
         mapState.getTerritoryStates().forEach(state -> {
-            state.setArmies(Math.floorDiv(armies,state.getOwner().getTerritoryCount()));
+            if(state.getOwner()!=null){
+                state.setArmies(Math.floorDiv(armies,state.getOwner().getNumberOfTerritories()));
+            }
         });
 
         currentplayer = players.get(0);
         doDraftPhase();
     }
+
+
 
     public int getInitialArmies(){
         int armies;

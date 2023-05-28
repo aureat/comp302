@@ -15,6 +15,19 @@ public class Player {
     private Avatars.AvatarType avatar;
     private boolean isComputer;
 
+    public int getNumberOfTerritories() {
+        return numberOfTerritories;
+    }
+
+    public void setNumberOfTerritories(int numberOfTerritories) {
+        this.numberOfTerritories = numberOfTerritories;
+    }
+    public void increaseNumberOfTerrirtories(){
+        this.numberOfTerritories++;
+    }
+
+    private int numberOfTerritories;
+
     private List<TerritoryState> territories = new ArrayList<>();
 
     public Player() {
