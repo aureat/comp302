@@ -11,7 +11,7 @@ import domain.player.Player;
 import domain.game.config.GameConfig;
 import domain.gamemap.GameMap;
 import domain.util.CoreUtils;
-import domain.card.ChanceCard;
+//import domain.card.ChanceCard;
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
 
@@ -29,7 +29,7 @@ public class Game {
     private int turnCounter;
     private int roundCounter;
     private int draftArmies;
-    private ChanceCard currentcard;
+//    private ChanceCard currentcard;
     private ArrayList<TerritoryState> initialTerrDistrubution;
     private Dice dice = new Dice();
 
