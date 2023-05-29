@@ -9,18 +9,16 @@ public class ChanceCard {
     public enum Type {
         Revolt,
         NuclearStrike,
-        Sabotage,
-        DiplomaticImmunity,
-        Mercenaries,
-        Revolution,
         Draft,
         Bombardment,
         Reinforcements
+
     }
 
     public static Type[] withEffects = {
-            Type.DiplomaticImmunity,
-            Type.Mercenaries,
+            Type.Reinforcements,
+            Type.Revolt,
+            Type.NuclearStrike,
             Type.Draft,
             Type.Bombardment
     };
