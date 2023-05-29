@@ -31,6 +31,7 @@ public class Game {
     private int draftArmies;
     private ChanceCard currentcard;
     private ArrayList<TerritoryState> initialTerrDistrubution;
+    private Dice dice = new Dice();
 
 
     private int roundCount;
@@ -230,43 +231,58 @@ public class Game {
         return armies;
     }
 
-    public void attackPhase(TerritoryState startLocation, TerritoryState attackLocation) {
+    public void attackPhase(TerritoryState attack, TerritoryState defence) {
 
-        boolean condition;
-        //This could be work on clicked
-        Dice dice = new Dice();
-        if (startLocation.getArmies() > attackLocation.getArmies()){
-            condition = true;
-            while(condition){
-                //Roll the dice
-                boolean diceValue;
-                int diceValueStart = dice.roll();
-                int diceValueAttack = dice.roll();
-                if(diceValueStart > diceValueAttack){
-                    diceValue = true;
+        if(attack.getArmies() > defence.getArmies() && attack.getArmies()>2){
+            int attackDice = Dice.roll();
+            int defenceDice = Dice.roll();
+            if(defenceDice <= attackDice){
+                defence.setArmies(defence.getArmies()-1);
+                if(defence.getArmies()==0){
+                    defence.setOwner(attack.getOwner());
+                    defence.setArmies(1);
+                    attack.setArmies(attack.getArmies()-1);
                 }
-                else{
-                    diceValue = false;
-                }
-                //Check the dice condition
-                if (diceValue){//To be true if start location won.
-                    attackLocation.setArmies(attackLocation.getArmies()-1);
-                }
-                else {
-                    startLocation.setArmies(startLocation.getArmies() - 1);
-                }
-                //Check the current value of territories
-                if (startLocation.getArmies() <= attackLocation.getArmies()){
-                    condition = false;
-                    break;
-                }
-                //Look at the current condition.
-                //If wanted add a click here.
-                if (startLocation.getArmies() > attackLocation.getArmies()){
-                    condition = true;
-                }
+            }else{
+                attack.setArmies(attack.getArmies()-2);
             }
         }
+
+
+//        boolean condition;
+        //This could be work on clicked
+//        if (startLocation.getArmies() > attackLocation.getArmies()){
+//            condition = true;
+//            while(condition){
+//                //Roll the dice
+//                boolean diceValue;
+//                int diceValueStart = dice.roll();
+//                int diceValueAttack = dice.roll();
+//                if(diceValueStart > diceValueAttack){
+//                    diceValue = true;
+//                }
+//                else{
+//                    diceValue = false;
+//                }
+//                //Check the dice condition
+//                if (diceValue){//To be true if start location won.
+//                    attackLocation.setArmies(attackLocation.getArmies()-1);
+//                }
+//                else {
+//                    startLocation.setArmies(startLocation.getArmies() - 1);
+//                }
+//                //Check the current value of territories
+//                if (startLocation.getArmies() <= attackLocation.getArmies()){
+//                    condition = false;
+//                    break;
+//                }
+//                //Look at the current condition.
+//                //If wanted add a click here.
+//                if (startLocation.getArmies() > attackLocation.getArmies()){
+//                    condition = true;
+//                }
+//            }
+//        }
     }
 
     public void fortifyPhase(TerritoryState from, TerritoryState to) {
