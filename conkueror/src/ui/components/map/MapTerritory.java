@@ -209,11 +209,13 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
                     for (TerritoryState territory : MapState.getInstance().getTerritories().values()) {
                         if (territory.isAttacker()) {
                             for (TerritoryState t : MapState.getInstance().getNeighborsOf(territory) ){
-                                if(t==state){
-                                    Game.getInstance().attackPhase(territory,state);
+                                if(t==state) {
+                                    Game.getInstance().attackPhase(territory, state);
                                     territory.setAttacker(false);
-                                    Route.GameMap.getController().update();
+                                    Route.GameMap.update();
                                     MapController.map.repaint();
+                                    MapController.map.updateOnMap(territory);
+                                    MapController.map.updateOnMap(state);
                                 }
                             }
                         }

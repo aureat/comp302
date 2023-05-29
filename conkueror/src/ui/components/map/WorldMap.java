@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class WorldMap extends JPanel {
 
@@ -121,6 +122,10 @@ public class WorldMap extends JPanel {
         g2d.translate(x, y);
         g2d.fill(shape);
         g2d.draw(shape);
+    }
+
+    public void updateOnMap(TerritoryState territoryState) {
+        territories.stream().filter(t -> t.getState() == territoryState).findFirst().ifPresent(MapTerritory::update);
     }
 
     @Override
