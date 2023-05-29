@@ -35,6 +35,10 @@ public class WorldMap extends JPanel {
         MapController.map = this;
     }
 
+    public List<MapTerritory> getTerritories() {
+        return territories;
+    }
+
     public boolean isBuildMode() {
         return isBuildMode;
     }
@@ -152,10 +156,6 @@ public class WorldMap extends JPanel {
         drawOutline(g, mapGraphics.shapeIndonesiaOutline, 775, 412);
         drawOutline(g, mapGraphics.shapeNewGuineaOutline, 939, 408);
         drawOutline(g, mapGraphics.shapeOceaniaOutline, 868, 497);
-    }
-
-    public List<MapTerritory> getTerritories(){
-        return territories;
     }
 
 }

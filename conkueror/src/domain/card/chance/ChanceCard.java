@@ -1,4 +1,4 @@
-package domain.card;
+package domain.card.chance;
 
 import domain.util.CoreUtils;
 
@@ -6,57 +6,29 @@ import java.util.Arrays;
 
 public class ChanceCard {
 
-    public enum Type {
-        Revolt,
-        NuclearStrike,
-        Draft,
-        Bombardment,
-        Reinforcements
+    private EffectType effect;
 
-    }
-
-    public static Type[] withEffects = {
-            Type.Reinforcements,
-            Type.Revolt,
-            Type.NuclearStrike,
-            Type.Draft,
-            Type.Bombardment
-    };
-
-    private Type type;
-
-    public ChanceCard(Type type) {
-        this.type = type;
+    public ChanceCard(EffectType type) {
+        this.effect = type;
     }
 
     public ChanceCard() {
-        this.type = ChanceCard.getRandomType();
+        this.effect = ChanceCard.getRandomType();
     }
 
-    public Type getType() {
-        return type;
+    public EffectType getEffect() {
+        return effect;
     }
 
     public String toString() {
-        return ChanceCard.typeToString(type);
+        return typeToString(effect);
     }
 
-    public boolean hasEffect() {
-        return Arrays.asList(withEffects).contains(type);
+    public static EffectType getRandomType() {
+        return CoreUtils.chooseRandom(EffectType.values());
     }
 
-    public Type getEffect() {
-//        Game game = Game.getInstance();
-        if (Arrays.asList(withEffects).contains(type))
-            return type;
-        return null;
-    }
-
-    public static Type getRandomType() {
-        return CoreUtils.chooseRandom(Type.values());
-    }
-
-    public static String typeToString(Type type) {
+    public static String typeToString(EffectType type) {
         return type.toString().replaceAll("(.)([A-Z])", "$1 $2");
     }
 

@@ -45,6 +45,7 @@ public enum Assets {
 
     Assets(String basePath) {
         this(basePath, 0, 0);
+
     }
 
     Assets(String basePath, int width, int height) {

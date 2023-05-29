@@ -28,6 +28,7 @@ public class MainView extends ViewPanel<MainController> {
         Assets.ButtonLg.loadAsset("new-game");
         Assets.ButtonLg.loadAsset("continue-game");
         Assets.ButtonLg.loadAsset("exit");
+
     }
 
     public void initialize() {

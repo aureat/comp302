@@ -48,7 +48,6 @@ public class HelpView extends ViewPanel<HelpController> {
         stack1.addButton(menu.getAsset("resume"))
                 .addActionListener(e -> getController().redirect(Route.GameMap));
 
-
         // center the stack in the panel
         stack1.setBounds(
                 21,

@@ -90,7 +90,7 @@ public class Router {
      * Exception for illegal routes.
      * @since 0.4.0
      */
-    public static class IllegalRouteException extends Exception{
+    public static class IllegalRouteException extends Exception {
 
         public IllegalRouteException(String message){
             super(message);
@@ -107,7 +107,7 @@ public class Router {
      * Exception for router configuration errors.
      * @since 0.4.0
      */
-    public static class RouterConfigException extends Exception{
+    public static class RouterConfigException extends Exception {
 
         public RouterConfigException(String message){
             super(message);

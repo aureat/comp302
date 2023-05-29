@@ -1,2 +1,9 @@
-package domain.card.chance;public enum EffectType {
+package domain.card.chance;
+
+public enum EffectType {
+    Revolt,
+    NuclearStrike,
+    Draft,
+    Bombardment,
+    Reinforcements
 }

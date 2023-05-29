@@ -1654,7 +1654,6 @@ public class MapGraphics {
 
     public static Shape createWesternAmerica() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(23, 10);
         path.lineTo(25, 1);
         path.lineTo(115, 1);
@@ -1671,15 +1670,12 @@ public class MapGraphics {
         path.lineTo(1, 56);
         path.lineTo(7, 34);
         path.lineTo(23, 10);
-
         path.closePath();
-
         return transformShape(path);
     }
 
     public static Shape createOntario() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(67, 44);
         path.lineTo(74, 51);
         path.lineTo(72, 67);
@@ -1703,9 +1699,9 @@ public class MapGraphics {
         path.closePath();
         return transformShape(path);
     }
+
     public static Shape createBrazil() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(99, 175);
         path.lineTo(90, 189);
         path.lineTo(83, 182);
@@ -1746,9 +1742,9 @@ public class MapGraphics {
         path.closePath();
         return transformShape(path);
     }
+
     public static Shape createAzerbaijan() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(16, 54);
         path.lineTo(7, 48);
         path.lineTo(1, 35);
@@ -1767,12 +1763,7 @@ public class MapGraphics {
         path.lineTo(16, 54);
         path.closePath();
         return transformShape(path);
-
     }
-
-
-
-    // 3.5GPT
 
     public static Shape createNorthAfrica(){
         Path2D.Double path = new Path2D.Double();
@@ -1812,6 +1803,7 @@ public class MapGraphics {
         path.closePath();
         return transformShape(path);
     }
+
     public static Shape createNorthernEurope(){
         Path2D.Double path = new Path2D.Double();
         path.moveTo(71, 6);
@@ -1838,6 +1830,7 @@ public class MapGraphics {
         path.closePath();
         return transformShape(path);
     }
+
     public static Shape createPeru(){
         Path2D.Double path = new Path2D.Double();
         path.moveTo(4, 17);
@@ -1947,6 +1940,7 @@ public class MapGraphics {
         path.closePath();
         return transformShape(path);
     }
+
     public static Shape createScandinavia(){
         Path2D.Double path = new Path2D.Double();
         path.moveTo(44, 18);
@@ -1974,9 +1968,9 @@ public class MapGraphics {
         path.lineTo(35, 36);
         path.lineTo(44, 18);
         path.closePath();
-
         return transformShape(path);
     }
+
     public static Shape createSiam(){
         Path2D.Double path = new Path2D.Double();
         path.moveTo(10, 76);
@@ -2034,6 +2028,7 @@ public class MapGraphics {
         path.closePath();
         return transformShape(path);
     }
+
     public static Shape createSouthernEurope(){
         Path2D.Double path = new Path2D.Double();
         path.moveTo(15, 47);
@@ -2059,9 +2054,9 @@ public class MapGraphics {
         path.lineTo(18, 53);
         path.lineTo(15, 47);
         path.closePath();
-
         return transformShape(path);
     }
+
     public static Shape createTurkey(){
         Path2D.Double path = new Path2D.Double();
         path.moveTo(13, 69);
@@ -2194,7 +2189,6 @@ public class MapGraphics {
         path.lineTo(67, 14);
         path.lineTo(76, 2);
         path.closePath();
-
         return transformShape(path);
     }
 
