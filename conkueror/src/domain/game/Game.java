@@ -158,11 +158,11 @@ public class Game {
                 }
             }
         });
-        for (int i =0; i< players.size(); i++){
-
-            System.out.println(players.get(i).getFullName());
-            System.out.println(players.get(i).getNumberOfTerritories());
-        }
+//        for (int i =0; i< players.size(); i++){
+//
+//            System.out.println(players.get(i).getFullName());
+//            System.out.println(players.get(i).getNumberOfTerritories());
+//        }
         mapState.getTerritoryStates().forEach(terr ->{
             if(terr.getOwner()==null){
                 players.forEach(player -> {
@@ -173,16 +173,23 @@ public class Game {
                     }
                 });
                 if(terr.getOwner()==null){
-                    terr.setPlayable(false);
+                    // if we want everyone to have same number of territories and armies
+                    //terr.setPlayable(false);
+                    // if we want to give all enabled territories to random players
+                    Player luckyPlayer = CoreUtils.chooseRandom(players);
+                    luckyPlayer.addTerritory(terr);
+                    luckyPlayer.increaseNumberOfTerrirtories();
+                    terr.setOwner(luckyPlayer);
+
                 }
             }
 
         });
-        for (int i =0; i< players.size(); i++){
-
-            System.out.println(players.get(i).getFullName());
-            System.out.println(players.get(i).getNumberOfTerritories());
-        }
+//        for (int i =0; i< players.size(); i++){
+//
+//            System.out.println(players.get(i).getFullName());
+//            System.out.println(players.get(i).getNumberOfTerritories());
+//        }
 
         int armies = getInitialArmies();
         mapState.getTerritoryStates().forEach(state -> {
@@ -262,11 +269,12 @@ public class Game {
         }
     }
 
-    public void fortifyPhase(TerritoryState stateToSendArmiesFrom, TerritoryState stateToSendArmiesTo, int amount) {
-        if (amount<=stateToSendArmiesFrom.getArmies()) {
-            stateToSendArmiesFrom.removeArmies(amount);
-            stateToSendArmiesTo.addArmies(amount);
-        }}
+    public void fortifyPhase(TerritoryState from, TerritoryState to) {
+        if (from.getArmies()>1) {
+            from.setArmies(from.getArmies()-1);
+            to.setArmies(to.getArmies()+1);
+        }
+    }
 
     private void findAndSetConfig() {
         try {
