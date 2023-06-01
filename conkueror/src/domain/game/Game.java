@@ -286,7 +286,7 @@ public class Game {
     }
 
     public void fortifyPhase(TerritoryState from, TerritoryState to) {
-        if (from.getArmies()>1) {
+        if (from.getArmies()>1 && from.getOwner()==to.getOwner()) {
             from.setArmies(from.getArmies()-1);
             to.setArmies(to.getArmies()+1);
         }
