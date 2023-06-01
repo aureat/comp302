@@ -221,10 +221,37 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
                         }
                 }
             }
-
-
-        } else if (Game.getInstance().getPhase() == Phase.Fortify) {
-
+            } else if (Game.getInstance().getPhase() == Phase.Fortify) {
+                if (state.getOwner() == Game.getInstance().getCurrentplayer()&& !(state.isDonor())) {
+                    setSelected(true);
+                    state.setDonor(true);
+                    for (TerritoryState t : state.getOwner().getTerritories()){
+                        if (t!=state && t.isDonor()){
+                            setSelected(false);
+                            state.setDonor(false);
+                            Game.getInstance().fortifyPhase(t,state);
+                            MapController.deselectAll();
+                            t.setDonor(false);
+                            Route.GameMap.update();
+                            MapController.map.repaint();
+                            MapController.map.updateOnMap(t);
+                            MapController.map.updateOnMap(state);
+                        }
+                    }
+                    Route.GameMap.update();
+                    MapController.map.updateOnMap(state);
+                    Route.GameMap.getController().update();
+                    update();
+                    MapController.map.repaint();
+                }else if (state.getOwner() == Game.getInstance().getCurrentplayer()&& state.isDonor()){
+                    setSelected(false);
+                    state.setDonor(false);
+                    Route.GameMap.update();
+                    MapController.map.updateOnMap(state);
+                    Route.GameMap.getController().update();
+                    update();
+                    MapController.map.repaint();
+                }
             }
         }
         if (isBuildMode) {
