@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="circular">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/conkueror/resources/images/avatars/circular/circular.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
