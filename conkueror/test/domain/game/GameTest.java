@@ -28,6 +28,8 @@ public class GameTest {
         assertEquals(result,game.getInitialArmies());
     }
 
+    //needs create game map and share territories call from game
+    //ensures that each territory has an owner
     @Test
     void shareTerritoriesTest1(){
         game.createGameMap();
@@ -36,14 +38,16 @@ public class GameTest {
             assertTrue(terr.getOwner()!=null,"True");
         });
     }
-
+    //needs create game map and share territories call from game
+    //ensures that first round after sharing territories is draft phase
     @Test
     void shareTerritoriesTest2(){
         game.createGameMap();
         game.shareTerritories();
         assertTrue(game.getPhase()==Phase.Draft,"true");
     }
-
+    //needs create game map and share territories call from game
+    //ensures that total number of armies in the game is 78
     @Test
     void shareTerritoriesTest3(){
         game.createGameMap();
@@ -54,7 +58,8 @@ public class GameTest {
         }
         assertEquals(totalArmies,78);
     }
-
+    //needs create game map and share territories call from game
+    //ensures that each player gets exactly 13 territories
     @Test
     void shareTerritoriesTest4(){
         game.createGameMap();
@@ -63,7 +68,8 @@ public class GameTest {
             assertTrue(player.getNumberOfTerritories()==13,"true");
         });
     }
-
+    //needs create game map and share territories call from game
+    //ensures that each territory has 2 armies
     @Test
     void shareTerritoriesTest5(){
         game.createGameMap();
