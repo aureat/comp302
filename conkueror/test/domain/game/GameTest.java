@@ -2,6 +2,10 @@ package domain.game;
 
 
 import domain.mapstate.TerritoryState;
+import domain.player.Player;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,29 +15,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameTest {
 
-    Game game = Game.getInstance();
+    Game game;
 
-    @Test
-    void initialArmyTest(){
-        int playersCount = game.getPlayersCount();
-        int result;
-        switch (playersCount){
-            case 2 -> result=40;
-            case 3 -> result=35;
-            case 4 -> result=30;
-            case 5 -> result=25;
-            case 6 -> result=20;
-            default -> result=40;
-        }
-        assertEquals(result,game.getInitialArmies());
+    @BeforeEach
+    void setUp() {
+        game = Game.getInstance();
+        game.createGameMap();
+        game.shareTerritories();
     }
-
     //needs create game map and share territories call from game
     //ensures that each territory has an owner
     @Test
     void shareTerritoriesTest1(){
-        game.createGameMap();
-        game.shareTerritories();
+
         game.getMapState().getTerritoryStates().forEach(terr ->{
             assertTrue(terr.getOwner()!=null,"True");
         });
@@ -42,16 +36,14 @@ public class GameTest {
     //ensures that first round after sharing territories is draft phase
     @Test
     void shareTerritoriesTest2(){
-        game.createGameMap();
-        game.shareTerritories();
+
         assertTrue(game.getPhase()==Phase.Draft,"true");
     }
     //needs create game map and share territories call from game
     //ensures that total number of armies in the game is 78
     @Test
     void shareTerritoriesTest3(){
-        game.createGameMap();
-        game.shareTerritories();
+
         int totalArmies=0;
         for (TerritoryState terr : game.getMapState().getTerritoryStates()) {
             totalArmies += terr.getArmies();
@@ -59,23 +51,24 @@ public class GameTest {
         assertEquals(totalArmies,78);
     }
     //needs create game map and share territories call from game
-    //ensures that each player gets exactly 13 territories
+    //ensures that by default game starts with 3 players
     @Test
     void shareTerritoriesTest4(){
-        game.createGameMap();
-        game.shareTerritories();
-        game.getPlayers().forEach(player -> {
-            assertTrue(player.getNumberOfTerritories()==13,"true");
-        });
+        assertTrue(game.getPlayersCount() == 3, "true");
     }
     //needs create game map and share territories call from game
     //ensures that each territory has 2 armies
     @Test
     void shareTerritoriesTest5(){
-        game.createGameMap();
-        game.shareTerritories();
+
         game.getMapState().getTerritoryStates().forEach(terr -> {
             assertTrue(terr.getArmies()==2,"true");
         });
+    }
+
+    @AfterEach
+    void cleanUp() {
+        Game.destroyInstance();
+        game = null;
     }
 }

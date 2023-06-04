@@ -57,13 +57,19 @@ public class Game {
     }
 
     private static class GameContainer {
-        private static final Game instance = new Game();
+        private static Game instance;
     }
 
     public static Game getInstance() {
+        if (GameContainer.instance == null) {
+            GameContainer.instance = new Game();
+        }
         return GameContainer.instance;
     }
 
+    public static void destroyInstance() {
+        GameContainer.instance = null;
+    }
     public int getPlayerCount() {
         return players.size();
     }
