@@ -33,15 +33,11 @@ public class Game {
     private ArrayList<TerritoryState> initialTerrDistrubution;
     private Dice dice = new Dice();
 
-
-    private int roundCount;
-
     public void nextPhase() {
         if(phase == Phase.Draft) {
             phase = Phase.Attack;
         } else if (phase == Phase.Attack) {
             phase = Phase.Fortify;
-
         } else if (phase == Phase.Fortify) {
             phase = Phase.Draft;
             if (players.indexOf(currentplayer) == players.size()){
@@ -53,15 +49,26 @@ public class Game {
     }
 
     private static class GameContainer {
-        private static final Game instance = new Game();
+        private static Game instance;
     }
 
     public static Game getInstance() {
+        if (GameContainer.instance == null) {
+            GameContainer.instance = new Game();
+        }
         return GameContainer.instance;
+    }
+
+    public static void destroyInstance() {
+        GameContainer.instance = null;
     }
 
     public int getPlayerCount() {
         return players.size();
+    }
+
+    public int getRoundCount() {
+        return roundCounter;
     }
 
     private Game() {
@@ -92,6 +99,7 @@ public class Game {
             draftArmies--;
         }
     }
+
     public Player getCurrentplayer(){ return currentplayer; }
 
     public void createGameMap() {
@@ -120,7 +128,7 @@ public class Game {
         Collections.shuffle(players);
     }
 
-    public void selectTerritories(){
+    public void selectTerritories() {
        mapState.getTerritoryStates().forEach(territory ->{
            if(territory.isPlayable() && (territory.getOwner()==null)){
                List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
@@ -181,6 +189,8 @@ public class Game {
                     luckyPlayer.addTerritory(terr);
                     luckyPlayer.increaseNumberOfTerrirtories();
                     terr.setOwner(luckyPlayer);
+
+
 
                 }
             }
