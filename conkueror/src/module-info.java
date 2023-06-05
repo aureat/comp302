@@ -15,4 +15,5 @@ module conkueror {
     requires org.jetbrains.annotations;
     requires jdk.jfr;
     requires org.reflections;
+    requires org.junit.jupiter.api;
 }

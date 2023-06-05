@@ -2,7 +2,6 @@ package domain.game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import java.util.Collections;
 
@@ -18,6 +17,11 @@ import domain.mapstate.TerritoryState;
 public class Game {
 
     private static GameConfig config;
+
+    public MapState getMapState() {
+        return mapState;
+    }
+
     private MapState mapState;
     private final GameMap map = new ClassicMap();
     private final List<Player> players = new ArrayList<>();
@@ -146,14 +150,14 @@ public class Game {
             Player player = CoreUtils.chooseRandom(players);
             if (territory.isPlayable()  && territorycount>player.getNumberOfTerritories() && territory.getOwner()==null) {
                 player.addTerritory(territory);
-                player.increaseNumberOfTerrirtories();
+                player.increaseNumberOfTerritories();
                 territory.setOwner(player);
                 List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
                 for (TerritoryState neighbor : neighbors) {
                     if(territorycount>player.getNumberOfTerritories() && neighbor.getOwner()==null ){
                         player.addTerritory(neighbor);
                         neighbor.setOwner(player);
-                        player.increaseNumberOfTerrirtories();
+                        player.increaseNumberOfTerritories();
                     }
 
                 }
@@ -169,7 +173,7 @@ public class Game {
                 players.forEach(player -> {
                     if(player.getNumberOfTerritories()<territorycount){
                         player.addTerritory(terr);
-                        player.increaseNumberOfTerrirtories();
+                        player.increaseNumberOfTerritories();
                         terr.setOwner(player);
                     }
                 });
@@ -179,7 +183,7 @@ public class Game {
                     // if we want to give all enabled territories to random players
                     Player luckyPlayer = CoreUtils.chooseRandom(players);
                     luckyPlayer.addTerritory(terr);
-                    luckyPlayer.increaseNumberOfTerrirtories();
+                    luckyPlayer.increaseNumberOfTerritories();
                     terr.setOwner(luckyPlayer);
 
                 }
@@ -286,7 +290,7 @@ public class Game {
     }
 
     public void fortifyPhase(TerritoryState from, TerritoryState to) {
-        if (from.getArmies()>1) {
+        if (from.getArmies()>1 && from.getOwner()==to.getOwner()) {
             from.setArmies(from.getArmies()-1);
             to.setArmies(to.getArmies()+1);
         }

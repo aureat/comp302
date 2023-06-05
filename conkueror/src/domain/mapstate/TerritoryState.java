@@ -16,6 +16,8 @@ public class TerritoryState {
     private boolean playable;
     private boolean attacker;
     private boolean defender;
+    private boolean donor;
+    private boolean receiver;
 
     public TerritoryState(TerritoryType territoryType) {
         this.territoryType = territoryType;
@@ -106,5 +108,21 @@ public class TerritoryState {
 
     public void setAttacker(boolean attacker) {
         this.attacker = attacker;
+    }
+
+    public boolean isReceiver() {
+        return receiver;
+    }
+
+    public boolean isDonor() {
+        return donor;
+    }
+
+    public void setReceiver(boolean receiver) {
+        this.receiver = receiver;
+    }
+
+    public void setDonor(boolean donor) {
+        this.donor = donor;
     }
 }

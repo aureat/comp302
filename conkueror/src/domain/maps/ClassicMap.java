@@ -128,6 +128,8 @@ public class ClassicMap extends GameMap {
     }
 
     public void createMap() {
+        setName();
+        setDescription();
         createContinents(Continent.values());
         createTerritories(Territory.values());
     }

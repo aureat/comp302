@@ -4,11 +4,17 @@ import java.util.Random;
 
 public class Dice {
 
+    private int value;
+
+    public Dice(){
+        this.value=roll();
+    }
     private static int sides = 6;
 
     public static int roll() {
         Random rand = new Random();
         return rand.nextInt(sides) + 1;
+        //return 1;
     }
 
     public static int roll(int times) {

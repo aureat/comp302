@@ -8,6 +8,7 @@ class ClassicMapTest {
     @Test
     public void testClassicMapInformation() {
         ClassicMap classicMap = new ClassicMap();
+        classicMap.createMap();
         assertNotNull(classicMap.getName());
         assertNotNull(classicMap.getDescription());
     }
