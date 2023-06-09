@@ -47,4 +47,5 @@ public class MapStateTest {
         // For example, if in this case we put 2.
         Assert.assertEquals(2, neighbors.size());
     }
+
 }
