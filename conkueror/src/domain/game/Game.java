@@ -2,6 +2,7 @@ package domain.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import java.util.Collections;
 
@@ -10,18 +11,13 @@ import domain.player.Player;
 import domain.game.config.GameConfig;
 import domain.gamemap.GameMap;
 import domain.util.CoreUtils;
-//import domain.card.ChanceCard;
+import domain.card.ChanceCard;
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
 
 public class Game {
 
     private static GameConfig config;
-
-    public MapState getMapState() {
-        return mapState;
-    }
-
     private MapState mapState;
     private final GameMap map = new ClassicMap();
     private final List<Player> players = new ArrayList<>();
@@ -33,19 +29,15 @@ public class Game {
     private int turnCounter;
     private int roundCounter;
     private int draftArmies;
-//    private ChanceCard currentcard;
+    private ChanceCard currentcard;
     private ArrayList<TerritoryState> initialTerrDistrubution;
     private Dice dice = new Dice();
-
-
-    private int roundCount;
 
     public void nextPhase() {
         if(phase == Phase.Draft) {
             phase = Phase.Attack;
         } else if (phase == Phase.Attack) {
             phase = Phase.Fortify;
-
         } else if (phase == Phase.Fortify) {
             phase = Phase.Draft;
             if (players.indexOf(currentplayer) == players.size()){
@@ -70,8 +62,13 @@ public class Game {
     public static void destroyInstance() {
         GameContainer.instance = null;
     }
+
     public int getPlayerCount() {
         return players.size();
+    }
+
+    public int getRoundCount() {
+        return roundCounter;
     }
 
     private Game() {
@@ -102,6 +99,7 @@ public class Game {
             draftArmies--;
         }
     }
+
     public Player getCurrentplayer(){ return currentplayer; }
 
     public void createGameMap() {
@@ -130,7 +128,7 @@ public class Game {
         Collections.shuffle(players);
     }
 
-    public void selectTerritories(){
+    public void selectTerritories() {
        mapState.getTerritoryStates().forEach(territory ->{
            if(territory.isPlayable() && (territory.getOwner()==null)){
                List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
@@ -156,14 +154,14 @@ public class Game {
             Player player = CoreUtils.chooseRandom(players);
             if (territory.isPlayable()  && territorycount>player.getNumberOfTerritories() && territory.getOwner()==null) {
                 player.addTerritory(territory);
-                player.increaseNumberOfTerritories();
+                player.increaseNumberOfTerrirtories();
                 territory.setOwner(player);
                 List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
                 for (TerritoryState neighbor : neighbors) {
                     if(territorycount>player.getNumberOfTerritories() && neighbor.getOwner()==null ){
                         player.addTerritory(neighbor);
                         neighbor.setOwner(player);
-                        player.increaseNumberOfTerritories();
+                        player.increaseNumberOfTerrirtories();
                     }
 
                 }
@@ -179,7 +177,7 @@ public class Game {
                 players.forEach(player -> {
                     if(player.getNumberOfTerritories()<territorycount){
                         player.addTerritory(terr);
-                        player.increaseNumberOfTerritories();
+                        player.increaseNumberOfTerrirtories();
                         terr.setOwner(player);
                     }
                 });
@@ -189,8 +187,10 @@ public class Game {
                     // if we want to give all enabled territories to random players
                     Player luckyPlayer = CoreUtils.chooseRandom(players);
                     luckyPlayer.addTerritory(terr);
-                    luckyPlayer.increaseNumberOfTerritories();
+                    luckyPlayer.increaseNumberOfTerrirtories();
                     terr.setOwner(luckyPlayer);
+
+
 
                 }
             }
@@ -311,7 +311,4 @@ public class Game {
         }
     }
 
-    public void setPhase(Phase phase) {
-        this.phase = phase;
-    }
 }
