@@ -210,6 +210,7 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
                         if (territory.isAttacker()) {
                             for (TerritoryState t : MapState.getInstance().getNeighborsOf(territory) ){
                                 if(t==state) {
+                                    MapController.deselectAll();
                                     Game.getInstance().attackPhase(territory, state);
                                     territory.setAttacker(false);
                                     Route.GameMap.update();
@@ -219,15 +220,15 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
                                 }
                             }
                         }
+                    }
                 }
-            }
             } else if (Game.getInstance().getPhase() == Phase.Fortify) {
                 if (state.getOwner() == Game.getInstance().getCurrentplayer()&& !(state.isDonor())) {
                     setSelected(true);
                     state.setDonor(true);
                     for (TerritoryState t : state.getOwner().getTerritories()){
                         if (t!=state && t.isDonor()){
-                            setSelected(false);
+                            MapController.deselectAll();
                             state.setDonor(false);
                             Game.getInstance().fortifyPhase(t,state);
                             MapController.deselectAll();

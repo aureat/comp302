@@ -45,6 +45,7 @@ public class TerritoryState {
 
     public void setOwner(Player owner) {
         this.owner = owner;
+        owner.addTerritory(this);
     }
 
     public int getArmies() {

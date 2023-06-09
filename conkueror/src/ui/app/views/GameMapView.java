@@ -3,6 +3,7 @@ package ui.app.views;
 import domain.game.Game;
 import domain.game.Phase;
 import ui.app.Context;
+import ui.app.controllers.MapController;
 import ui.app.router.Route;
 import ui.app.controllers.GameMapController;
 import ui.app.router.View;
@@ -178,6 +179,7 @@ public class GameMapView extends ViewPanel<GameMapController> {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                MapController.deselectAll();
                 Game.getInstance().nextPhase();
                 if (Game.getInstance().getPhase() == Phase.Attack){
                     attackLabel.setVisible(true);
