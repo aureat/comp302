@@ -11,14 +11,17 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GameTest {
+public class GamePhasesTest {
+
     private Game game;
 
     @BeforeEach
     public void setUp() {
-        game = new Game();
+        game = Game.getInstance();
     }
+
     //Test case for adding players
+
     @Test
     public void testAddPlayer() {
         // Add players to the game
