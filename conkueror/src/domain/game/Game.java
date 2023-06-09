@@ -305,4 +305,10 @@ public class Game {
         }
     }
 
+    public void setPhase(Phase phase) {
+        this.phase = phase;
+    }
+    public MapState getMapState(){
+        return this.mapState;
+    }
 }
