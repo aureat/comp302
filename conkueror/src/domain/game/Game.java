@@ -11,7 +11,7 @@ import domain.player.Player;
 import domain.game.config.GameConfig;
 import domain.gamemap.GameMap;
 import domain.util.CoreUtils;
-import domain.card.ChanceCard;
+//import domain.card.ChanceCard;
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
 
@@ -29,7 +29,7 @@ public class Game {
     private int turnCounter;
     private int roundCounter;
     private int draftArmies;
-    private ChanceCard currentcard;
+    //private ChanceCard currentcard;
     private ArrayList<TerritoryState> initialTerrDistrubution;
     private Dice dice = new Dice();
 
@@ -154,14 +154,14 @@ public class Game {
             Player player = CoreUtils.chooseRandom(players);
             if (territory.isPlayable()  && territorycount>player.getNumberOfTerritories() && territory.getOwner()==null) {
                 player.addTerritory(territory);
-                player.increaseNumberOfTerrirtories();
+                player.increaseNumberOfTerritories();
                 territory.setOwner(player);
                 List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
                 for (TerritoryState neighbor : neighbors) {
                     if(territorycount>player.getNumberOfTerritories() && neighbor.getOwner()==null ){
                         player.addTerritory(neighbor);
                         neighbor.setOwner(player);
-                        player.increaseNumberOfTerrirtories();
+                        player.increaseNumberOfTerritories();
                     }
 
                 }
@@ -177,7 +177,7 @@ public class Game {
                 players.forEach(player -> {
                     if(player.getNumberOfTerritories()<territorycount){
                         player.addTerritory(terr);
-                        player.increaseNumberOfTerrirtories();
+                        player.increaseNumberOfTerritories();
                         terr.setOwner(player);
                     }
                 });
@@ -187,7 +187,7 @@ public class Game {
                     // if we want to give all enabled territories to random players
                     Player luckyPlayer = CoreUtils.chooseRandom(players);
                     luckyPlayer.addTerritory(terr);
-                    luckyPlayer.increaseNumberOfTerrirtories();
+                    luckyPlayer.increaseNumberOfTerritories();
                     terr.setOwner(luckyPlayer);
 
 
