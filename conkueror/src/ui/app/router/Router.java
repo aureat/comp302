@@ -1,6 +1,6 @@
 package ui.app.router;
 
-import util.module.ModuleInfo;
+import util.ModuleInfo;
 import util.ClassUtils;
 
 import java.awt.*;

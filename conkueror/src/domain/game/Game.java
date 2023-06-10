@@ -2,17 +2,20 @@ package domain.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import java.util.Collections;
 
+import domain.gamemap.TerritoryType;
 import domain.maps.ClassicMap;
 import domain.player.Player;
 import domain.game.config.GameConfig;
 import domain.gamemap.GameMap;
 import domain.util.CoreUtils;
-//import domain.card.ChanceCard;
+import domain.card.ChanceCard;
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
+import org.jetbrains.annotations.NotNull;
 
 public class Game {
 
@@ -28,24 +31,26 @@ public class Game {
     private int turnCounter;
     private int roundCounter;
     private int draftArmies;
-    //private ChanceCard currentcard;
+    private ChanceCard currentcard;
     private ArrayList<TerritoryState> initialTerrDistrubution;
     private Dice dice = new Dice();
-    private TerritoryState aiTerr;
+
+    private TerritoryState selectedTerritory;
+    private
 
     public void nextPhase() {
-            if(phase == Phase.Draft) {
-                phase = Phase.Attack;
-            } else if (phase == Phase.Attack) {
-                phase = Phase.Fortify;
-            } else if (phase == Phase.Fortify) {
-                phase = Phase.Draft;
-                if (players.indexOf(currentplayer) == players.size()){
-                    roundCounter++;
-                }
-                currentplayer = players.get((players.indexOf(currentplayer) + 1) % players.size());
-                doDraftPhase();
+        if(phase == Phase.Draft) {
+            phase = Phase.Attack;
+        } else if (phase == Phase.Attack) {
+            phase = Phase.Fortify;
+        } else if (phase == Phase.Fortify) {
+            phase = Phase.Draft;
+            if (players.indexOf(currentplayer) == players.size()){
+                roundCounter++;
             }
+            currentplayer = players.get((players.indexOf(currentplayer) + 1) % players.size());
+            doDraftPhase();
+        }
     }
 
     private static class GameContainer {
@@ -76,86 +81,9 @@ public class Game {
         initializePlayers();
     }
 
-    public Phase getPhase() {
-        return phase;
-    }
-
-    private void initializePlayers() {
-        IntStream.range(0, config.getInitialPlayers())
-                .forEach(i -> addPlayer());
-    }
-
-    public void doDraftPhase() {
-        if (currentplayer.getFullName().equals("ai")){
-            aiDraft();
-        }
-            draftArmies = Math.floorDiv(currentplayer.getTerritoryCount(), 2);
-
-    }
-
-    public void aiDraft(){
-        System.out.println("hi");
-        draftArmies = Math.floorDiv(currentplayer.getTerritoryCount(), 2);
-        aiTerr = CoreUtils.chooseRandom(currentplayer.getTerritories());
-            List<TerritoryState> neighbors = mapState.getNeighborsOf(aiTerr);
-            int bugcount =0;
-            while(true){
-                bugcount++;
-                for(TerritoryState neighbor : neighbors){
-                    if(!neighbor.getOwner().getFullName().equals("ai")){
-                        break;
-                    }
-                }
-                aiTerr = CoreUtils.chooseRandom(currentplayer.getTerritories());
-                neighbors = mapState.getNeighborsOf(aiTerr);
-                if (bugcount==39) break;
-            }
-        while(draftArmies>0){
-            setDraftArmies(aiTerr);
-        }
-        nextPhase();
-    }
-    private void aiAttack(){
-
-    }
-
-    public int getDraftArmies() {
-        return draftArmies;
-    }
-
-    public void setDraftArmies(TerritoryState state) {
-        if (draftArmies > 0) {
-            state.addArmies(1);
-            draftArmies--;
-        }
-    }
-
-    public Player getCurrentplayer(){ return currentplayer; }
-
     public void createGameMap() {
         map.createMap();
         mapState = MapState.createInstance(map);
-    }
-
-    public Player addPlayer() {
-        if (getPlayersCount() < config.getMaximumPlayers()) {
-            Player player = new Player();
-            players.add(player);
-            return player;
-        }
-        return null;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public int getPlayersCount() {
-        return players.size();
-    }
-
-    public void shufflePlayers() {
-        Collections.shuffle(players);
     }
 
     public void selectTerritories() {
@@ -184,14 +112,14 @@ public class Game {
             Player player = CoreUtils.chooseRandom(players);
             if (territory.isPlayable()  && territorycount>player.getNumberOfTerritories() && territory.getOwner()==null) {
                 player.addTerritory(territory);
-                player.increaseNumberOfTerritories();
+                player.increaseNumberOfTerrirtories();
                 territory.setOwner(player);
                 List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
                 for (TerritoryState neighbor : neighbors) {
                     if(territorycount>player.getNumberOfTerritories() && neighbor.getOwner()==null ){
                         player.addTerritory(neighbor);
                         neighbor.setOwner(player);
-                        player.increaseNumberOfTerritories();
+                        player.increaseNumberOfTerrirtories();
                     }
 
                 }
@@ -207,7 +135,7 @@ public class Game {
                 players.forEach(player -> {
                     if(player.getNumberOfTerritories()<territorycount){
                         player.addTerritory(terr);
-                        player.increaseNumberOfTerritories();
+                        player.increaseNumberOfTerrirtories();
                         terr.setOwner(player);
                     }
                 });
@@ -217,7 +145,7 @@ public class Game {
                     // if we want to give all enabled territories to random players
                     Player luckyPlayer = CoreUtils.chooseRandom(players);
                     luckyPlayer.addTerritory(terr);
-                    luckyPlayer.increaseNumberOfTerritories();
+                    luckyPlayer.increaseNumberOfTerrirtories();
                     terr.setOwner(luckyPlayer);
 
 
@@ -271,11 +199,9 @@ public class Game {
         return armies;
     }
 
-    public void attackPhase(TerritoryState attack, TerritoryState defence) {
-        if (currentplayer.getFullName().equals("ai")){
-            aiAttack();
-        }
-        if(attack.getArmies() > defence.getArmies() && attack.getArmies()>2){
+    public void attackPhase(@NotNull TerritoryState attack, @NotNull TerritoryState defence) {
+
+        if(attack.getArmies() > defence.getArmies() && attack.getArmies()>2) {
             int attackDice = Dice.roll();
             int defenceDice = Dice.roll();
             if(defenceDice <= attackDice){
@@ -284,64 +210,18 @@ public class Game {
                     defence.setOwner(attack.getOwner());
                     defence.setArmies(1);
                     attack.setArmies(attack.getArmies()-1);
-                    attack.getOwner().increaseNumberOfTerritories();
-
                 }
             }else{
                 attack.setArmies(attack.getArmies()-2);
             }
         }
 
-
-//        boolean condition;
-        //This could be work on clicked
-//        if (startLocation.getArmies() > attackLocation.getArmies()){
-//            condition = true;
-//            while(condition){
-//                //Roll the dice
-//                boolean diceValue;
-//                int diceValueStart = dice.roll();
-//                int diceValueAttack = dice.roll();
-//                if(diceValueStart > diceValueAttack){
-//                    diceValue = true;
-//                }
-//                else{
-//                    diceValue = false;
-//                }
-//                //Check the dice condition
-//                if (diceValue){//To be true if start location won.
-//                    attackLocation.setArmies(attackLocation.getArmies()-1);
-//                }
-//                else {
-//                    startLocation.setArmies(startLocation.getArmies() - 1);
-//                }
-//                //Check the current value of territories
-//                if (startLocation.getArmies() <= attackLocation.getArmies()){
-//                    condition = false;
-//                    break;
-//                }
-//                //Look at the current condition.
-//                //If wanted add a click here.
-//                if (startLocation.getArmies() > attackLocation.getArmies()){
-//                    condition = true;
-//                }
-//            }
-//        }
     }
 
     public void fortifyPhase(TerritoryState from, TerritoryState to) {
         if (from.getArmies()>1 && from.getOwner()==to.getOwner()) {
             from.setArmies(from.getArmies()-1);
             to.setArmies(to.getArmies()+1);
-        }
-    }
-
-    private void findAndSetConfig() {
-        try {
-            config = GameConfig.scanConfig();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            System.exit(1);
         }
     }
 

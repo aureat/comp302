@@ -15,30 +15,37 @@ public class Player {
     private Avatars.AvatarType avatar;
     private boolean isComputer;
 
-    public int getNumberOfTerritories() {
-        return numberOfTerritories;
-    }
+    private final List<TerritoryState> territories = new ArrayList<>();
 
-    public void setNumberOfTerritories(int numberOfTerritories) {
-        this.numberOfTerritories = numberOfTerritories;
-    }
-
-    public void increaseNumberOfTerritories(){
-        this.numberOfTerritories++;
-    }
-
-    private int numberOfTerritories;
-
-    private List<TerritoryState> territories = new ArrayList<>();
-
-    public Player() {
+    protected Player() {
         generateCharacter();
+    }
+
+    public List<TerritoryState> getTerritories() {
+        return territories;
+    }
+
+    public int getTerritoryCount() {
+        return territories.size();
+    }
+
+    public void addTerritory(TerritoryState territory) {
+        territories.add(territory);
+    }
+
+    public void removeTerritory(TerritoryState territory) {
+        territories.remove(territory);
+    }
+
+    public boolean hasTerritory(TerritoryState territory) {
+        return territories.contains(territory);
     }
 
     public void generateCharacter() {
         setColor(Colors.getRandomPlayable());
         setName(Names.getRandom());
         setAvatar(Avatars.getRandom());
+        setComputer(Math.random() < 0.5);
     }
 
     public Colors.ColorType getColor() {
@@ -74,31 +81,11 @@ public class Player {
         this.avatar = avatar;
     }
 
-    public void addTerritory(TerritoryState territory) {
-        territories.add(territory);
-    }
-
-    public List<TerritoryState> getTerritories() {
-        return territories;
-    }
-
-    public void removeTerritory(TerritoryState territory) {
-        territories.remove(territory);
-    }
-
-    public boolean hasTerritory(TerritoryState territory) {
-        return territories.contains(territory);
-    }
-
-    public int getTerritoryCount() {
-        return territories.size();
-    }
-
     public boolean isComputer() {
         return isComputer;
     }
 
-    public void setComputer(@NotNull boolean computer) {
+    public void setComputer(boolean computer) {
         isComputer = computer;
     }
 
