@@ -1,6 +1,7 @@
 package domain.gamemap;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -13,13 +14,19 @@ import java.util.List;
  */
 public abstract class GameMap {
 
-    private List<ContinentType> continents = new ArrayList<>();
-    private List<TerritoryType> territories = new ArrayList<>();
-
-    public abstract void createMap();
+    private final List<ContinentType> continents = new ArrayList<>();
+    private final List<TerritoryType> territories = new ArrayList<>();
 
     private String name;
     private String description;
+
+    public abstract void createMap();
+
+    public void initMap() {
+        setName();
+        setDescription();
+        createMap();
+    }
 
     public void setName() {
         try {
@@ -46,9 +53,7 @@ public abstract class GameMap {
     }
 
     public void createContinents(ContinentType[] continentValues) {
-        for (ContinentType continent : continentValues) {
-            continents.add(continent);
-        }
+        continents.addAll(Arrays.asList(continentValues));
     }
 
     public void createTerritories(TerritoryType[] territoryValues) {

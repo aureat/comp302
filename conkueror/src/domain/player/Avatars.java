@@ -5,9 +5,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Avatars {
+
     public enum AvatarType {
         AfricanFemale,
         AfricanMale,
@@ -15,10 +17,12 @@ public class Avatars {
         ArabicMale,
         AsianFemale,
         AsianMale,
+        AttilaMale,
         BritishFemale,
         BritishMale,
         ChineseFemale,
         ChineseMale,
+        DamlaFemale,
         EgyptianFemale,
         EgyptianMale,
         EuropeanFemale,
@@ -39,42 +43,33 @@ public class Avatars {
         VikingMale
     }
 
-    public static AvatarType[] array = AvatarType.values();
+    public static final List<AvatarType> all = getAll();
+    public static final List<AvatarType> males = getAll("Male");
+    public static final List<AvatarType> females = getAll("Female");
+
+    public static List<AvatarType> avatarCache;
+
+    protected static void initialize() {
+        avatarCache = new ArrayList<>(all);
+        Collections.shuffle(avatarCache);
+    }
 
     private static List<AvatarType> getAll() {
-        return new ArrayList<>(Arrays.asList(array));
+        return new ArrayList<>(Arrays.asList(AvatarType.values()));
     }
 
-    private static List<AvatarType> getMales() {
-        List<AvatarType> list = getAll();
-        list.removeIf(a -> !a.toString().contains("Male"));
-        return list;
+    private static List<AvatarType> getAll(String keyword) {
+        return getAll().stream().filter(a -> a.toString().contains(keyword)).toList();
     }
-
-    private static List<AvatarType> getFemales() {
-        List<AvatarType> list = getAll();
-        list.removeIf(a -> !a.toString().contains("Female"));
-        return list;
-    }
-
-    public static List<AvatarType> all = getAll();
-    public static List<AvatarType> males = getMales();
-    public static List<AvatarType> females = getFemales();
 
     public static String getAvatarName(@NotNull AvatarType avatar) {
         return avatar.toString();
     }
 
     public static AvatarType getRandom() {
-        return CoreUtils.chooseRandom(all);
-    }
-
-    public static AvatarType getRandomMale() {
-        return CoreUtils.chooseRandom(males);
-    }
-
-    public static AvatarType getRandomFemale() {
-        return CoreUtils.chooseRandom(females);
+        AvatarType randomAvatar = CoreUtils.chooseRandom(avatarCache);
+        avatarCache.remove(randomAvatar);
+        return randomAvatar;
     }
 
 }

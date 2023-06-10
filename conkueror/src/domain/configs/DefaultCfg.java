@@ -18,4 +18,6 @@ public class DefaultCfg extends GameConfig {
 
     public int getMaximumPlayers() { return 6; }
 
+    public int getDiceSides() { return 6; }
+
 }

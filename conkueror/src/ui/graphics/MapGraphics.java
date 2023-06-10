@@ -395,7 +395,6 @@ public class MapGraphics {
     }
     public static Shape createIceland() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(18, 10);
         path.lineTo(25, 7);
         path.lineTo(30, 12);
@@ -771,9 +770,8 @@ public class MapGraphics {
         path.closePath();
         return transformShape(path);
     }
-    public static Shape createIndia(){
+    public static Shape createIndia() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(1, 41);
         path.lineTo(6, 26);
         path.lineTo(25, 17);
@@ -801,12 +799,10 @@ public class MapGraphics {
         path.lineTo(17, 64);
         path.lineTo(1, 41);
         path.closePath();
-
         return transformShape(path);
     }
-    public static Shape createIndonesia(){
+    public static Shape createIndonesia() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(2, 33);
         path.lineTo(6, 13);
         path.lineTo(27, 18);
@@ -821,7 +817,6 @@ public class MapGraphics {
         path.lineTo(21, 48);
         path.lineTo(2, 33);
         path.closePath();
-
         path.moveTo(112, 4);
         path.lineTo(97, 1);
         path.lineTo(85, 10);
@@ -839,7 +834,6 @@ public class MapGraphics {
         path.lineTo(118, 19);
         path.lineTo(112, 4);
         path.closePath();
-
         path.moveTo(141, 49);
         path.lineTo(149, 32);
         path.lineTo(135, 27);
@@ -852,7 +846,6 @@ public class MapGraphics {
         path.lineTo(141, 64);
         path.lineTo(141, 49);
         path.closePath();
-
         path.moveTo(77, 103);
         path.lineTo(91, 87);
         path.lineTo(112, 87);
@@ -950,7 +943,6 @@ public class MapGraphics {
 
     public static Shape createEasternEurope() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(110, 7);
         path.lineTo(122, 9);
         path.lineTo(126, 24);
@@ -999,7 +991,6 @@ public class MapGraphics {
 
     public static Shape createAlaska() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(20, 21);
         path.lineTo(34, 6);
         path.lineTo(46, 1);
@@ -1053,13 +1044,11 @@ public class MapGraphics {
         path.lineTo(163, 37);
         path.lineTo(156, 45);
         path.closePath();
-
         return transformShape(path);
     }
 
     public static Shape createAlberta() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(9, 50);
         path.lineTo(1, 35);
         path.lineTo(10, 27);
@@ -1110,9 +1099,8 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createCongo(){
+    public static Shape createCongo() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(15, 87);
         path.lineTo(1, 67);
         path.lineTo(4, 49);
@@ -1142,7 +1130,6 @@ public class MapGraphics {
 
     public static Shape createCentralAmerica() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(4, 11);
         path.lineTo(9, 1);
         path.lineTo(21, 7);
@@ -1174,7 +1161,6 @@ public class MapGraphics {
     }
     public static Shape createChina() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(48, 13);
         path.lineTo(36, 13);
         path.lineTo(23, 20);
@@ -1226,9 +1212,8 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createEastAfrica(){
+    public static Shape createEastAfrica() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(75, 149);
         path.lineTo(82, 157);
         path.lineTo(58, 168);
@@ -1260,7 +1245,6 @@ public class MapGraphics {
 
     public static Shape createEasternAustralia() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(120, 186);
         path.lineTo(112, 196);
         path.lineTo(89, 196);
@@ -1285,13 +1269,11 @@ public class MapGraphics {
         path.lineTo(134, 186);
         path.lineTo(120, 186);
         path.closePath();
-
         return transformShape(path);
     }
 
     public static Shape createEasternAmerica() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(18, 76);
         path.lineTo(9, 92);
         path.lineTo(2, 109);
@@ -1332,7 +1314,6 @@ public class MapGraphics {
 
     public static Shape createEgypt() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(107, 39);
         path.lineTo(116, 46);
         path.lineTo(116, 59);
@@ -1353,12 +1334,10 @@ public class MapGraphics {
         path.lineTo(108, 28);
         path.lineTo(107, 39);
         path.closePath();
-
         return transformShape(path);
     }
-    public static Shape createJapan(){
+    public static Shape createJapan() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(22, 13);
         path.lineTo(22, 3);
         path.lineTo(36, 5);
@@ -1388,13 +1367,11 @@ public class MapGraphics {
         path.lineTo(16, 18);
         path.lineTo(22, 13);
         path.closePath();
-
         return transformShape(path);
     }
 
     public static Shape createMadagascar() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(9, 61);
         path.lineTo(12, 50);
         path.lineTo(42, 42);
@@ -1413,9 +1390,8 @@ public class MapGraphics {
         path.closePath();
         return transformShape(path);
     }
-    public static Shape createMiddleEast(){
+    public static Shape createMiddleEast() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(121, 11);
         path.lineTo(126, 7);
         path.lineTo(146, 8);
@@ -1459,7 +1435,6 @@ public class MapGraphics {
 
     public static Shape createGreatBritain() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(39, 7);
         path.lineTo(43, 1);
         path.lineTo(56, 3);
@@ -1484,7 +1459,6 @@ public class MapGraphics {
         path.lineTo(30, 12);
         path.lineTo(39, 7);
         path.closePath();
-
         path.moveTo(32, 47);
         path.lineTo(25, 38);
         path.lineTo(19, 39);
@@ -1505,7 +1479,6 @@ public class MapGraphics {
 
     public static Shape createGreenland() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(58, 8);
         path.lineTo(43, 8);
         path.lineTo(28, 19);
@@ -1548,9 +1521,8 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createNewGuinea(){
+    public static Shape createNewGuinea() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(0, 17);
         path.lineTo(5, 3);
         path.lineTo(28, 5);
@@ -1576,7 +1548,6 @@ public class MapGraphics {
 
     public static Shape createMongolia() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(71, 14);
         path.lineTo(47, 1);
         path.lineTo(41, 8);
@@ -1611,7 +1582,6 @@ public class MapGraphics {
 
     public static Shape createQuebec() {
         Path2D.Double path = new Path2D.Double();
-
         path.moveTo(56, 89);
         path.lineTo(49, 92);
         path.lineTo(42, 82);
@@ -1743,7 +1713,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createAzerbaijan() {
+    public static Shape createPersia() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(16, 54);
         path.lineTo(7, 48);
@@ -1765,7 +1735,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createNorthAfrica(){
+    public static Shape createNorthAfrica() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(158, 77);
         path.lineTo(166, 88);
@@ -1804,7 +1774,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createNorthernEurope(){
+    public static Shape createNorthernEurope() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(71, 6);
         path.lineTo(78, 8);
@@ -1831,7 +1801,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createPeru(){
+    public static Shape createPeru() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(4, 17);
         path.lineTo(14, 1);
@@ -1862,7 +1832,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createRussia(){
+    public static Shape createRussia() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(304, 105);
         path.lineTo(298, 134);
@@ -1941,7 +1911,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createScandinavia(){
+    public static Shape createScandinavia() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(44, 18);
         path.lineTo(77, 1);
@@ -1971,7 +1941,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createSiam(){
+    public static Shape createSiam() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(10, 76);
         path.lineTo(1, 33);
@@ -1996,7 +1966,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createSouthAfrica(){
+    public static Shape createSouthAfrica() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(16, 17);
         path.lineTo(15, 7);
@@ -2029,7 +1999,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createSouthernEurope(){
+    public static Shape createSouthernEurope() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(15, 47);
         path.lineTo(12, 47);
@@ -2057,7 +2027,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createTurkey(){
+    public static Shape createAnatolia() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(13, 69);
         path.lineTo(1, 59);
@@ -2098,7 +2068,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createVenezuela(){
+    public static Shape createVenezuela() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(24, 23);
         path.lineTo(24, 16);
@@ -2128,7 +2098,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createWesternAustralia(){
+    public static Shape createWesternAustralia() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(38, 39);
         path.lineTo(52, 20);
@@ -2160,7 +2130,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
-    public static Shape createWesternEurope(){
+    public static Shape createWesternEurope() {
         Path2D.Double path = new Path2D.Double();
         path.moveTo(76, 2);
         path.lineTo(81, 3);
@@ -2192,6 +2162,7 @@ public class MapGraphics {
         return transformShape(path);
     }
 
+    // Outline Shapes
     public final Shape shapeNorthAmericaOutline = createNorthAmericaOutline();
     public final Shape shapeGreenlandOutline = createGreenlandOutline();
     public final Shape shapeSouthAmericaOutline = createSouthAmericaOutline();
@@ -2206,7 +2177,7 @@ public class MapGraphics {
     public final Shape shapeIndonesiaOutline = createIndonesiaOutline();
     public final Shape shapeNewGuineaOutline = createNewGuineaOutline();
 
-
+    // Territory Shapes
     public final Shape shapeAlberta = createAlberta();
     public final Shape shapeAlaska = createAlaska();
     public final Shape shapeNorthwest = createNorthwest();
@@ -2217,34 +2188,34 @@ public class MapGraphics {
     public final Shape shapeWesternAmerica = createWesternAmerica();
     public final Shape shapeGreenland = createGreenland();
     public final Shape shapeVenezuela = createVenezuela();
-    public final Shape shapePeru =createPeru();
-    public final Shape shapeBrazil =createBrazil();
-    public final Shape shapeArgentina =createArgentina();
-    public final Shape shapeIndonesia =createIndonesia();
-    public final Shape shapeNewGuinea =createNewGuinea();
-    public final Shape shapeWesternAustralia =createWesternAustralia();
-    public final Shape shapeEasternAustralia =createEasternAustralia();
-    public final Shape shapeNorthAfrica =createNorthAfrica();
-    public final Shape shapeEgypt =createEgypt();
-    public final Shape shapeEastAfrica =createEastAfrica();
-    public final Shape shapeCongo =createCongo();
-    public final Shape shapeSouthAfrica =createSouthAfrica();
-    public final Shape shapeMadagascar =createMadagascar();
-    public final Shape shapeRussia =createRussia();
-    public final Shape shapeMongolia =createMongolia();
-    public final Shape shapeJapan =createJapan();
-    public final Shape shapeChina =createChina();
-    public final Shape shapeIndia =createIndia();
-    public final Shape shapeMiddleEast =createMiddleEast();
-    public final Shape shapeSiam =createSiam();
-    public final Shape shapeGreatBritain =createGreatBritain();
-    public final Shape shapeIceland =createIceland();
-    public final Shape shapeScandinavia =createScandinavia();
-    public final Shape shapeNorthernEurope =createNorthernEurope();
-    public final Shape shapeWesternEurope =createWesternEurope();
+    public final Shape shapePeru = createPeru();
+    public final Shape shapeBrazil = createBrazil();
+    public final Shape shapeArgentina = createArgentina();
+    public final Shape shapeIndonesia = createIndonesia();
+    public final Shape shapeNewGuinea = createNewGuinea();
+    public final Shape shapeWesternAustralia = createWesternAustralia();
+    public final Shape shapeEasternAustralia = createEasternAustralia();
+    public final Shape shapeNorthAfrica = createNorthAfrica();
+    public final Shape shapeEgypt = createEgypt();
+    public final Shape shapeEastAfrica = createEastAfrica();
+    public final Shape shapeCongo = createCongo();
+    public final Shape shapeSouthAfrica = createSouthAfrica();
+    public final Shape shapeMadagascar = createMadagascar();
+    public final Shape shapeRussia = createRussia();
+    public final Shape shapeMongolia = createMongolia();
+    public final Shape shapeJapan = createJapan();
+    public final Shape shapeChina = createChina();
+    public final Shape shapeIndia = createIndia();
+    public final Shape shapeMiddleEast = createMiddleEast();
+    public final Shape shapeSiam = createSiam();
+    public final Shape shapeGreatBritain = createGreatBritain();
+    public final Shape shapeIceland = createIceland();
+    public final Shape shapeScandinavia = createScandinavia();
+    public final Shape shapeNorthernEurope = createNorthernEurope();
+    public final Shape shapeWesternEurope = createWesternEurope();
     public final Shape shapeEasternEurope = createEasternEurope();
-    public final Shape shapeSouthernEurope =createSouthernEurope();
-    public final Shape shapeAnatolia =createTurkey();
-    public final Shape shapePersia =createAzerbaijan();
+    public final Shape shapeSouthernEurope = createSouthernEurope();
+    public final Shape shapeAnatolia = createAnatolia();
+    public final Shape shapePersia = createPersia();
 
 }

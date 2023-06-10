@@ -1,28 +1,16 @@
 package domain.game;
 
+import domain.game.config.GameConfig;
+
 import java.util.Random;
 
 public class Dice {
 
-    private int value;
-
-    public Dice(){
-        this.value=roll();
-    }
-    private static int sides = 6;
+    private static final int sides = GameConfig.get().getDiceSides();
 
     public static int roll() {
         Random rand = new Random();
         return rand.nextInt(sides) + 1;
-        //return 1;
-    }
-
-    public static int roll(int times) {
-        int result = 0;
-        for (int i = 0; i < times; i++) {
-            result += roll();
-        }
-        return result;
     }
 
 }

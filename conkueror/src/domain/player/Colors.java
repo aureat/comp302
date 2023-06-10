@@ -2,9 +2,7 @@ package domain.player;
 
 import domain.util.CoreUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Colors {
 
@@ -31,7 +29,12 @@ public class Colors {
             ColorType.Blue
     };
 
-    public static final List<ColorType> playableColorsList = new ArrayList<>(Arrays.asList(playableColors));
+    public static List<ColorType> playableCache;
+
+    protected static void initialize() {
+        playableCache = new ArrayList<>(Arrays.asList(playableColors));
+        Collections.shuffle(playableCache);
+    }
 
     public static String getColorName(ColorType color) {
         return color.toString();
@@ -47,7 +50,9 @@ public class Colors {
     }
 
     public static ColorType getRandomPlayable() {
-        return CoreUtils.chooseRandom(playableColors);
+        ColorType randomColor = CoreUtils.chooseRandom(playableColors);
+        playableCache.remove(randomColor);
+        return randomColor;
     }
 
 }

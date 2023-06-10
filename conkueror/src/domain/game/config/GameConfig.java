@@ -3,7 +3,7 @@ package domain.game.config;
 import domain.gamemap.GameMap;
 import domain.gamemap.UseMap;
 import util.ClassUtils;
-import util.module.ModuleInfo;
+import util.ModuleInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,19 +11,26 @@ import java.util.Set;
 
 public abstract class GameConfig {
 
-    private static Class<? extends GameConfig> config;
     private static GameConfig instance;
 
+    public static GameConfig get() {
+        if (instance == null) {
+            instance = scanConfig();
+        }
+        return instance;
+    }
+
     /*
-     *  Config
+     *  Configuration
      */
 
     public abstract int getInitialPlayers();
     public abstract int getMinimumPlayers();
     public abstract int getMaximumPlayers();
+    public abstract int getDiceSides();
 
     /*
-     *
+     * Meta
      */
 
     private final List<Class<? extends GameMap>> maps = new ArrayList<>();
@@ -47,8 +54,7 @@ public abstract class GameConfig {
     }
 
     protected void registerMaps() {
-        ClassUtils
-                .getSubTypes(ModuleInfo.MapsPackage, GameMap.class, UseMap.class)
+        ClassUtils.getSubTypes(ModuleInfo.MapsPackage, GameMap.class, UseMap.class)
                 .forEach(this::registerMap);
     }
 
@@ -67,7 +73,7 @@ public abstract class GameConfig {
         if (configs.size() != 1) {
             throw new RuntimeException("There must be exactly one GameConfig class in the configs package.");
         }
-        config = configs.iterator().next();
+        Class<? extends GameConfig> config = configs.iterator().next();
         try {
             instance = config.getDeclaredConstructor().newInstance();
         } catch (Exception e) {

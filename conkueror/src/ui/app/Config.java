@@ -1,6 +1,6 @@
 package ui.app;
 
-import util.module.ModuleInfo;
+import util.ModuleInfo;
 
 import java.awt.*;
 

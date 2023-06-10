@@ -1,10 +1,16 @@
 package domain.player;
 
 import domain.util.CoreUtils;
+import org.jetbrains.annotations.Contract;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Names {
 
-    private static String[] names = {
+    private static final String[] names = {
             "Sans Betancur",
             "Célia Picazo",
             "Pili Oquendo",
@@ -77,8 +83,17 @@ public class Names {
             "Cheveyo Hopi"
     };
 
+    public static List<String> nameCache;
+
+    protected static void initialize() {
+        nameCache = new ArrayList<>(Arrays.asList(names));
+        Collections.shuffle(nameCache);
+    }
+
     public static String getRandom() {
-        return CoreUtils.chooseRandom(names);
+        String randomName = CoreUtils.chooseRandom(names);
+        nameCache.remove(randomName);
+        return randomName;
     }
 
 }
