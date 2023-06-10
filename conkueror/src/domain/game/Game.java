@@ -2,7 +2,6 @@ package domain.game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import java.util.Collections;
 
@@ -32,20 +31,21 @@ public class Game {
     //private ChanceCard currentcard;
     private ArrayList<TerritoryState> initialTerrDistrubution;
     private Dice dice = new Dice();
+    private TerritoryState aiTerr;
 
     public void nextPhase() {
-        if(phase == Phase.Draft) {
-            phase = Phase.Attack;
-        } else if (phase == Phase.Attack) {
-            phase = Phase.Fortify;
-        } else if (phase == Phase.Fortify) {
-            phase = Phase.Draft;
-            if (players.indexOf(currentplayer) == players.size()){
-                roundCounter++;
+            if(phase == Phase.Draft) {
+                phase = Phase.Attack;
+            } else if (phase == Phase.Attack) {
+                phase = Phase.Fortify;
+            } else if (phase == Phase.Fortify) {
+                phase = Phase.Draft;
+                if (players.indexOf(currentplayer) == players.size()){
+                    roundCounter++;
+                }
+                currentplayer = players.get((players.indexOf(currentplayer) + 1) % players.size());
+                doDraftPhase();
             }
-            currentplayer = players.get((players.indexOf(currentplayer) + 1) % players.size());
-            doDraftPhase();
-        }
     }
 
     private static class GameContainer {
@@ -86,7 +86,37 @@ public class Game {
     }
 
     public void doDraftPhase() {
+        if (currentplayer.getFullName().equals("ai")){
+            aiDraft();
+        }
+            draftArmies = Math.floorDiv(currentplayer.getTerritoryCount(), 2);
+
+    }
+
+    public void aiDraft(){
+        System.out.println("hi");
         draftArmies = Math.floorDiv(currentplayer.getTerritoryCount(), 2);
+        aiTerr = CoreUtils.chooseRandom(currentplayer.getTerritories());
+            List<TerritoryState> neighbors = mapState.getNeighborsOf(aiTerr);
+            int bugcount =0;
+            while(true){
+                bugcount++;
+                for(TerritoryState neighbor : neighbors){
+                    if(!neighbor.getOwner().getFullName().equals("ai")){
+                        break;
+                    }
+                }
+                aiTerr = CoreUtils.chooseRandom(currentplayer.getTerritories());
+                neighbors = mapState.getNeighborsOf(aiTerr);
+                if (bugcount==39) break;
+            }
+        while(draftArmies>0){
+            setDraftArmies(aiTerr);
+        }
+        nextPhase();
+    }
+    private void aiAttack(){
+
     }
 
     public int getDraftArmies() {
@@ -242,7 +272,9 @@ public class Game {
     }
 
     public void attackPhase(TerritoryState attack, TerritoryState defence) {
-
+        if (currentplayer.getFullName().equals("ai")){
+            aiAttack();
+        }
         if(attack.getArmies() > defence.getArmies() && attack.getArmies()>2){
             int attackDice = Dice.roll();
             int defenceDice = Dice.roll();
@@ -252,6 +284,8 @@ public class Game {
                     defence.setOwner(attack.getOwner());
                     defence.setArmies(1);
                     attack.setArmies(attack.getArmies()-1);
+                    attack.getOwner().increaseNumberOfTerritories();
+
                 }
             }else{
                 attack.setArmies(attack.getArmies()-2);
