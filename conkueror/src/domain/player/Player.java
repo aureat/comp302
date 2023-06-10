@@ -22,6 +22,7 @@ public class Player {
     public void setNumberOfTerritories(int numberOfTerritories) {
         this.numberOfTerritories = numberOfTerritories;
     }
+
     public void increaseNumberOfTerritories(){
         this.numberOfTerritories++;
     }
