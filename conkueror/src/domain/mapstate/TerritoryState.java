@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TerritoryState {
 
-    private TerritoryType territoryType;
+    private final TerritoryType territoryType;
 
     private Player owner;
     private int armies;
@@ -25,7 +25,6 @@ public class TerritoryState {
         armies = 0;
         playable = true;
     }
-
 
     public TerritoryType getTerritoryType() {
         return territoryType;

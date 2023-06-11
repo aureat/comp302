@@ -1,13 +1,16 @@
 package domain.card;
 
-import domain.army.ArmyType;
-
 public class ArmyCard extends Card {
 
-    private ArmyType type;
+    private final ArmyType armyType;
 
-    public ArmyCard(ArmyType type) {
-        this.type = type;
+    public ArmyCard(ArmyType armyType) {
+        super(CardType.Army);
+        this.armyType = armyType;
+    }
+
+    public ArmyType getArmyType() {
+        return armyType;
     }
 
 }

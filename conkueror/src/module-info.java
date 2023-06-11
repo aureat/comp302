@@ -5,7 +5,7 @@ import util.annotations.Version;
  * This module contains the core classes and
  * the application classes for the game ConKUeror.
  */
-@Version("0.6.0")
+@Version(id="0.6.1", name="Better States")
 @Developer("Nerd^5")
 module conkueror {
     requires java.desktop;

@@ -1,8 +1,7 @@
-package domain.army;
+package domain.card;
 
 public enum ArmyType {
     Infantry,
     Cavalry,
-    Artillery,
-    Mercenary
+    Artillery
 }
