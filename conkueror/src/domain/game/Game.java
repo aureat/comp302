@@ -116,7 +116,28 @@ public class Game {
         nextPhase();
     }
     private void aiAttack(){
+        List<TerritoryState> neighbors = mapState.getNeighborsOf(aiTerr);
+        for(TerritoryState neighbor : neighbors){
+            if(neighbor.getArmies()<aiTerr.getArmies() && !neighbor.getOwner().getFirstName().equals("ai")){
+                while(aiTerr.getArmies() > neighbor.getArmies() && aiTerr.getArmies()>2){
+                    int attackDice = Dice.roll();
+                    int defenceDice = Dice.roll();
+                    if(defenceDice <= attackDice){
+                        neighbor.setArmies(neighbor.getArmies()-1);
+                        if(neighbor.getArmies()==0){
+                            neighbor.setOwner(aiTerr.getOwner());
+                            neighbor.setArmies(1);
+                            neighbor.setArmies(aiTerr.getArmies()-1);
+                            neighbor.getOwner().increaseNumberOfTerritories();
 
+                        }
+                    }else{
+                        aiTerr.setArmies(aiTerr.getArmies()-2);
+                    }
+                }
+
+            }
+        }
     }
 
     public int getDraftArmies() {
