@@ -25,6 +25,9 @@ public abstract class GameMap {
     public void initMap() {
         setName();
         setDescription();
+    }
+
+    public void buildMap() {
         createMap();
     }
 

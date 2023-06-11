@@ -1,23 +1,31 @@
-package domain.card.chance;
+package domain.card;
 
+import domain.card.chance.EffectType;
 import domain.util.CoreUtils;
 
-import java.util.Arrays;
+public class ChanceCard extends Card {
 
-public class ChanceCard {
-
-    private EffectType effect;
+    private final EffectType effect;
 
     public ChanceCard(EffectType type) {
+        super(CardType.Chance);
         this.effect = type;
     }
 
     public ChanceCard() {
-        this.effect = ChanceCard.getRandomType();
+        this(getRandomType());
     }
 
     public EffectType getEffect() {
         return effect;
+    }
+
+    public String getName() {
+        return typeToString(effect);
+    }
+
+    public void apply() {
+        effect.applyEffectStrategy();
     }
 
     public String toString() {

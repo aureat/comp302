@@ -1,6 +1,6 @@
 package domain.card.chance;
 
-public class Revolt implements ChanceEffect {
+public class Bombardment implements ChanceEffect {
 
     @Override
     public void applyEffect() {

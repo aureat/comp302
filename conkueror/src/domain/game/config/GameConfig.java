@@ -1,5 +1,6 @@
 package domain.game.config;
 
+import domain.card.ArmyType;
 import domain.gamemap.GameMap;
 import domain.gamemap.UseMap;
 import util.ClassUtils;
@@ -8,6 +9,7 @@ import util.ModuleInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 public abstract class GameConfig {
 
@@ -28,12 +30,23 @@ public abstract class GameConfig {
     public abstract int getMinimumPlayers();
     public abstract int getMaximumPlayers();
     public abstract int getDiceSides();
+    public abstract int getDefaultDiceBias();
+    public abstract double getRollOneBiasWeight();
+    public abstract double getRollTwoBiasWeight();
+    public abstract int getInitialArmies(int playerCount);
+    public abstract int getInfantryPerPlayer();
+    public abstract int getCavalryPerPlayer();
+    public abstract int getArtilleryPerPlayer();
+    public abstract int getInfantryTradeValue();
+    public abstract int getCavalryTradeValue();
+    public abstract int getArtilleryTradeValue();
+    public abstract int getArmyCardTradeResult(List<ArmyType> types);
 
     /*
      * Meta
      */
 
-    private final List<Class<? extends GameMap>> maps = new ArrayList<>();
+    private final List<GameMap> maps = new ArrayList<>();
 
     private String name;
 
@@ -49,7 +62,7 @@ public abstract class GameConfig {
         this.name = name;
     }
 
-    public List<Class<? extends GameMap>> getMaps() {
+    public List<GameMap> getMaps() {
         return maps;
     }
 
@@ -59,7 +72,12 @@ public abstract class GameConfig {
     }
 
     protected void registerMap(Class<? extends GameMap> map) {
-        maps.add(map);
+        try {
+            maps.add(map.getDeclaredConstructor().newInstance());
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
     private void initConfig() {

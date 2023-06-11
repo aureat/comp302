@@ -9,5 +9,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.MODULE)
 public @interface Version {
-    String value();
+    String id();
+    String name();
 }

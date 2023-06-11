@@ -1,5 +1,10 @@
 package domain.player;
 
+import domain.card.*;
+import domain.card.chance.EffectType;
+import domain.game.Game;
+import domain.game.config.GameConfig;
+import domain.gamemap.ContinentType;
 import domain.mapstate.TerritoryState;
 import org.jetbrains.annotations.NotNull;
 import domain.util.CoreUtils;
@@ -14,6 +19,10 @@ public class Player {
     private Colors.ColorType color;
     private Avatars.AvatarType avatar;
     private boolean isComputer;
+
+    private final List<TerritoryCard> territoryCards = new ArrayList<>();
+    private final List<ArmyCard> armyCards = new ArrayList<>();
+    private final List<EffectType> effects = new ArrayList<>();
 
     private final List<TerritoryState> territories = new ArrayList<>();
 
@@ -39,6 +48,10 @@ public class Player {
 
     public boolean hasTerritory(TerritoryState territory) {
         return territories.contains(territory);
+    }
+
+    public boolean hasAnyTerritory() {
+        return !territories.isEmpty();
     }
 
     public void generateCharacter() {
@@ -89,8 +102,69 @@ public class Player {
         isComputer = computer;
     }
 
-    public boolean equals(Player other) {
-        return this == other;
+    public boolean canApplyTerritoryCards() {
+        if (territoryCards.size() == 0)
+            return false;
+
+        // check if the cards are all in the same continent
+        List<ContinentType> continents = Game.getInstance().getMap().getContinents();
+        return continents.stream().anyMatch(
+                continent -> territoryCards.stream()
+                        .allMatch(card -> card.getTerritoryType().getContinent() == continent)
+        );
+    }
+
+    public boolean canApplyArmyCards() {
+        if (armyCards.size() < 3)
+            return false;
+
+        // check if card trade result is not 0
+        List<ArmyType> armyTypes = armyCards.stream().map(ArmyCard::getArmyType).toList();
+        return GameConfig.get().getArmyCardTradeResult(armyTypes) != 0;
+    }
+
+    public List<EffectType> getEffects() {
+        return effects;
+    }
+
+    public void addEffect(EffectType effect) {
+        effects.add(effect);
+    }
+
+    public boolean hasEffect() {
+        return !effects.isEmpty();
+    }
+
+    public boolean hasEffect(EffectType effect) {
+        return effects.contains(effect);
+    }
+
+    public void removeEffect(EffectType effect) {
+        effects.remove(effect);
+    }
+
+    public void removeAllEffects() {
+        effects.clear();
+    }
+
+    public void addArmyCard(ArmyCard card) {
+        armyCards.add(card);
+    }
+
+    public void removeArmyCard(ArmyCard card) {
+        armyCards.remove(card);
+    }
+
+    public void addTerritoryCard(TerritoryCard card) {
+        territoryCards.add(card);
+    }
+
+    public void removeTerritoryCard(TerritoryCard card) {
+        territoryCards.remove(card);
+    }
+
+    public boolean canRollTwice() {
+        return effects.contains(EffectType.Bombardment);
     }
 
 }
