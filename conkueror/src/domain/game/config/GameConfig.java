@@ -66,14 +66,21 @@ public abstract class GameConfig {
         return maps;
     }
 
+    public GameMap getMap(String name) {
+        return maps.stream().filter(map -> map.getName().equals(name)).findFirst().get();
+    }
+
     protected void registerMaps() {
         ClassUtils.getSubTypes(ModuleInfo.MapsPackage, GameMap.class, UseMap.class)
                 .forEach(this::registerMap);
     }
 
-    protected void registerMap(Class<? extends GameMap> map) {
+    protected void registerMap(Class<? extends GameMap> mapClass) {
         try {
-            maps.add(map.getDeclaredConstructor().newInstance());
+            GameMap map = mapClass.getDeclaredConstructor().newInstance();
+            map.setName();
+            map.setDescription();
+            maps.add(map);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

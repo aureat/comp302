@@ -19,4 +19,13 @@ public class MainController extends ViewController {
 
     }
 
+    public void newGame() {
+        Game.getInstance().createNewGame();
+        redirect(Route.Players);
+    }
+
+    public void continueGame() {
+
+    }
+
 }

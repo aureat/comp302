@@ -2,7 +2,6 @@ package domain.game;
 
 import domain.game.config.GameConfig;
 import domain.player.Player;
-import domain.util.CoreUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;

@@ -27,6 +27,7 @@ public enum Assets {
     DevLogo("logo", 138, 85),
     MenuMd("menu", 48, 50),
     MenuLg("menu", 57, 59),
+    Maps("maps", 210, 260),
     PanelBoard("panel/board"),
     PanelContext("panel/context", 37, 49),
     PanelFloating("panel/floating"),
@@ -34,7 +35,6 @@ public enum Assets {
     PanelPhases("panel/phases"),
     PanelPhase("panel/phase"),
     AvatarCircular("avatars/circular", 390, 390);
-
 
 
     private final Map<String, Asset> cache = new HashMap<>();

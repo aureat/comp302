@@ -28,23 +28,8 @@ public enum Route {
     /** Screen for configuring the map */
     BuildMap,
 
-    /** Screen for deciding who goes first */
-    ShufflePlayers,
-
     /** Screen for playing the game */
     GameMap,
-
-    /** Screen where the chance card is shown */
-    ChanceCard,
-
-    /** Screen where the player can trade army cards */
-    ArmyBonus,
-
-    /** Screen where the player can trade territory cards */
-    TerritoryBonus,
-
-    /** Screen where the player can see their cards */
-    Inventory,
 
     /** Screen where the player can pause the game and see the leaderboard */
     Pause,

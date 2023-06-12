@@ -13,14 +13,15 @@ import java.awt.*;
 public class Config {
 
     public static final String appName = "ConKUeror";
-    public static final String appVersion = ModuleInfo.version;
+    public static final String appVersion = ModuleInfo.versionId;
+    public static final String appVersionDate = ModuleInfo.versionDate;
     public static final String appDeveloper = ModuleInfo.developer;
 
     public static final String windowTitle = appName;
 
     public static final String aboutTitle = appName;
     public static final String aboutDescription = "Thrilling multi-player strategy game experience.";
-    public static final String aboutVersion = appName + " version " + appVersion;
+    public static final String aboutVersion = appName + " version " + appVersion + ": " + appVersionDate;
     public static final String aboutCopyright = aboutVersion + ". Developed by "  + appDeveloper + ".";
 
     public static final int preferredWidth = 1366;

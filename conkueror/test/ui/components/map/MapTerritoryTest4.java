@@ -1,21 +1,15 @@
 package ui.components.map;
 
-import domain.game.Dice;
 import domain.game.Game;
 import domain.game.Phase;
 import domain.mapstate.MapState;
-import domain.player.Player;
-import domain.util.CoreUtils;
-import org.junit.jupiter.api.BeforeEach;
+import util.CoreUtils;
 import org.junit.jupiter.api.Test;
 import domain.mapstate.TerritoryState;
-import ui.app.controllers.MapController;
-import ui.app.router.Route;
 import ui.assets.Fonts;
-import java.util.Random;
+import ui.components.maps.ClassicMapBoard;
 
 
-import javax.swing.*;
 import java.awt.event.MouseEvent;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,7 +45,7 @@ class MapTerritoryTest4 {
         game.createGameMap();
         game.shareTerritories();
         MapState mapState = game.getMapState();
-        WorldMap map = new WorldMap(false);
+        ClassicMapBoard map = new ClassicMapBoard(false);
         map.setMapState();
         TerritoryState state = CoreUtils.chooseRandom(mapState.getTerritoryStates());
         MapTerritory mapTerritory = map.getTerritories().stream().filter(t -> t.getState() == state).findFirst().orElse(null);

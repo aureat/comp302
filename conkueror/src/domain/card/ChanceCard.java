@@ -1,7 +1,7 @@
 package domain.card;
 
 import domain.card.chance.EffectType;
-import domain.util.CoreUtils;
+import util.CoreUtils;
 
 public class ChanceCard extends Card {
 

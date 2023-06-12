@@ -49,7 +49,7 @@ public class MainView extends ViewPanel<MainController> {
         // Button Stack
         ImageBtnStack stack = new ImageBtnStack(ImageBtnStack.VERTICAL, 325, 59, 15, 30);
         stack.addButton(buttons.getAsset("new-game"))
-                .addActionListener(e -> getController().redirect(Route.Players));
+                .addActionListener(e -> getController().newGame());
         stack.addButton(buttons.getAsset("continue-game"))
                 .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
         stack.addButton(buttons.getAsset("exit"))

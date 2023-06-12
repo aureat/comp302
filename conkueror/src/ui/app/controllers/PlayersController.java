@@ -1,6 +1,7 @@
 package ui.app.controllers;
 
 import domain.game.Game;
+import domain.game.config.GameConfig;
 import domain.player.Player;
 import ui.app.router.Controller;
 import ui.app.router.Route;
@@ -44,7 +45,6 @@ public class PlayersController extends ViewController {
     @Override
     public void onUpdate() {
         previews.forEach(PlayerPreview::update);
-
     }
 
     public void updatePreviewFor(Player player) {
@@ -55,6 +55,11 @@ public class PlayersController extends ViewController {
 
     public void initialize() {
 
+    }
+
+    public void nextStep() {
+        Game.getInstance().createMap();
+        redirect(Route.BuildMap);
     }
 
 }
