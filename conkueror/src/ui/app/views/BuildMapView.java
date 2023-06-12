@@ -7,7 +7,8 @@ import ui.app.router.ViewPanel;
 import ui.assets.Assets;
 import ui.assets.Fonts;
 import ui.components.core.ImageButton;
-import ui.components.map.WorldMap;
+import ui.components.maps.ClassicMapBoard;
+import ui.service.MapController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,8 +32,7 @@ public class BuildMapView extends ViewPanel<BuildMapController> {
         // Set Background
         setViewBackground(Assets.Background.getAsset("map"));
 
-        WorldMap map = new WorldMap(true);
-        getController().setMap(map);
+        ClassicMapBoard map = new ClassicMapBoard(MapController.Mode.Build);
         map.setBounds(
                 (getWidth() - map.getWidth())/2,
                 15,
@@ -55,7 +55,6 @@ public class BuildMapView extends ViewPanel<BuildMapController> {
                 continueBtn.getPreferredSize().height
         );
         add(continueBtn);
-
         add(map);
 
     }

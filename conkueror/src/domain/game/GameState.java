@@ -7,7 +7,7 @@ import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
 import domain.player.Player;
 import domain.player.PlayerGenerator;
-import domain.util.CoreUtils;
+import util.CoreUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,6 +66,10 @@ public class GameState {
 
     public MapState getMapState() {
         return mapState;
+    }
+
+    public Phase getPhase() {
+        return phase;
     }
 
     public List<Player> getPlayers() {

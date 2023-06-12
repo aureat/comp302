@@ -14,11 +14,13 @@ public class MapState {
 
     private GameMap map;
 
-    private HashMap<TerritoryType, TerritoryState> territories = new HashMap<>();
+    private final HashMap<TerritoryType, TerritoryState> territories = new HashMap<>();
+    private final HashMap<String, TerritoryState> territoryNameMap = new HashMap<>();
 
     public MapState(GameMap map) {
         for (TerritoryType territoryType : map.getTerritories()) {
             territories.put(territoryType, new TerritoryState(territoryType));
+            territoryNameMap.put(territoryType.getName(), territories.get(territoryType));
         }
     }
 
@@ -35,12 +37,7 @@ public class MapState {
     }
 
     public TerritoryState getTerritoryState(String name) {
-        for (TerritoryState territoryState : territories.values()) {
-            if (territoryState.getName().equals(name)) {
-                return territoryState;
-            }
-        }
-        return null;
+        return territoryNameMap.get(name);
     }
 
     public List<TerritoryState> getTerritoryStates() {

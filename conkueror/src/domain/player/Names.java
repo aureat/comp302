@@ -1,7 +1,6 @@
 package domain.player;
 
-import domain.util.CoreUtils;
-import org.jetbrains.annotations.Contract;
+import util.CoreUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

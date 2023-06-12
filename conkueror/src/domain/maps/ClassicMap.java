@@ -1,7 +1,7 @@
 package domain.maps;
 
 import domain.gamemap.*;
-import domain.util.CoreUtils;
+import util.CoreUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

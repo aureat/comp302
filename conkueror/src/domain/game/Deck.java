@@ -3,7 +3,7 @@ package domain.game;
 import domain.card.*;
 import domain.game.config.GameConfig;
 import domain.gamemap.GameMap;
-import domain.util.CoreUtils;
+import util.CoreUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -11,4 +11,5 @@ import java.lang.annotation.*;
 public @interface Version {
     String id();
     String name();
+    String date();
 }

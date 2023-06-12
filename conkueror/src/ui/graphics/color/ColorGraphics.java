@@ -27,9 +27,9 @@ public class ColorGraphics {
         definePalette(Colors.ColorType.Purple, new Color(158, 80, 255), new Color(64, 43, 74), new Color(54, 40, 82));
 
         definePalette(Colors.ColorType.Gray,
-                new Color(0xA9B5C6),
-                new Color(0xA9B5C6),
-                new Color(0x626A77)
+                new Color(0xCAD3E1),
+                new Color(0x838C9B),
+                new Color(0x585E65)
         );
 
     }

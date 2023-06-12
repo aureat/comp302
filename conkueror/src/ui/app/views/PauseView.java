@@ -40,10 +40,10 @@ public class PauseView extends ViewPanel<PauseController> {
         board.loadAsset("armies");
         board.loadAsset("territories");
 
-        for(int i = 0 ; i< Game.getInstance().getPlayersCount();i++){
-            frame.loadAsset(Game.getInstance().getPlayers().get(i).getColor().toString());
-            avatar.loadAsset(Game.getInstance().getPlayers().get(i).getAvatar().toString());
-        }
+//        for(int i = 0 ; i< Game.getInstance().getPlayersCount();i++){
+//            frame.loadAsset(Game.getInstance().getPlayers().get(i).getColor().toString());
+//            avatar.loadAsset(Game.getInstance().getPlayers().get(i).getAvatar().toString());
+//        }
 
         buttons.loadAsset("save-exit");
         buttons.loadAsset("quit-game");

@@ -36,6 +36,22 @@ public class Game {
         gameState.setSelectedTerritory(state);
     }
 
+    public void nextPhase() {
+        gameState.nextPhase();
+    }
+
+    public Phase getPhase() {
+        return gameState.getPhase();
+    }
+
+    public int getDraftArmies() {
+        return gameState.getDraftArmies();
+    }
+
+    public boolean isComputersTurn() {
+        return gameState.isComputersTurn();
+    }
+
     public GameMap getMap() {
         return gameState.getMap();
     }
@@ -52,8 +68,24 @@ public class Game {
         gameState.createGameMap(map);
     }
 
+    public Player addPlayer() {
+        return gameState.addPlayer();
+    }
+
+    public void shareTerritories() {
+        gameState.shareTerritories();
+    }
+
     public Player getCurrentPlayer() {
         return gameState.getCurrentPlayer();
+    }
+
+    public List<Player> getPlayers() {
+        return gameState.getPlayers();
+    }
+
+    public int getPlayersCount() {
+        return gameState.getPlayersCount();
     }
 
     public boolean canApplyArmyCard() {
@@ -88,6 +120,11 @@ public class Game {
 
     public void createNewGame() {
         gameState = new GameState();
+    }
+
+    public void createMap() {
+        GameMap map = GameConfig.get().getMap("Classic");
+        gameState.createGameMap(map);
     }
 
     public void continueGame() {

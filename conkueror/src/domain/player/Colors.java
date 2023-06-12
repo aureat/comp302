@@ -1,6 +1,6 @@
 package domain.player;
 
-import domain.util.CoreUtils;
+import util.CoreUtils;
 
 import java.util.*;
 

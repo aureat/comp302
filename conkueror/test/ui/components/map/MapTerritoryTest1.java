@@ -3,10 +3,11 @@ package ui.components.map;
 import domain.game.Game;
 import domain.game.Phase;
 import domain.mapstate.MapState;
-import domain.util.CoreUtils;
+import util.CoreUtils;
 import org.junit.jupiter.api.Test;
 import domain.mapstate.TerritoryState;
 import ui.assets.Fonts;
+import ui.components.maps.ClassicMapBoard;
 
 
 import java.awt.event.MouseEvent;
@@ -43,7 +44,7 @@ class MapTerritoryTest1 {
         game.createGameMap();
         game.shareTerritories();
         MapState mapState = game.getMapState();
-        WorldMap map = new WorldMap(false);
+        ClassicMapBoard map = new ClassicMapBoard(false);
         map.setMapState();
         TerritoryState state = CoreUtils.chooseRandom(mapState.getTerritoryStates());
         MapTerritory mapTerritory = map.getTerritories().stream().filter(t -> t.getState() == state).findFirst().orElse(null);

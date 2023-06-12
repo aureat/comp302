@@ -7,7 +7,7 @@ import domain.game.config.GameConfig;
 import domain.gamemap.ContinentType;
 import domain.mapstate.TerritoryState;
 import org.jetbrains.annotations.NotNull;
-import domain.util.CoreUtils;
+import util.CoreUtils;
 
 import java.util.ArrayList;
 import java.util.List;

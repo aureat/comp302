@@ -2,8 +2,10 @@ package ui.app.views;
 
 import domain.game.Game;
 import domain.game.Phase;
+import domain.player.Player;
 import ui.app.Context;
-import ui.app.controllers.MapController;
+import ui.service.GameController;
+import ui.service.MapController;
 import ui.app.router.Route;
 import ui.app.controllers.GameMapController;
 import ui.app.router.View;
@@ -11,14 +13,13 @@ import ui.app.router.ViewPanel;
 import ui.assets.Assets;
 import ui.components.core.ImageBtnStack;
 import ui.components.core.ImageButton;
-import ui.components.core.ImageTextField;
-import ui.components.map.WorldMap;
+import ui.components.maps.ClassicMapBoard;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @View(at = Route.GameMap)
@@ -32,20 +33,23 @@ public class GameMapView extends ViewPanel<GameMapController> {
     private final Assets avatars = Assets.AvatarCircular;
     private final Assets colors = Assets.ColorFrame;
     private final Assets drafts = Assets.PanelDraft;
-    private int turn = 0;
-    private JLabel phaseLabel = new JLabel();
-    private JLabel avatarLabel = new JLabel();
-    private JLabel colorLabel = new JLabel();
 
-    private JLabel attackLabel= new JLabel();
-    private JLabel draftLabel= new JLabel();
-    private ArrayList<ImageButton> draftButtons;
-    ImageButton nextButton = new ImageButton(phase.getAsset("next").getImageIcon(64,64),500,500);
+    public JLabel phaseLabel = new JLabel();
+    public JLabel avatarLabel = new JLabel();
+    public JLabel colorLabel = new JLabel();
 
+    public JLabel fortifyLabel = new JLabel();
+    public JLabel attackLabel = new JLabel();
+    public JLabel draftLabel = new JLabel();
 
-    private ArrayList<JLabel> avatarLabels = new ArrayList<>();
-    private ArrayList<JLabel> colorLabels = new ArrayList<>();
+    public List<ImageButton> draftButtons = new ArrayList<>();
+    public ImageButton nextButton = new ImageButton(phase.getAsset("next").getImageIcon(64,64),500,500);
+    public ImageButton aiButton = new ImageButton(phase.getAsset("ai").getImageIcon(64,64),500,500);
 
+    public List<JLabel> avatarLabels = new ArrayList<>();
+    public List<JLabel> colorLabels = new ArrayList<>();
+
+    public GameController gameController;
 
     public GameMapView() {
         setLayout(null);
@@ -53,10 +57,13 @@ public class GameMapView extends ViewPanel<GameMapController> {
 
     @Override
     public void preload() {
+
+        gameController = GameController.getInstance();
+        gameController.setView(this);
+
         backgrounds.loadAsset("map");
         buttons.loadAsset("pause");
         buttons.loadAsset("help");
-        buttons.loadAsset("cards");
 
         for (int i = 1;i<=20;i++){
             drafts.loadAsset(String.format("%d",i));
@@ -66,30 +73,20 @@ public class GameMapView extends ViewPanel<GameMapController> {
         cards.loadAsset("territory");
         cards.loadAsset("effect");
 
-        for (int p = 0 ; p < Game.getInstance().getPlayersCount()-1;p++){
-            avatars.loadAsset(Game.getInstance().getPlayers().get(p).getAvatar().toString());
-            colors.loadAsset(Game.getInstance().getPlayers().get(p).getColor().toString());
-        }
-
-
+//        for (int p = 0 ; p < Game.getInstance().getPlayersCount()-1;p++){
+//            avatars.loadAsset(Game.getInstance().getPlayers().get(p).getAvatar().toString());
+//            colors.loadAsset(Game.getInstance().getPlayers().get(p).getColor().toString());
+//        }
     }
 
     public void initialize() {
 
-        Assets backgrounds = Assets.Background;
-
         // Set Background
         setViewBackground(backgrounds.getAsset("map"));
 
-        // map
-        WorldMap map = new WorldMap(false);
-        getController().setMap(map);
-        map.setBounds(
-                (getWidth() - map.getWidth())/2,
-                15,
-                map.getWidth(),
-                map.getHeight()
-        );
+        // Game Map
+        ClassicMapBoard map = new ClassicMapBoard(MapController.Mode.Game);
+        centerComponentWithOffset(map, 0, 15);
         add(map);
 
         // Button Stack
@@ -98,17 +95,7 @@ public class GameMapView extends ViewPanel<GameMapController> {
                 .addActionListener(e -> getController().redirect(Route.Pause));
         stack1.addButton(buttons.getAsset("help"))
                 .addActionListener(e -> getController().redirect(Route.Help));
-//        stack1.addButton(buttons.getAsset("cards"))
-//                .addActionListener(e -> System.exit(0));
-
-        // place the stack in the panel
-        stack1.setBounds(
-                30,
-                30,
-                stack1.getPreferredSize().width,
-                stack1.getPreferredSize().height
-        );
-
+        positionNorthWest(stack1, 30, 30);
         add(stack1);
 
         // Card Stack
@@ -119,17 +106,10 @@ public class GameMapView extends ViewPanel<GameMapController> {
                 .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
         stack2.addButton(cards.getAsset("effect"))
                 .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
-
-        // place stack in the panel
-        stack2.setBounds(
-                30,
-                getContainerHeight()-67,
-                stack2.getPreferredSize().width,
-                stack2.getPreferredSize().height
-        );
-
+        positionSouthWest(stack2, 30, 30);
         add(stack2);
 
+        // Phase Panel
         ImageIcon blackBack = phase.getAsset("bg").getImageIcon(391,77);
         phaseLabel.setBounds(getContainerWidth()/2-195,getContainerHeight()-77,391,77);
         phaseLabel.setIcon(blackBack);
@@ -137,7 +117,7 @@ public class GameMapView extends ViewPanel<GameMapController> {
         phaseLabel.add(nextButton);
 
         draftButtons = new ArrayList<>();
-        for (int i = 0; i<20;i++){
+        for (int i = 0; i<20; i++) {
             ImageButton draftButton = new ImageButton(drafts.getAsset(String.format("%d",i+1)).getImageIcon(64,64),500,500);
             draftButton.setBounds(phaseLabel.getWidth()-70,5,64,64);
             draftButton.setVisible(false);
@@ -162,92 +142,13 @@ public class GameMapView extends ViewPanel<GameMapController> {
         phaseLabel.add(fortifyLabel);
         fortifyLabel.setVisible(false);
 
-        rounder(turn);
-
-
-        int armies = Game.getInstance().getDraftArmies();
-        if (armies == 0){
-            nextButton.setVisible(false);
-        }else{
-            draftButtons.get(armies - 1).setVisible(true);
-            nextButton.setVisible(false);
-        }
-
-
-
-
-        nextButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                MapController.deselectAll();
-                Game.getInstance().nextPhase();
-                if (Game.getInstance().getPhase() == Phase.Attack){
-                    attackLabel.setVisible(true);
-                    draftLabel.setVisible(false);
-                    nextButton.setVisible(true);
-                }else if (Game.getInstance().getPhase()==Phase.Fortify) {
-                    fortifyLabel.setVisible(true);
-                    attackLabel.setVisible(false);
-                }else if (Game.getInstance().getPhase()==Phase.Draft) {
-                    draftLabel.setVisible(true);
-                    fortifyLabel.setVisible(false);
-                    nextButton.setVisible(false);
-                    draftButtons.get(Game.getInstance().getDraftArmies()-1).setVisible(true);
-                    turn++;
-                    rounder(turn);
-
-                }
-            }
+        nextButton.addActionListener(e -> {
+            MapController.get().deselect();
+            Game.getInstance().nextPhase();
+            gameController.updatePhasePanel();
         });
-
-
-
-
-
-
         add(phaseLabel);
 
-    }
-
-    public void rounder(int i){
-
-        i = i%(Game.getInstance().getPlayersCount());
-        ImageIcon colorF = colors.getAsset(Game.getInstance().getPlayers().get(i).getColor().toString().toLowerCase()).getImageIcon(70,70);
-        colorLabel.setIcon(colorF);
-        colorLabel.setBounds(0,0,70,70);
-        ImageIcon avatarR = avatars.getAsset(Game.getInstance().getPlayers().get(i).getAvatar().toString().toLowerCase()).getImageIcon(70,70);
-        avatarLabel.setIcon(avatarR);
-        avatarLabel.setBounds(5,0,70,70);
-        avatarLabel.add(colorLabel);
-        phaseLabel.add(avatarLabel);
-
-        //for(int a = 0; a<avatarLabels.size()-1)
-        //ImageIcon color = colors.getAsset(Game.getInstance().getPlayers().get((i+1)%Game.getInstance().getPlayersCount()).getColor().toString().toLowerCase()).getImageIcon(70,70);
-        //colorLabels.get(a).setIcon(color);
-        //ncLabel1.setBounds(0,0,70,70);
-        //ImageIcon avatar1 = avatars.getAsset(Game.getInstance().getPlayers().get((i+1)%Game.getInstance().getPlayersCount()).getAvatar().toString().toLowerCase()).getImageIcon(70,70);
-        //naLabel1.setIcon(avatar1);
-        //naLabel1.setBounds(getContainerWidth()-105,21,70,70);
-        //naLabel1.add(ncLabel1);
-        //phaseLabel.add(naLabel1);
-    }
-    public ArrayList<ImageButton> getDraftButtons(){ return draftButtons; }
-    public void onUpdate(){
-        if(Game.getInstance().getPhase()==Phase.Draft){
-
-            int armies = Game.getInstance().getDraftArmies();
-            draftButtons.get(armies).setVisible(false);
-            if (armies >= 1){
-                draftButtons.get(armies - 1).setVisible(true);
-                nextButton.setVisible(false);
-            }else{
-                draftButtons.get(0).setVisible(false);
-                nextButton.setVisible(true);
-            }
-        } else if (Game.getInstance().getPhase()==Phase.Attack) {
-            repaint();
-
-        }
     }
 
 }

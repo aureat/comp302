@@ -74,7 +74,7 @@ public class PlayersView extends ViewPanel<PlayersController> {
                     }
                 });
         stack.addButton(Assets.ButtonLg.getAsset("continue"))
-                .addActionListener(e -> getController().redirect(Route.ShufflePlayers));
+                .addActionListener(e -> getController().nextStep());
         centerComponentWithOffset(stack, 0, (getHeight()/2-stack.getHeight()-79));
 
         add(burst);

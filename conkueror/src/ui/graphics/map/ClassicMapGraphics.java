@@ -1,36 +1,130 @@
-package ui.graphics;
+package ui.graphics.map;
+
+import util.CoreUtils;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 
-public class MapGraphics {
-
-    private static class MapGraphicsContainer {
-        public static final MapGraphics instance = new MapGraphics();
-    }
-
-    public static MapGraphics getInstance() {
-        return MapGraphicsContainer.instance;
-    }
-
-    private static double scale = 1;
-
-    public static final int continentStroke = 12;
-    public static final int territoryStroke = 3;
-
-    public static void setScale(double newScale) {
-        scale = newScale;
-    }
-
-    public static double getScale() {
-        return scale;
-    }
+public class ClassicMapGraphics {
 
     public static Shape transformShape(Path2D.Double path) {
+        double scale = MapGraphicsDefault.getScale();
         AffineTransform transform = new AffineTransform();
         transform.scale(scale, scale);
         return path.createTransformedShape(transform);
+    }
+
+    public enum TerritoryShape {
+
+        Alaska (createAlaska(), 7, 50),
+        Greenland (createGreenland(), 272, 7),
+        Northwest (createNorthwest(), 78, 36),
+        Alberta (createAlberta(), 78, 93),
+        Ontario (createOntario(), 156, 97),
+        Quebec (createQuebec(), 227, 93),
+        WesternAmerica (createWesternAmerica(), 62, 156),
+        EasternAmerica (createEasternAmerica(), 111, 156),
+        CentralAmerica (createCentralAmerica(), 58, 227),
+        Venezuela (createVenezuela(), 113, 317),
+        Peru (createPeru(), 100, 368),
+        Brazil (createBrazil(), 132, 351),
+        Argentina (createArgentina(), 95, 461),
+        Indonesia (createIndonesia(), 779, 411),
+        NewGuinea (createNewGuinea(), 943, 408),
+        EasternAustralia (createEasternAustralia(), 942, 496),
+        WesternAustralia (createWesternAustralia(), 873, 516),
+        NorthAfrica (createNorthAfrica(), 363, 298),
+        Egypt (createEgypt(), 480, 318),
+        EastAfrica (createEastAfrica(), 533, 376),
+        Congo (createCongo(), 466, 425),
+        SouthAfrica (createSouthAfrica(), 466, 504),
+        Madagascar (createMadagascar(), 630, 517),
+        Russia (createRussia(), 650, 4),
+        Mongolia (createMongolia(), 635, 145),
+        Japan (createJapan(), 937, 134),
+        China (createChina(), 730, 155),
+        India (createIndia(), 688, 235),
+        SouthernEurope (createSouthernEurope(), 452, 210),
+        Anatolia (createAnatolia(), 495, 192),
+        MiddleEast (createMiddleEast(), 537, 245),
+        Siam (createSiam(), 808, 289),
+        GreatBritain (createGreatBritain(), 346, 123),
+        Iceland (createIceland(), 392, 75),
+        Scandinavia (createScandinavia(), 465, 55),
+        NorthernEurope (createNorthernEurope(), 452, 144),
+        WesternEurope (createWesternEurope(), 372, 196),
+        EasternEurope (createEasternEurope(), 527, 55),
+        Persia (createPersia(), 589, 187);
+
+        private final String name;
+        private final Shape shape;
+        private final int x;
+        private final int y;
+
+        TerritoryShape(Shape shape, int x, int y) {
+            name = CoreUtils.separateOnCapital(this);
+            this.shape = shape;
+            this.x = x;
+            this.y = y;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Shape getShape() {
+            return shape;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+    }
+
+    public enum OutlineShape {
+
+        NorthAmerica (createNorthAmericaOutline(), 1, 38),
+        Greenland (createGreenlandOutline(), 266, 5),
+        SouthAmerica (createSouthAmericaOutline(), 95, 315),
+        Britain (createBritainOutline(), 345, 118),
+        Iceland (createIcelandOutline(), 392, 80),
+        Europe (createEuropeOutline(), 372, 61),
+        Asia (createAsiaOutline(), 534, 10),
+        Japan (createJapanOutline(), 934, 140),
+        Africa (createAfricaOutline(), 358, 297),
+        Madagascar (createMadagascarOutline(), 626, 512),
+        Indonesia (createIndonesiaOutline(), 775, 412),
+        NewGuinea (createNewGuineaOutline(), 939, 408),
+        Oceania (createOceaniaOutline(), 868, 497);
+
+        private final Shape shape;
+        private final int x;
+        private final int y;
+
+        OutlineShape (Shape shape, int x, int y) {
+            this.shape = shape;
+            this.x = x;
+            this.y = y;
+        }
+
+        public Shape getShape() {
+            return shape;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
     }
 
     public static Shape createSouthAmericaOutline() {
@@ -2161,61 +2255,5 @@ public class MapGraphics {
         path.closePath();
         return transformShape(path);
     }
-
-    // Outline Shapes
-    public final Shape shapeNorthAmericaOutline = createNorthAmericaOutline();
-    public final Shape shapeGreenlandOutline = createGreenlandOutline();
-    public final Shape shapeSouthAmericaOutline = createSouthAmericaOutline();
-    public final Shape shapeEuropeOutline = createEuropeOutline();
-    public final Shape shapeBritainOutline = createBritainOutline();
-    public final Shape shapeIcelandOutline = createIcelandOutline();
-    public final Shape shapeAsiaOutline = createAsiaOutline();
-    public final Shape shapeJapanOutline = createJapanOutline();
-    public final Shape shapeAfricaOutline = createAfricaOutline();
-    public final Shape shapeMadagascarOutline = createMadagascarOutline();
-    public final Shape shapeOceaniaOutline = createOceaniaOutline();
-    public final Shape shapeIndonesiaOutline = createIndonesiaOutline();
-    public final Shape shapeNewGuineaOutline = createNewGuineaOutline();
-
-    // Territory Shapes
-    public final Shape shapeAlberta = createAlberta();
-    public final Shape shapeAlaska = createAlaska();
-    public final Shape shapeNorthwest = createNorthwest();
-    public final Shape shapeOntario = createOntario();
-    public final Shape shapeQuebec = createQuebec();
-    public final Shape shapeCentralAmerica = createCentralAmerica();
-    public final Shape shapeEasternAmerica = createEasternAmerica();
-    public final Shape shapeWesternAmerica = createWesternAmerica();
-    public final Shape shapeGreenland = createGreenland();
-    public final Shape shapeVenezuela = createVenezuela();
-    public final Shape shapePeru = createPeru();
-    public final Shape shapeBrazil = createBrazil();
-    public final Shape shapeArgentina = createArgentina();
-    public final Shape shapeIndonesia = createIndonesia();
-    public final Shape shapeNewGuinea = createNewGuinea();
-    public final Shape shapeWesternAustralia = createWesternAustralia();
-    public final Shape shapeEasternAustralia = createEasternAustralia();
-    public final Shape shapeNorthAfrica = createNorthAfrica();
-    public final Shape shapeEgypt = createEgypt();
-    public final Shape shapeEastAfrica = createEastAfrica();
-    public final Shape shapeCongo = createCongo();
-    public final Shape shapeSouthAfrica = createSouthAfrica();
-    public final Shape shapeMadagascar = createMadagascar();
-    public final Shape shapeRussia = createRussia();
-    public final Shape shapeMongolia = createMongolia();
-    public final Shape shapeJapan = createJapan();
-    public final Shape shapeChina = createChina();
-    public final Shape shapeIndia = createIndia();
-    public final Shape shapeMiddleEast = createMiddleEast();
-    public final Shape shapeSiam = createSiam();
-    public final Shape shapeGreatBritain = createGreatBritain();
-    public final Shape shapeIceland = createIceland();
-    public final Shape shapeScandinavia = createScandinavia();
-    public final Shape shapeNorthernEurope = createNorthernEurope();
-    public final Shape shapeWesternEurope = createWesternEurope();
-    public final Shape shapeEasternEurope = createEasternEurope();
-    public final Shape shapeSouthernEurope = createSouthernEurope();
-    public final Shape shapeAnatolia = createAnatolia();
-    public final Shape shapePersia = createPersia();
 
 }

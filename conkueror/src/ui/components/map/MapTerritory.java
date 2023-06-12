@@ -1,21 +1,12 @@
 package ui.components.map;
 
-import domain.game.Game;
-import domain.game.Phase;
-import domain.gamemap.GameMap;
-import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
 import domain.player.Colors;
-import domain.player.Player;
-import ui.app.Context;
-import ui.app.controllers.MapController;
-import ui.app.router.Route;
-import ui.app.views.GameMapView;
+import ui.graphics.map.MapGraphicsDefault;
+import ui.service.MapController;
 import ui.assets.Fonts;
 import ui.graphics.color.ColorGraphics;
 import ui.graphics.color.Palette;
-import util.ClassUtils;
-import ui.app.views.GameMapView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,67 +17,71 @@ import java.awt.event.MouseMotionListener;
 public class MapTerritory extends JButton implements MouseListener, MouseMotionListener {
 
     private final TerritoryState state;
+    private final boolean isBuildMode;
+
+    private JLabel label;
     private final Shape shape;
     private boolean isHovered = false;
     private boolean isSelected = false;
-    private final int x, y;
-
-    private boolean isBuildMode = false;
-
-    private JLabel label;
-
-    private boolean isPlayable;
+    private final int width, height;
 
     public MapTerritory(TerritoryState state, Shape shape, int x, int y) {
+        // set properties
         this.state = state;
         this.shape = shape;
+        this.width = (int) shape.getBounds().getWidth();
+        this.height = (int) shape.getBounds().getHeight();
+
+        // get state properties
+        isBuildMode = MapController.get().getMode() == MapController.Mode.Build;
+
+        // initialize component
+        initComponent();
+        initLabel();
+    }
+
+    public void initComponent() {
         setOpaque(false);
         setFocusPainted(false);
         setBorderPainted(false);
-        this.x = x;
-        this.y = y;
-        int width = (int) shape.getBounds().getWidth();
-        int height = (int) shape.getBounds().getHeight();
+        setMixingCutoutShape(shape);
+        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setPreferredSize(new Dimension(width, height));
         setLayout(null);
-        isPlayable = state.isPlayable();
-        label = new JLabel("0");
-        label.setFont(Fonts.GilroyExtraBold.deriveFont(25f));
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setVerticalTextPosition(SwingConstants.CENTER);
-        label.setVerticalAlignment(SwingConstants.CENTER);
-        label.setForeground(Color.WHITE);
-        label.setBounds(width/2, height/2, 30, 30);
-        if (isPlayable)
-            add(label);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
     }
 
-    public void setBuildMode() {
-        this.isBuildMode = true;
-        this.isSelected = true;
-        label.setVisible(false);
+    public void initLabel() {
+        // do not add label if territory should not be playable
+        if (isBuildMode || isDisabled())
+            return;
+
+        // construct label
+        label = new JLabel("0");
+        label.setFont(Fonts.GilroyExtraBold.deriveFont(25f));
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalTextPosition(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setHorizontalTextPosition(JLabel.CENTER);
+        label.setVerticalTextPosition(JLabel.CENTER);
+        label.setForeground(Color.WHITE);
+        label.setBounds((width - 50) / 2, (height - 30) / 2, 50, 30);
+        label.addMouseListener(this);
+        label.addMouseMotionListener(this);
+        add(label);
     }
 
-    public boolean isBuildMode() {
-        return isBuildMode;
+    public boolean isPlayable() {
+        return state.isPlayable();
+    }
+
+    public boolean isDisabled() {
+        return !state.isPlayable();
     }
 
     public TerritoryState getState() {
         return state;
-    }
-
-    public Shape getShape() {
-        return shape;
-    }
-
-    public boolean isHovered() {
-        return isHovered;
-    }
-
-    public void setHovered(boolean hovered) {
-        isHovered = hovered;
     }
 
     public boolean isSelected() {
@@ -95,29 +90,24 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+        repaint();
+    }
+
+    public void toggleSelected() {
+        isSelected = !isSelected;
+        repaint();
     }
 
     public Palette getPalette() {
-        if (isBuildMode)
-            return ColorGraphics.getPalette(Colors.ColorType.Blue);
-        if (!isPlayable)
+        if (isBuildMode || isDisabled())
             return ColorGraphics.getPalette(Colors.ColorType.Gray);
         return ColorGraphics.getPalette(state.getOwner().getColor());
     }
 
     public void update() {
-        label.setText(String.valueOf(state.getArmies()));
+        if (label != null)
+            label.setText(String.valueOf(state.getArmies()));
         repaint();
-    }
-
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
     }
 
     @Override
@@ -126,22 +116,19 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
     }
 
     public Color getFillColor() {
-        if (isBuildMode || isPlayable) {
-            if (isSelected) {
-                if (isHovered) {
-                    return getPalette().territoryFillSelectedHover;
-                } else {
-                    return getPalette().territoryFillSelect;
-                }
+        Palette palette = getPalette();
+        if (isSelected) {
+            if (isHovered) {
+                return palette.territoryFillSelectedHover;
             } else {
-                if (isHovered) {
-                    return getPalette().territoryFillHover;
-                } else {
-                    return getPalette().territoryFill;
-                }
+                return palette.territoryFillSelect;
             }
         } else {
-            return getPalette().territoryFill;
+            if (isHovered) {
+                return palette.territoryFillHover;
+            } else {
+                return palette.territoryFill;
+            }
         }
     }
 
@@ -159,14 +146,12 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (!isBuildMode && isPlayable) {
-            if (contains(e.getPoint())) {
-                isHovered = true;
-                repaint();
-            } else {
-                isHovered = false;
-                repaint();
-            }
+        if (contains(e.getPoint())) {
+            isHovered = true;
+            repaint();
+        } else {
+            isHovered = false;
+            repaint();
         }
     }
 
@@ -186,83 +171,7 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!isBuildMode && isPlayable) {
-            if (Game.getInstance().getPhase() == Phase.Draft){
-                if(state.getOwner()==Game.getInstance().getCurrentplayer()) {
-                    Game.getInstance().setDraftArmies(state);
-                    Route.GameMap.getController().update();
-                    update();
-                }
-            } else if (Game.getInstance().getPhase() == Phase.Attack) {
-                if (state.getOwner() == Game.getInstance().getCurrentplayer() && state.canStartAttack()) {
-                    MapController.deselectAll();
-                    for (TerritoryState territory : MapState.getInstance().getTerritories().values()) {
-                        if (territory.isAttacker()) {
-                            territory.setAttacker(false);
-                        }
-                    }
-                    setSelected(true);
-                    state.setAttacker(true);
-                    Route.GameMap.getController().update();
-                    MapController.map.repaint();
-                } else if (state.getOwner() != Game.getInstance().getCurrentplayer()) {
-                    for (TerritoryState territory : MapState.getInstance().getTerritories().values()) {
-                        if (territory.isAttacker()) {
-                            for (TerritoryState t : MapState.getInstance().getNeighborsOf(territory) ){
-                                if(t==state) {
-                                    MapController.deselectAll();
-                                    Game.getInstance().attackPhase(territory, state);
-                                    territory.setAttacker(false);
-                                    Route.GameMap.update();
-                                    MapController.map.repaint();
-                                    MapController.map.updateOnMap(territory);
-                                    MapController.map.updateOnMap(state);
-                                }
-                            }
-                        }
-                    }
-                }
-            } else if (Game.getInstance().getPhase() == Phase.Fortify) {
-                if (state.getOwner() == Game.getInstance().getCurrentplayer()&& !(state.isDonor())) {
-                    setSelected(true);
-                    state.setDonor(true);
-                    for (TerritoryState t : state.getOwner().getTerritories()){
-                        if (t!=state && t.isDonor()){
-                            MapController.deselectAll();
-                            state.setDonor(false);
-                            Game.getInstance().fortifyPhase(t,state);
-                            MapController.deselectAll();
-                            t.setDonor(false);
-                            Route.GameMap.update();
-                            MapController.map.repaint();
-                            MapController.map.updateOnMap(t);
-                            MapController.map.updateOnMap(state);
-                        }
-                    }
-                    Route.GameMap.update();
-                    MapController.map.updateOnMap(state);
-                    Route.GameMap.getController().update();
-                    update();
-                    MapController.map.repaint();
-                }else if (state.getOwner() == Game.getInstance().getCurrentplayer()&& state.isDonor()){
-                    setSelected(false);
-                    state.setDonor(false);
-                    Route.GameMap.update();
-                    MapController.map.updateOnMap(state);
-                    Route.GameMap.getController().update();
-                    update();
-                    MapController.map.repaint();
-                }
-            }
-        }
-        if (isBuildMode) {
-            if (contains(e.getPoint())) {
-                setSelected(!isSelected);
-                state.setPlayable(isSelected);
-                repaint();
-            }
-        }
-
+        MapController.get().handleMapTerritoryClick(this);
     }
 
     @Override
@@ -272,11 +181,12 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setStroke(new BasicStroke(8));
+        g2d.setStroke(new BasicStroke(MapGraphicsDefault.territoryStroke));
         g2d.setColor(getStrokeColor());
         g2d.draw(shape);
         g2d.setColor(getFillColor());
         g2d.fill(shape);
+        g2d.dispose();
         super.paintComponent(g);
     }
 
