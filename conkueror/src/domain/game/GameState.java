@@ -123,12 +123,14 @@ public class GameState {
         mapState.getTerritoryStates().forEach(territory -> {
             Player player = CoreUtils.chooseRandom(players);
             if (territory.isPlayable() && territoryCount > player.getTerritoryCount() && territory.getOwner() == null) {
-                player.addTerritory(territory);
+                if (!player.getTerritories().contains(territory))
+                    player.addTerritory(territory);
                 territory.setOwner(player);
                 List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
                 neighbors.forEach(neighbor -> {
                     if (territoryCount > player.getTerritoryCount() && neighbor.getOwner() == null) {
-                        player.addTerritory(neighbor);
+                        if (!player.getTerritories().contains(neighbor))
+                            player.addTerritory(neighbor);
                         neighbor.setOwner(player);
                     }
                 });
@@ -140,13 +142,15 @@ public class GameState {
             if (state.getOwner() == null) {
                 players.forEach(player -> {
                     if (player.getTerritoryCount() < territoryCount) {
-                        player.addTerritory(state);
+                        if (!player.getTerritories().contains(state))
+                            player.addTerritory(state);
                         state.setOwner(player);
                     }
                 });
-                if (state.getOwner() == null){
+                if (state.getOwner() == null) {
                     Player luckyPlayer = CoreUtils.chooseRandom(players);
-                    luckyPlayer.addTerritory(state);
+                    if (!luckyPlayer.getTerritories().contains(state))
+                        luckyPlayer.addTerritory(state);
                     state.setOwner(luckyPlayer);
                 }
             }
@@ -154,6 +158,7 @@ public class GameState {
 
         // distribute armies
         int armies = getStartingArmies();
+        System.out.println(armies);
         mapState.getTerritoryStates().forEach(state -> {
             if (state.getOwner() != null) {
                 state.setArmies(Math.floorDiv(armies, state.getOwner().getTerritoryCount()));
@@ -167,7 +172,7 @@ public class GameState {
     }
 
     public void giveDraftArmies() {
-        draftArmies = Math.floorDiv(currentPlayer.getTerritoryCount(), 2);
+        draftArmies = Math.floorDiv(currentPlayer.getTerritoryCount(), 3);
     }
 
     public void nextPhase() {
@@ -176,8 +181,10 @@ public class GameState {
         if (phase == null) {
             shufflePlayers();
             shareTerritories();
+            deck = new Deck(map, players.size());
             phase = Phase.Draft;
             currentPlayer = players.get(0);
+            System.out.println(players.size());
             giveDraftArmies();
         }
 
@@ -206,6 +213,7 @@ public class GameState {
             }
 
             // change player
+            System.out.println(players.size());
             currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % players.size());
 
             // award chance card
@@ -216,6 +224,17 @@ public class GameState {
 
         }
 
+    }
+
+    public boolean canGoToNextPhase() {
+        if (phase == null) {
+            return true;
+        } else if (phase == Phase.Draft) {
+            return draftArmies == 0;
+        } else if (phase == Phase.Attack) {
+            return true;
+        } else
+            return phase == Phase.Fortify;
     }
 
     public void drawFromDeck() {
@@ -281,7 +300,7 @@ public class GameState {
         }
 
         // if the previous owner lost all territories, remove him from the game
-        if (previousOwner.hasAnyTerritory()) {
+        if (!previousOwner.hasAnyTerritory()) {
             removePlayerFromGame(previousOwner);
         }
 
@@ -297,8 +316,8 @@ public class GameState {
             return;
         }
 
-        from.setArmies(from.getArmies() - 1);
-        to.setArmies(to.getArmies() + 1);
+        from.removeArmies(1);
+        to.addArmies(1);
     }
 
     public ChanceCard getCurrentChanceCard() {

@@ -6,7 +6,7 @@ import util.annotations.Version;
  * the application classes for the game ConKUeror.
  */
 @Version(
-        id="0.6.2",
+        id="0.6.3",
         name="UI Implementation Overhaul",
         date="June 12, 2023"
 )

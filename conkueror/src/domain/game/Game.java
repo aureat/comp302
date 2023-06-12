@@ -118,6 +118,26 @@ public class Game {
         card.apply();
     }
 
+    public void performDraft(TerritoryState state) {
+        gameState.performDraft(state);
+    }
+
+    public void performAttack(TerritoryState attacker, TerritoryState defender) {
+        gameState.performAttack(attacker, defender);
+    }
+
+    public void performFortify(TerritoryState from, TerritoryState to) {
+        gameState.performFortify(from, to);
+    }
+
+    public List<TerritoryState> getAttackableNeighborsOf(TerritoryState state) {
+        return gameState.getMapState().getAttackableNeighborsOf(state);
+    }
+
+    public boolean canGoToNextPhase() {
+        return gameState.canGoToNextPhase();
+    }
+
     public void createNewGame() {
         gameState = new GameState();
     }

@@ -50,7 +50,7 @@ public class Colors {
     }
 
     public static ColorType getRandomPlayable() {
-        ColorType randomColor = CoreUtils.chooseRandom(playableColors);
+        ColorType randomColor = CoreUtils.chooseRandom(playableCache);
         playableCache.remove(randomColor);
         return randomColor;
     }

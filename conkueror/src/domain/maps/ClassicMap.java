@@ -73,7 +73,7 @@ public class ClassicMap extends GameMap {
         NewGuinea (Continent.Oceania, Indonesia),
         WesternAustralia (Continent.Oceania, Indonesia),
         EasternAustralia (Continent.Oceania, NewGuinea, WesternAustralia),
-        NorthAfrica (Continent.Africa),
+        NorthAfrica (Continent.Africa, Brazil),
         Egypt (Continent.Africa, NorthAfrica),
         EastAfrica (Continent.Africa, NorthAfrica, Egypt),
         Congo (Continent.Africa, NorthAfrica, EastAfrica),
@@ -93,7 +93,7 @@ public class ClassicMap extends GameMap {
         WesternEurope (Continent.Europe, NorthAfrica, GreatBritain, NorthernEurope),
         EasternEurope (Continent.Europe, Russia, Mongolia, Scandinavia, NorthernEurope),
         SouthernEurope (Continent.Europe, NorthAfrica, NorthernEurope, WesternEurope, EasternEurope),
-        Anatolia (Continent.Europe, MiddleEast, NorthernEurope, WesternEurope, EasternEurope),
+        Anatolia (Continent.Europe, MiddleEast, NorthernEurope, SouthernEurope, EasternEurope, Egypt),
         Persia (Continent.Europe, Mongolia, MiddleEast, EasternEurope, Anatolia);
 
         private final String name;

@@ -88,7 +88,7 @@ public class TerritoryState {
     }
 
     public boolean canStartAttack() {
-        return playable && owner != null && armies > 3;
+        return playable && owner != null && armies > 2;
     }
 
     public boolean canStartFortify() {

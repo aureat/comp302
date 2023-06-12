@@ -49,6 +49,10 @@ public class GameMapView extends ViewPanel<GameMapController> {
     public List<JLabel> avatarLabels = new ArrayList<>();
     public List<JLabel> colorLabels = new ArrayList<>();
 
+    public ImageButton armyButton;
+    public ImageButton territoryButton;
+    public ImageButton effectButton;
+
     public GameController gameController;
 
     public GameMapView() {
@@ -72,11 +76,6 @@ public class GameMapView extends ViewPanel<GameMapController> {
         cards.loadAsset("army");
         cards.loadAsset("territory");
         cards.loadAsset("effect");
-
-//        for (int p = 0 ; p < Game.getInstance().getPlayersCount()-1;p++){
-//            avatars.loadAsset(Game.getInstance().getPlayers().get(p).getAvatar().toString());
-//            colors.loadAsset(Game.getInstance().getPlayers().get(p).getColor().toString());
-//        }
     }
 
     public void initialize() {
@@ -86,7 +85,12 @@ public class GameMapView extends ViewPanel<GameMapController> {
 
         // Game Map
         ClassicMapBoard map = new ClassicMapBoard(MapController.Mode.Game);
-        centerComponentWithOffset(map, 0, 15);
+        map.setBounds(
+                (getWidth() - map.getWidth())/2,
+                15,
+                map.getWidth(),
+                map.getHeight()
+        );
         add(map);
 
         // Button Stack
@@ -100,13 +104,16 @@ public class GameMapView extends ViewPanel<GameMapController> {
 
         // Card Stack
         ImageBtnStack stack2 = new ImageBtnStack(ImageBtnStack.HORIZONTAL, 37, 49, 22, 20);
-        stack2.addButton(cards.getAsset("army"))
-                .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
-        stack2.addButton(cards.getAsset("territory"))
-                .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
-        stack2.addButton(cards.getAsset("effect"))
-                .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
-        positionSouthWest(stack2, 30, 30);
+        armyButton = stack2.addButton(cards.getAsset("army"));
+        armyButton.addActionListener(e -> gameController.applyArmyCard());
+        armyButton.setVisible(false);
+        territoryButton = stack2.addButton(cards.getAsset("territory"));
+        territoryButton.addActionListener(e -> gameController.applyTerritoryCard());
+        territoryButton.setVisible(false);
+        effectButton = stack2.addButton(cards.getAsset("effect"));
+        territoryButton.addActionListener(e -> gameController.applyEffectCard());
+        effectButton.setVisible(false);
+        positionSouthWest(stack2, 30, 18);
         add(stack2);
 
         // Phase Panel
@@ -137,7 +144,7 @@ public class GameMapView extends ViewPanel<GameMapController> {
         phaseLabel.add(draftLabel);
 
         ImageIcon fortifyPhase = phases.getAsset("fortify").getImageIcon(206,77);
-        JLabel fortifyLabel = new JLabel(fortifyPhase);
+        fortifyLabel = new JLabel(fortifyPhase);
         fortifyLabel.setBounds(103,0,206,77);
         phaseLabel.add(fortifyLabel);
         fortifyLabel.setVisible(false);
@@ -146,8 +153,11 @@ public class GameMapView extends ViewPanel<GameMapController> {
             MapController.get().deselect();
             Game.getInstance().nextPhase();
             gameController.updatePhasePanel();
+            gameController.updateContextPanel();
         });
         add(phaseLabel);
+
+        gameController.updatePhasePanel();
 
     }
 

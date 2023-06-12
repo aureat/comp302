@@ -40,19 +40,27 @@ public class GameController {
 
         if (Game.getInstance().getPhase() == Phase.Attack) {
             view.attackLabel.setVisible(true);
+            view.fortifyLabel.setVisible(false);
             view.draftLabel.setVisible(false);
-            view.nextButton.setVisible(true);
         } else if (Game.getInstance().getPhase() == Phase.Fortify) {
             view.fortifyLabel.setVisible(true);
             view.attackLabel.setVisible(false);
+            view.draftLabel.setVisible(false);
         } else if (Game.getInstance().getPhase() == Phase.Draft) {
             view.draftLabel.setVisible(true);
+            view.attackLabel.setVisible(false);
             view.fortifyLabel.setVisible(false);
-            view.nextButton.setVisible(false);
-            view.draftButtons.get(Game.getInstance().getDraftArmies() - 1).setVisible(true);
+            if (Game.getInstance().getDraftArmies() > 0) {
+                view.draftButtons.get(Game.getInstance().getDraftArmies() - 1).setVisible(true);
+            } else {
+                view.draftButtons.forEach(button -> button.setVisible(false));
+            }
         }
 
-        Player player = Game.getInstance().getCurrentPlayer();
+        view.nextButton.setVisible(game.canGoToNextPhase());
+
+        Player player = game.getCurrentPlayer();
+        System.out.println(player.getFullName());
 
         ImageIcon colorF = Assets.ColorFrame.getAsset(player.getColor().toString().toLowerCase()).getImageIcon(70,70);
         view.colorLabel.setIcon(colorF);
@@ -66,11 +74,35 @@ public class GameController {
     }
 
     public void updateContextPanel() {
-
+        Player player = game.getCurrentPlayer();
+        if (player.canApplyArmyCards()) {
+            view.armyButton.setVisible(true);
+        }
+        if (player.canApplyTerritoryCards()) {
+            view.territoryButton.setVisible(true);
+        }
+        if (game.canApplyChanceCard()) {
+            view.effectButton.setVisible(true);
+        }
     }
 
     public void setComputerTurn() {
 
+    }
+
+    public void applyArmyCard() {
+        game.applyArmyCard();
+        view.armyButton.setVisible(false);
+    }
+
+    public void applyTerritoryCard() {
+        game.applyTerritoryCard();
+        view.territoryButton.setVisible(false);
+    }
+
+    public void applyEffectCard() {
+        game.applyChanceCard();
+        view.effectButton.setVisible(false);
     }
 
 }
