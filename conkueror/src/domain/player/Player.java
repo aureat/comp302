@@ -102,6 +102,11 @@ public class Player {
         isComputer = computer;
     }
 
+    public  List<ArmyType> getArmyCards(){
+        List<ArmyType> armyTypes = armyCards.stream().map(ArmyCard::getArmyType).toList();
+        return armyTypes;
+    }
+
     public boolean canApplyTerritoryCards() {
         if (territoryCards.size() == 0)
             return false;

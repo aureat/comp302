@@ -2,10 +2,12 @@ package domain.game;
 
 import domain.card.ChanceCard;
 import domain.game.config.GameConfig;
+import domain.gamemap.ContinentType;
 import domain.gamemap.GameMap;
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
 import domain.player.Player;
+import util.CoreUtils;
 
 import java.util.List;
 
@@ -94,6 +96,15 @@ public class Game {
 
     public void applyArmyCard() {
         // TODO: Implement
+        //territory to add army card
+        if(getPhase().equals(Phase.Draft)){
+            TerritoryState terr = CoreUtils.chooseRandom(Game.getInstance().getCurrentPlayer().getTerritories());
+            int cardTradeResult = GameConfig.get().getArmyCardTradeResult(Game.getInstance().getCurrentPlayer().getArmyCards());
+            terr.setArmies(terr.getArmies()+cardTradeResult);
+        }
+
+
+
     }
 
     public boolean canApplyTerritoryCard() {
@@ -102,6 +113,9 @@ public class Game {
 
     public void applyTerritoryCard() {
         // TODO: Implement
+        if(canApplyTerritoryCard()){
+
+        }
     }
 
     public boolean canApplyChanceCard() {
