@@ -53,31 +53,31 @@ public class DefaultCfg extends GameConfig {
     public int getArmyCardTradeResult(List<ArmyType> types) {
 
         // If types contains 3 ArmyType.Infantry, return 5
-        if (types.stream().filter(type -> type == ArmyType.Infantry).count() == 3) {
+        if (types.stream().filter(type -> type == ArmyType.Infantry).count() >= 3) {
             return getCavalryTradeValue();
         }
 
         // If types contains 2 Infantry and 1 Cavalry, return 10
-        if (types.stream().filter(type -> type == ArmyType.Infantry).count() == 2 &&
-                types.stream().filter(type -> type == ArmyType.Cavalry).count() == 1) {
+        if (types.stream().filter(type -> type == ArmyType.Infantry).count() >= 2 &&
+                types.stream().filter(type -> type == ArmyType.Cavalry).count() >= 1) {
             return 2 * getCavalryTradeValue();
         }
 
         // If types contains 2 Infantry and 1 Artillery, return 20
-        if (types.stream().filter(type -> type == ArmyType.Infantry).count() == 2 &&
-                types.stream().filter(type -> type == ArmyType.Artillery).count() == 1) {
+        if (types.stream().filter(type -> type == ArmyType.Infantry).count() >= 2 &&
+                types.stream().filter(type -> type == ArmyType.Artillery).count() >= 1) {
             return 2 * getArtilleryTradeValue();
         }
 
         // If types contains 1 Infantry and 2 Cavalry, return 15
-        if (types.stream().filter(type -> type == ArmyType.Infantry).count() == 1 &&
-                types.stream().filter(type -> type == ArmyType.Cavalry).count() == 2) {
+        if (types.stream().filter(type -> type == ArmyType.Infantry).count() >= 1 &&
+                types.stream().filter(type -> type == ArmyType.Cavalry).count() >= 2) {
             return getCavalryTradeValue() + getArtilleryTradeValue();
         }
 
         // If types contains 1 Artillery and 2 Cavalry, return 30
-        if (types.stream().filter(type -> type == ArmyType.Artillery).count() == 1 &&
-                types.stream().filter(type -> type == ArmyType.Cavalry).count() == 2) {
+        if (types.stream().filter(type -> type == ArmyType.Artillery).count() >= 1 &&
+                types.stream().filter(type -> type == ArmyType.Cavalry).count() >= 2) {
             return 3 * getArtilleryTradeValue();
         }
 

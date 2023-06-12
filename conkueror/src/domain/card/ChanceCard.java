@@ -3,9 +3,13 @@ package domain.card;
 import domain.card.chance.EffectType;
 import util.CoreUtils;
 
+import java.util.Random;
+
 public class ChanceCard extends Card {
 
     private final EffectType effect;
+
+    private boolean isUsed = false;
 
     public ChanceCard(EffectType type) {
         super(CardType.Chance);
@@ -18,6 +22,14 @@ public class ChanceCard extends Card {
 
     public EffectType getEffect() {
         return effect;
+    }
+
+    public void setUsed(boolean used) {
+        isUsed = used;
+    }
+
+    public boolean isUsed() {
+        return isUsed;
     }
 
     public String getName() {
@@ -33,7 +45,26 @@ public class ChanceCard extends Card {
     }
 
     public static EffectType getRandomType() {
-        return CoreUtils.chooseRandom(EffectType.values());
+        double rand = new Random().nextDouble();
+
+        if (rand < 0.05) {
+            return EffectType.NuclearStrike;
+        }
+
+        if (rand < 0.4) {
+            return EffectType.Reinforcements;
+        }
+
+        if (rand < 0.6) {
+            return EffectType.Revolt;
+        }
+
+        if (rand < 0.7) {
+            return EffectType.Bombardment;
+        }
+
+        return EffectType.Draft;
+
     }
 
     public static String typeToString(EffectType type) {

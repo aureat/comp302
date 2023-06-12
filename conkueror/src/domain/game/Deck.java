@@ -50,6 +50,9 @@ public class Deck {
         // Shuffle
         Collections.shuffle(shuffledCards);
 
+        System.out.println("Deck shuffled");
+        System.out.println("Deck size: " + shuffledCards.size());
+
     }
 
     public Card drawCard() {

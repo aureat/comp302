@@ -68,6 +68,7 @@ public class MapState {
     public List<TerritoryState> getAttackableNeighborsOf(TerritoryState territoryState) {
         List<TerritoryState> neighbors = getNeighborsOf(territoryState);
         neighbors.removeIf(neighbor ->
+                !neighbor.isPlayable() ||
                 neighbor.getOwner() == territoryState.getOwner() ||
                 neighbor.getArmies() > territoryState.getArmies());
         return neighbors;

@@ -123,45 +123,53 @@ public class GameState {
         mapState.getTerritoryStates().forEach(territory -> {
             Player player = CoreUtils.chooseRandom(players);
             if (territory.isPlayable() && territoryCount > player.getTerritoryCount() && territory.getOwner() == null) {
-                if (!player.getTerritories().contains(territory))
+                if (!player.getTerritories().contains(territory)) {
                     player.addTerritory(territory);
-                territory.setOwner(player);
+                    territory.setOwner(player);
+                }
                 List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
                 neighbors.forEach(neighbor -> {
                     if (territoryCount > player.getTerritoryCount() && neighbor.getOwner() == null) {
-                        if (!player.getTerritories().contains(neighbor))
+                        if (!player.getTerritories().contains(neighbor)) {
                             player.addTerritory(neighbor);
-                        neighbor.setOwner(player);
+                            neighbor.setOwner(player);
+                        }
                     }
                 });
             }
         });
+
+        // if there are remaining territories
+        List<TerritoryState> remaining = mapState.getTerritoryStates().stream().filter(state -> state.getOwner() == null).toList();
 
         // distribute remaining territories
-        mapState.getTerritoryStates().forEach(state -> {
-            if (state.getOwner() == null) {
-                players.forEach(player -> {
-                    if (player.getTerritoryCount() < territoryCount) {
-                        if (!player.getTerritories().contains(state))
-                            player.addTerritory(state);
-                        state.setOwner(player);
-                    }
-                });
+        if (remaining.size() > 0) {
+            mapState.getTerritoryStates().forEach(state -> {
                 if (state.getOwner() == null) {
-                    Player luckyPlayer = CoreUtils.chooseRandom(players);
-                    if (!luckyPlayer.getTerritories().contains(state))
-                        luckyPlayer.addTerritory(state);
-                    state.setOwner(luckyPlayer);
+                    players.forEach(player -> {
+                        if (player.getTerritoryCount() < territoryCount) {
+                            if (!player.getTerritories().contains(state)) {
+                                player.addTerritory(state);
+                                state.setOwner(player);
+                            }
+                        }
+                    });
+                    if (state.getOwner() == null) {
+                        Player luckyPlayer = CoreUtils.chooseRandom(players);
+                        if (!luckyPlayer.getTerritories().contains(state)) {
+                            luckyPlayer.addTerritory(state);
+                            state.setOwner(luckyPlayer);
+                        }
+                    }
                 }
-            }
-        });
+            });
+        }
 
         // distribute armies
-        int armies = getStartingArmies();
-        System.out.println(armies);
+        int armies = (int) Math.ceil((double) getStartingArmies() / map.getTerritories().size() * getPlayersCount());
         mapState.getTerritoryStates().forEach(state -> {
             if (state.getOwner() != null) {
-                state.setArmies(Math.floorDiv(armies, state.getOwner().getTerritoryCount()));
+                state.setArmies(armies);
             }
         });
 
@@ -213,7 +221,6 @@ public class GameState {
             }
 
             // change player
-            System.out.println(players.size());
             currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % players.size());
 
             // award chance card
@@ -233,8 +240,9 @@ public class GameState {
             return draftArmies == 0;
         } else if (phase == Phase.Attack) {
             return true;
-        } else
+        } else {
             return phase == Phase.Fortify;
+        }
     }
 
     public void drawFromDeck() {

@@ -1,5 +1,7 @@
 package ui.service;
 
+import domain.card.ChanceCard;
+import domain.card.chance.EffectType;
 import domain.game.Game;
 import domain.game.Phase;
 import domain.player.Player;
@@ -25,12 +27,32 @@ public class GameController {
     private GameMapView view;
     private Game game = Game.getInstance();
 
+    private boolean chanceCardMode = false;
+    private boolean armyCardMode = false;
+    private EffectType selectedEffect;
+
     private GameController() {
 
     }
 
     public void setView(GameMapView view) {
         this.view = view;
+    }
+
+    public void setChanceCardMode(boolean chanceCardMode) {
+        this.chanceCardMode = chanceCardMode;
+    }
+
+    public boolean isChanceCardMode() {
+        return chanceCardMode;
+    }
+
+    public void setArmyCardMode(boolean armyCardMode) {
+        this.armyCardMode = armyCardMode;
+    }
+
+    public boolean isArmyCardMode() {
+        return armyCardMode;
     }
 
     public void updatePhasePanel() {
@@ -60,7 +82,6 @@ public class GameController {
         view.nextButton.setVisible(game.canGoToNextPhase());
 
         Player player = game.getCurrentPlayer();
-        System.out.println(player.getFullName());
 
         ImageIcon colorF = Assets.ColorFrame.getAsset(player.getColor().toString().toLowerCase()).getImageIcon(70,70);
         view.colorLabel.setIcon(colorF);
@@ -75,15 +96,9 @@ public class GameController {
 
     public void updateContextPanel() {
         Player player = game.getCurrentPlayer();
-        if (player.canApplyArmyCards()) {
-            view.armyButton.setVisible(true);
-        }
-        if (player.canApplyTerritoryCards()) {
-            view.territoryButton.setVisible(true);
-        }
-        if (game.canApplyChanceCard()) {
-            view.effectButton.setVisible(true);
-        }
+        view.armyButton.setVisible(player.canApplyArmyCards());
+        view.territoryButton.setVisible(player.canApplyTerritoryCards());
+        view.effectButton.setVisible(game.canApplyChanceCard() && !game.getGameState().getCurrentChanceCard().isUsed());
     }
 
     public void setComputerTurn() {
@@ -91,7 +106,8 @@ public class GameController {
     }
 
     public void applyArmyCard() {
-        game.applyArmyCard();
+        setArmyCardMode(true);
+        view.cardName.setText("Armies");
         view.armyButton.setVisible(false);
     }
 
@@ -101,8 +117,26 @@ public class GameController {
     }
 
     public void applyEffectCard() {
-        game.applyChanceCard();
+        ChanceCard card = game.getCurrentChanceCard();
+        if (card.getEffect() == EffectType.Revolt ||
+                card.getEffect() == EffectType.Reinforcements ||
+                card.getEffect() == EffectType.NuclearStrike) {
+            setChanceCardMode(true);
+        }
+        view.cardName.setText(card.getName());
         view.effectButton.setVisible(false);
+    }
+
+    public void endEffectCard() {
+        setChanceCardMode(false);
+        view.effectButton.setVisible(false);
+        view.cardName.setText("");
+    }
+
+    public void endArmyCard() {
+        setArmyCardMode(false);
+        view.armyButton.setVisible(false);
+        view.cardName.setText("");
     }
 
 }

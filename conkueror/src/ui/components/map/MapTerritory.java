@@ -106,8 +106,13 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
     }
 
     public void update() {
-        if (label != null)
+        if (isDisabled() && label != null) {
+            remove(label);
+            label = null;
+        }
+        if (label != null) {
             label.setText(String.valueOf(state.getArmies()));
+        }
         repaint();
     }
 
@@ -118,6 +123,10 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
 
     public Color getFillColor() {
         Palette palette = getPalette();
+        if (isDisabled() && label != null) {
+            remove(label);
+            label = null;
+        }
         if (isSelected) {
             if (isHovered) {
                 return palette.territoryFillSelectedHover;

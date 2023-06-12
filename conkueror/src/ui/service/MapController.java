@@ -1,5 +1,7 @@
 package ui.service;
 
+import domain.card.ChanceCard;
+import domain.card.chance.EffectType;
 import domain.game.Game;
 import domain.game.Phase;
 import domain.mapstate.MapState;
@@ -26,7 +28,7 @@ public class MapController {
 
     public enum Mode {
         Build,
-        Game
+        Game,
     }
 
     private final MapBoard map;
@@ -106,11 +108,64 @@ public class MapController {
             return;
         }
 
+        if (!mapTerritory.getState().isPlayable()) {
+            return;
+        }
+
         if (mode == Mode.Game) {
             GameController.getInstance().updatePhasePanel();
         }
 
-        if (!mapTerritory.getState().isPlayable()) {
+        ChanceCard card = game.getCurrentChanceCard();
+        boolean chanceCardMode = GameController.getInstance().isChanceCardMode();
+        boolean armyCardMode = GameController.getInstance().isArmyCardMode();
+
+        if (armyCardMode) {
+            if (mapTerritory.getState().getOwner() != game.getCurrentPlayer()) {
+                return;
+            }
+            game.armiesTo = mapTerritory.getState();
+            game.applyArmyCard();
+            updateMapTerritories();
+            GameController.getInstance().endArmyCard();
+            return;
+        }
+
+        if (chanceCardMode && card.getEffect() == EffectType.NuclearStrike) {
+            if (mapTerritory.getState().getOwner() == game.getCurrentPlayer()) {
+                return;
+            }
+            game.nukeTo = mapTerritory.getState();
+            game.applyChanceCard();
+            updateMapTerritories();
+            GameController.getInstance().endEffectCard();
+            return;
+        }
+
+        if (chanceCardMode && card.getEffect() == EffectType.Reinforcements) {
+            if (mapTerritory.getState().getOwner() != game.getCurrentPlayer()) {
+                return;
+            }
+            game.reinforcementsTo = mapTerritory.getState();
+            game.applyChanceCard();
+            updateMapTerritories();
+            GameController.getInstance().endEffectCard();
+            return;
+        }
+
+        if (chanceCardMode && card.getEffect() == EffectType.Revolt) {
+            if (game.revoltFrom == null && mapTerritory.getState().getOwner() == game.getCurrentPlayer()) {
+                game.revoltFrom = mapTerritory.getState();
+                setSelectedMapTerritory(mapTerritory);
+                return;
+            }
+            if (game.revoltFrom != mapTerritory.getState() && mapTerritory.getState().getOwner() == game.getCurrentPlayer()) {
+                game.revoltTo = mapTerritory.getState();
+                game.applyChanceCard();
+                deselect();
+                updateMapTerritories();
+                GameController.getInstance().endEffectCard();
+            }
             return;
         }
 

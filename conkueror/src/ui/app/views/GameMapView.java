@@ -4,6 +4,7 @@ import domain.game.Game;
 import domain.game.Phase;
 import domain.player.Player;
 import ui.app.Context;
+import ui.assets.Fonts;
 import ui.service.GameController;
 import ui.service.MapController;
 import ui.app.router.Route;
@@ -16,6 +17,7 @@ import ui.components.core.ImageButton;
 import ui.components.maps.ClassicMapBoard;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -52,6 +54,8 @@ public class GameMapView extends ViewPanel<GameMapController> {
     public ImageButton armyButton;
     public ImageButton territoryButton;
     public ImageButton effectButton;
+
+    public JLabel cardName = new JLabel("");
 
     public GameController gameController;
 
@@ -111,10 +115,23 @@ public class GameMapView extends ViewPanel<GameMapController> {
         territoryButton.addActionListener(e -> gameController.applyTerritoryCard());
         territoryButton.setVisible(false);
         effectButton = stack2.addButton(cards.getAsset("effect"));
-        territoryButton.addActionListener(e -> gameController.applyEffectCard());
+        effectButton.addActionListener(e -> {
+            gameController.applyEffectCard();
+        });
         effectButton.setVisible(false);
         positionSouthWest(stack2, 30, 18);
         add(stack2);
+
+        // card name
+        cardName.setFont(Fonts.GilroyExtraBold.deriveFont(21f));
+        cardName.setHorizontalAlignment(JLabel.CENTER);
+        cardName.setVerticalTextPosition(JLabel.CENTER);
+        cardName.setVerticalAlignment(JLabel.CENTER);
+        cardName.setHorizontalTextPosition(JLabel.CENTER);
+        cardName.setVerticalTextPosition(JLabel.CENTER);
+        cardName.setForeground(Color.WHITE);
+        cardName.setBounds(getWidth() - 260, getHeight() - 50, 250, 40);
+        add(cardName);
 
         // Phase Panel
         ImageIcon blackBack = phase.getAsset("bg").getImageIcon(391,77);
@@ -152,6 +169,11 @@ public class GameMapView extends ViewPanel<GameMapController> {
         nextButton.addActionListener(e -> {
             MapController.get().deselect();
             Game.getInstance().nextPhase();
+            if (Game.getInstance().getPhase() == Phase.Draft) {
+                cardName.setText("");
+                GameController.getInstance().setChanceCardMode(false);
+                GameController.getInstance().setArmyCardMode(false);
+            }
             gameController.updatePhasePanel();
             gameController.updateContextPanel();
         });

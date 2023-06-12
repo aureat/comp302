@@ -6,6 +6,7 @@ import domain.gamemap.GameMap;
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
 import domain.player.Player;
+import util.CoreUtils;
 
 import java.util.List;
 
@@ -28,12 +29,22 @@ public class Game {
 
     private GameState gameState;
 
+    public TerritoryState nukeTo;
+    public TerritoryState revoltFrom;
+    public TerritoryState revoltTo;
+    public TerritoryState reinforcementsTo;
+    public TerritoryState armiesTo;
+
     private Game() {
 
     }
 
     public void setSelectedTerritory(TerritoryState state) {
         gameState.setSelectedTerritory(state);
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 
     public void nextPhase() {
@@ -93,7 +104,10 @@ public class Game {
     }
 
     public void applyArmyCard() {
-        // TODO: Implement
+        TerritoryState terr = armiesTo;
+        int cardTradeResult = GameConfig.get().getArmyCardTradeResult(Game.getInstance().getCurrentPlayer().getArmyTypes());
+        terr.setArmies(terr.getArmies() + cardTradeResult);
+        getCurrentPlayer().resetArmyCards();
     }
 
     public boolean canApplyTerritoryCard() {
@@ -101,7 +115,7 @@ public class Game {
     }
 
     public void applyTerritoryCard() {
-        // TODO: Implement
+
     }
 
     public boolean canApplyChanceCard() {
@@ -114,8 +128,8 @@ public class Game {
 
     public void applyChanceCard() {
         ChanceCard card = gameState.getCurrentChanceCard();
-        getCurrentPlayer().addEffect(card.getEffect());
         card.apply();
+        gameState.resetChanceCard();
     }
 
     public void performDraft(TerritoryState state) {
