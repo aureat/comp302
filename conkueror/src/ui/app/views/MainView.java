@@ -1,5 +1,6 @@
 package ui.app.views;
 
+import domain.game.Game;
 import ui.app.Context;
 import ui.app.router.Route;
 import ui.app.controllers.MainController;
@@ -51,7 +52,9 @@ public class MainView extends ViewPanel<MainController> {
         stack.addButton(buttons.getAsset("new-game"))
                 .addActionListener(e -> getController().newGame());
         stack.addButton(buttons.getAsset("continue-game"))
-                .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
+                .addActionListener(e -> {
+                    getController().continueGame();
+                });
         stack.addButton(buttons.getAsset("exit"))
                 .addActionListener(e -> System.exit(0));
         centerComponentWithOffset(stack, 0, 50);

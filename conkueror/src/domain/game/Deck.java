@@ -5,12 +5,13 @@ import domain.game.config.GameConfig;
 import domain.gamemap.GameMap;
 import util.CoreUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class Deck {
+public class Deck implements Serializable {
 
     private static final int infantryPerPlayer = GameConfig.get().getInfantryPerPlayer();
     private static final int cavalryPerPlayer = GameConfig.get().getCavalryPerPlayer();

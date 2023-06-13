@@ -5,7 +5,9 @@ import domain.mapstate.TerritoryState;
 import domain.player.Player;
 import util.CoreUtils;
 
-public class NuclearStrike implements ChanceEffect {
+import java.io.Serializable;
+
+public class NuclearStrike implements ChanceEffect, Serializable {
 
     private Game game = Game.getInstance();
 

@@ -84,7 +84,9 @@ public class PauseView extends ViewPanel<PauseController> {
         // Button Stack
         ImageBtnStack stack2 = new ImageBtnStack(ImageBtnStack.HORIZONTAL, 325, 59, 15, 30);
         stack2.addButton(buttons.getAsset("save-exit"))
-                .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
+                .addActionListener(e -> {
+                    Game.getInstance().saveGame();
+                });
         stack2.addButton(buttons.getAsset("quit-game"))
                 .addActionListener(e -> System.exit(0));
 

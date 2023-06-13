@@ -3,6 +3,7 @@ package domain.maps;
 import domain.gamemap.*;
 import util.CoreUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @UseMap(name="Classic")
 @MapDescription("Play the classic world map of ConKUeror.")
-public class ClassicMap extends GameMap {
+public class ClassicMap extends GameMap implements Serializable {
 
     private enum Continent implements ContinentType {
         NorthAmerica,

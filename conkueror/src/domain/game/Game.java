@@ -9,9 +9,18 @@ import domain.gamemap.TerritoryType;
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
 import domain.player.Player;
+import ui.service.GameController;
+import ui.service.MapController;
 import util.CoreUtils;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Game {
 
@@ -30,6 +39,8 @@ public class Game {
         GameContainer.instance = null;
     }
 
+    private static final String SAVE_FILE = "save/state.ser";
+
     private GameState gameState;
 
     public TerritoryState nukeTo;
@@ -37,6 +48,8 @@ public class Game {
     public TerritoryState revoltTo;
     public TerritoryState reinforcementsTo;
     public TerritoryState armiesTo;
+
+    public TerritoryState selectedByAI;
 
     private Game() {
 
@@ -52,6 +65,9 @@ public class Game {
 
     public void nextPhase() {
         gameState.nextPhase();
+        if (isComputersTurn() && getPhase() == Phase.Draft) {
+            performDraftAI();
+        }
     }
 
     public Phase getPhase() {
@@ -64,6 +80,51 @@ public class Game {
 
     public boolean isComputersTurn() {
         return gameState.isComputersTurn();
+    }
+
+    public void performDraftAI() {
+        List<TerritoryState> territories = getMapState().getTerritoryStates(getCurrentPlayer());
+        territories.stream()
+                .filter(territoryState -> territoryState.isPlayable() && getMapState().getAttackableNeighborsOf(territoryState).size() > 0)
+                .findFirst()
+                .ifPresent(territoryState -> {
+                    selectedByAI = territoryState;
+                });
+        if (selectedByAI != null) {
+            selectedByAI.setArmies(gameState.getDraftArmies());
+            gameState.setDraftArmies(0);
+        }
+        nextPhase();
+        performAttackAI();
+    }
+
+    public void performAttackAI() {
+        if (selectedByAI != null) {
+            while (selectedByAI.canStartAttack()) {
+                List<TerritoryState> attackableNeighbor = getMapState().getAttackableNeighborsOf(selectedByAI);
+                if (attackableNeighbor.size() == 0) {
+                    break;
+                }
+                gameState.performAttack(selectedByAI, attackableNeighbor.get(0));
+            }
+        }
+        selectedByAI = null;
+        nextPhase();
+        performFortifyAI();
+    }
+
+    public void performFortifyAI() {
+        List<TerritoryState> territories = new ArrayList<>(getMapState().getTerritoryStates(getCurrentPlayer())
+                .stream().filter(territoryState -> territoryState.isPlayable() && territoryState.getArmies() > 1).toList());
+        TerritoryState from = CoreUtils.chooseRandom(territories);
+        territories.remove(from);
+        TerritoryState to = CoreUtils.chooseRandom(territories);
+        if (from != null && to != null) {
+            int times = new Random().nextInt(0, from.getArmies() - 1);
+            for (int i = 0; i < times; i++) {
+                gameState.performFortify(from, to);
+            }
+        }
     }
 
     public GameMap getMap() {
@@ -186,8 +247,31 @@ public class Game {
         gameState.createGameMap(map);
     }
 
-    public void continueGame() {
-        // TODO: Implement
+    public void saveGame() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(SAVE_FILE);
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(gameState);
+            objectOut.close();
+            System.out.println("The GameState was successfully written to a file");
+            System.exit(0);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public void loadGame() {
+        gameState = null;
+        try {
+            FileInputStream fileIn = new FileInputStream(SAVE_FILE);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+            gameState = (GameState) objectIn.readObject();
+            objectIn.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.exit(1);
+        }
     }
 
 }

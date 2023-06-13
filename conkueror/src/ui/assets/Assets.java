@@ -31,7 +31,7 @@ public enum Assets {
     Maps("maps", 210, 260),
     PanelBoard("panel/board"),
     PanelContext("panel/context", 37, 49),
-    PanelFloating("panel/floating"),
+    PanelAI("panel/floating", 40, 40),
     PanelDraft("panel/draft"),
     PanelPhases("panel/phases"),
     PanelPhase("panel/phase"),

@@ -57,7 +57,7 @@ public class PlayersView extends ViewPanel<PlayersController> {
         // logo
         ImageIcon logo = Assets.LogoBasic.getAsset("conkueror").getImageIcon();
         JLabel logoLabel = new JLabel(logo);
-        centerComponentWithOffset(logoLabel, 0, -200);
+        centerComponentWithOffset(logoLabel, 0, -250);
 
         // players
         players = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));

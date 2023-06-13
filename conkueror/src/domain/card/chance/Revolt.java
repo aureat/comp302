@@ -3,7 +3,9 @@ package domain.card.chance;
 import domain.game.Game;
 import domain.mapstate.TerritoryState;
 
-public class Revolt implements ChanceEffect {
+import java.io.Serializable;
+
+public class Revolt implements ChanceEffect, Serializable {
 
     @Override
     public void applyEffect() {

@@ -150,12 +150,17 @@ public class EditPlayerView extends ViewPanel<EditPlayerController> {
         formButtons.setMaximumSize(avatarGridMales.getMaximumSize());
         ImageButton shuffleButton = new ImageButton(
                 Assets.MenuLg.getAsset("shuffle").getImageIcon(), 20, 20);
+        ImageButton aiButton = new ImageButton(
+                Assets.MenuLg.getAsset("ai").getImageIcon(), 20, 20);
         ImageButton saveButton = new ImageButton(
                 Assets.ButtonSave.getAsset("save").getImageIcon(), 20, 20);
         formButtons.add(shuffleButton);
+        formButtons.add(Box.createHorizontalStrut(16));
+        formButtons.add(aiButton);
         formButtons.add(Box.createHorizontalGlue());
         formButtons.add(saveButton);
         shuffleButton.addActionListener(e -> getController().randomizePlayer(preview));
+        aiButton.addActionListener(e -> getController().setAI());
         saveButton.addActionListener(e -> getController().savePlayer());
 
         // Add all to right container

@@ -3,9 +3,10 @@ package domain.card;
 import domain.card.chance.EffectType;
 import util.CoreUtils;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class ChanceCard extends Card {
+public class ChanceCard extends Card implements Serializable {
 
     private final EffectType effect;
 

@@ -10,10 +10,11 @@ import domain.mapstate.TerritoryState;
 import org.jetbrains.annotations.NotNull;
 import util.CoreUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
 
     private String fullName;
     private String firstName;
@@ -101,6 +102,10 @@ public class Player {
 
     public void setComputer(boolean computer) {
         isComputer = computer;
+    }
+
+    public void toggleComputer() {
+        isComputer = !isComputer;
     }
 
     public boolean canApplyTerritoryCards() {

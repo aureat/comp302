@@ -9,11 +9,12 @@ import domain.player.Player;
 import domain.player.PlayerGenerator;
 import util.CoreUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GameState {
+public class GameState implements Serializable {
 
     /*
      * Turn Information
@@ -173,6 +174,10 @@ public class GameState {
 
     public int getDraftArmies() {
         return draftArmies;
+    }
+
+    public void setDraftArmies(int draftArmies) {
+        this.draftArmies = draftArmies;
     }
 
     public void giveDraftArmies() {

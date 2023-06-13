@@ -20,4 +20,13 @@ public class GameMapController extends ViewController {
 
     }
 
+    public void pause() {
+
+        if (game.isComputersTurn())
+            return;
+
+        redirect(Route.Pause);
+
+    }
+
 }

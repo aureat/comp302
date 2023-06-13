@@ -83,6 +83,11 @@ public class GameController {
         }
 
         view.nextButton.setVisible(game.canGoToNextPhase());
+        view.aiButton.setVisible(game.isComputersTurn() && game.getPhase() != Phase.Fortify);
+
+        if (game.isComputersTurn()) {
+            view.nextButton.setVisible(game.isComputersTurn() && game.getPhase() == Phase.Fortify);
+        }
 
         Player player = game.getCurrentPlayer();
 
@@ -108,18 +113,34 @@ public class GameController {
 
     }
 
+    public void doAIDraft() {
+
+    }
+
     public void applyArmyCard() {
+
+        if (game.isComputersTurn())
+            return;
+
         setArmyCardMode(true);
         view.cardName.setText("Armies");
         view.armyButton.setVisible(false);
     }
 
     public void applyTerritoryCard() {
+
+        if (game.isComputersTurn())
+            return;
+
         game.applyTerritoryCard();
         view.territoryButton.setVisible(false);
     }
 
     public void applyEffectCard() {
+
+        if (game.isComputersTurn())
+            return;
+
         ChanceCard card = game.getCurrentChanceCard();
         if (card.getEffect() == EffectType.Revolt ||
                 card.getEffect() == EffectType.Reinforcements ||

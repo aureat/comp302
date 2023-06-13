@@ -112,12 +112,14 @@ public class MapController {
             return;
         }
 
+        if (game.isComputersTurn()) {
+            return;
+        }
+
         if (mode == Mode.Game) {
             GameController.getInstance().updatePhasePanel();
         }
 
-        ChanceCard card = game.getCurrentChanceCard();
-        boolean chanceCardMode = GameController.getInstance().isChanceCardMode();
         boolean armyCardMode = GameController.getInstance().isArmyCardMode();
 
         if (armyCardMode) {
@@ -130,6 +132,9 @@ public class MapController {
             GameController.getInstance().endArmyCard();
             return;
         }
+
+        ChanceCard card = game.getCurrentChanceCard();
+        boolean chanceCardMode = GameController.getInstance().isChanceCardMode();
 
         if (chanceCardMode && card.getEffect() == EffectType.NuclearStrike) {
             if (mapTerritory.getState().getOwner() == game.getCurrentPlayer()) {

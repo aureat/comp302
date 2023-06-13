@@ -5,12 +5,13 @@ import domain.gamemap.GameMap;
 import domain.gamemap.TerritoryType;
 import domain.player.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class MapState {
+public class MapState implements Serializable {
 
     private GameMap map;
 

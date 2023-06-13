@@ -100,7 +100,7 @@ public class GameMapView extends ViewPanel<GameMapController> {
         // Button Stack
         ImageBtnStack stack1 = new ImageBtnStack(ImageBtnStack.VERTICAL, 48, 50, 16, 20);
         stack1.addButton(buttons.getAsset("pause"))
-                .addActionListener(e -> getController().redirect(Route.Pause));
+                .addActionListener(e -> getController().pause());
         stack1.addButton(buttons.getAsset("help"))
                 .addActionListener(e -> getController().redirect(Route.Help));
         positionNorthWest(stack1, 25, 25);
@@ -139,6 +139,9 @@ public class GameMapView extends ViewPanel<GameMapController> {
         phaseLabel.setIcon(blackBack);
         nextButton.setBounds(phaseLabel.getWidth()-70,5,64,64);
         phaseLabel.add(nextButton);
+
+        aiButton.setBounds(phaseLabel.getWidth()-70,5,64,64);
+        phaseLabel.add(aiButton);
 
         draftButtons = new ArrayList<>();
         for (int i = 0; i<20; i++) {
@@ -180,6 +183,7 @@ public class GameMapView extends ViewPanel<GameMapController> {
                 GameController.getInstance().setChanceCardMode(false);
                 GameController.getInstance().setArmyCardMode(false);
             }
+            MapController.get().updateMapTerritories();
             gameController.updatePhasePanel();
             gameController.updateContextPanel();
         });
@@ -187,6 +191,12 @@ public class GameMapView extends ViewPanel<GameMapController> {
 
         gameController.updatePhasePanel();
 
+    }
+
+    public void onMount() {
+        Game.getInstance().nextPhase();
+        gameController.updatePhasePanel();
+        gameController.updateContextPanel();
     }
 
 }

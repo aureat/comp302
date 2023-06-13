@@ -4,6 +4,7 @@ import domain.player.Player;
 import ui.assets.Asset;
 import ui.assets.Assets;
 import ui.assets.Fonts;
+import ui.components.core.AssetRenderer;
 import ui.components.core.ImageButton;
 import ui.components.core.RoundedImage;
 
@@ -17,6 +18,7 @@ public class BigPlayerPreview extends ImageButton {
     private Player player;
     private final RoundedImage avatarImage;
     private final JLabel nameLabel;
+    private final AssetRenderer aiLabel;
 
     public BigPlayerPreview(Player player) {
         super(
@@ -43,13 +45,18 @@ public class BigPlayerPreview extends ImageButton {
         avatarPanel.add(avatarImage);
 
         // name label
-        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        JPanel namePanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
         namePanel.setOpaque(false);
         nameLabel = new JLabel(player.getFirstName());
         nameLabel.setMaximumSize(new Dimension(240, 50));
         nameLabel.setFont(Fonts.GilroyExtraBold.deriveFont(36f));
         nameLabel.setForeground(new Color(0x4F6B76));
         namePanel.add(nameLabel);
+
+        aiLabel = new AssetRenderer(Assets.PanelAI.getAsset("robot"));
+        aiLabel.setBounds(0, 0, 40, 40);
+        aiLabel.setVisible(player.isComputer());
+        namePanel.add(aiLabel);
 
         // add to screen
         info.setSize(250, 380);
@@ -74,6 +81,7 @@ public class BigPlayerPreview extends ImageButton {
         updateText();
         updateAvatar();
         updateColor();
+        updateAI();
     }
 
     public void setPlayer(Player player) {
@@ -92,6 +100,10 @@ public class BigPlayerPreview extends ImageButton {
 
     public void updateColor() {
         setIcon(Assets.ColorCardLg.getAsset(player.getColor().toString().toLowerCase()).getImageIcon());
+    }
+
+    public void updateAI() {
+        aiLabel.setVisible(player.isComputer());
     }
 
 }

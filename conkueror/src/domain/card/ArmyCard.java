@@ -1,6 +1,8 @@
 package domain.card;
 
-public class ArmyCard extends Card {
+import java.io.Serializable;
+
+public class ArmyCard extends Card implements Serializable {
 
     private final ArmyType armyType;
 

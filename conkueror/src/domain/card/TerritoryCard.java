@@ -2,7 +2,9 @@ package domain.card;
 
 import domain.gamemap.TerritoryType;
 
-public class TerritoryCard extends Card {
+import java.io.Serializable;
+
+public class TerritoryCard extends Card implements Serializable {
 
     private final TerritoryType territoryType;
 

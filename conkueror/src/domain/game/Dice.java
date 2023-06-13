@@ -4,9 +4,10 @@ import domain.game.config.GameConfig;
 import domain.player.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Dice {
+public class Dice implements Serializable {
 
     private static final int sides = GameConfig.get().getDiceSides();
     private static final int defaultBias = GameConfig.get().getDefaultDiceBias();

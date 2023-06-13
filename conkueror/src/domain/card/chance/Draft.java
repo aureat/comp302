@@ -2,7 +2,9 @@ package domain.card.chance;
 
 import domain.game.Game;
 
-public class Draft implements ChanceEffect {
+import java.io.Serializable;
+
+public class Draft implements ChanceEffect, Serializable {
 
     @Override
     public void applyEffect() {

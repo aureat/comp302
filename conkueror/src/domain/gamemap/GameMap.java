@@ -1,5 +1,6 @@
 package domain.gamemap;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * @see ContinentType
  * @see TerritoryType
  */
-public abstract class GameMap {
+public abstract class GameMap implements Serializable {
 
     private final List<ContinentType> continents = new ArrayList<>();
     private final List<TerritoryType> territories = new ArrayList<>();

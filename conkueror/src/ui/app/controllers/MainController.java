@@ -25,7 +25,8 @@ public class MainController extends ViewController {
     }
 
     public void continueGame() {
-
+        Game.getInstance().loadGame();
+        redirect(Route.GameMap);
     }
 
 }

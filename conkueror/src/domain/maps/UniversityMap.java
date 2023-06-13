@@ -3,6 +3,7 @@ package domain.maps;
 import domain.gamemap.*;
 import util.CoreUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @UseMap(name="University")
 @MapDescription("Play the campus map based on Koç University.")
-public class UniversityMap extends GameMap {
+public class UniversityMap extends GameMap implements Serializable {
 
     private enum Continent implements ContinentType {
         Dorms,

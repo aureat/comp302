@@ -2,11 +2,12 @@ package domain.player;
 
 import domain.game.config.GameConfig;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class PlayerGenerator {
+public class PlayerGenerator implements Serializable {
 
     public PlayerGenerator() {
         Avatars.initialize();
@@ -29,9 +30,7 @@ public class PlayerGenerator {
         IntStream.range(0, GameConfig.get().getInitialPlayers())
                 .forEach(i -> {
                     Player player = generate();
-                    if (i != 0) {
-                        player.setComputer(true);
-                    }
+                    player.setComputer(i != 0);
                     players.add(player);
                 });
         return players;

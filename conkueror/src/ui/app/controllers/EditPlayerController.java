@@ -54,6 +54,11 @@ public class EditPlayerController extends ViewController {
         preview.updateText();
     }
 
+    public void setAI() {
+        player.toggleComputer();
+        preview.updateAI();
+    }
+
     public void setPreview(BigPlayerPreview preview) {
         this.preview = preview;
     }

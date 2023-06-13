@@ -5,9 +5,10 @@ import domain.gamemap.TerritoryType;
 import domain.player.Colors;
 import domain.player.Player;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class TerritoryState {
+public class TerritoryState implements Serializable {
 
     private final TerritoryType territoryType;
 
