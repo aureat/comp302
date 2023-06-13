@@ -50,8 +50,8 @@ public class HelpView extends ViewPanel<HelpController> {
 
         // center the stack in the panel
         stack1.setBounds(
-                21,
-                21,
+                25,
+                25,
                 stack1.getPreferredSize().width,
                 stack1.getPreferredSize().height
         );

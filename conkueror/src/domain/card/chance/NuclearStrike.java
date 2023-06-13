@@ -7,13 +7,18 @@ import util.CoreUtils;
 
 public class NuclearStrike implements ChanceEffect {
 
+    private Game game = Game.getInstance();
+
     @Override
     public void applyEffect() {
-        Player player = Game.getInstance().getCurrentPlayer();
-        TerritoryState pterr = CoreUtils.chooseRandom(player.getTerritories());
-        Game.getInstance().nukeTo.setPlayable(false);
-        pterr.setPlayable(false);
-        Game.getInstance().nukeTo = null;
+        TerritoryState selectedTerritory = game.nukeTo;
+        Player player = game.getCurrentPlayer();
+        TerritoryState randomTerritory = CoreUtils.chooseRandom(player.getTerritories());
+        selectedTerritory.setPlayable(false);
+        selectedTerritory.removeOwner();
+        randomTerritory.setPlayable(false);
+        randomTerritory.removeOwner();
+        game.nukeTo = null;
     }
 
 }

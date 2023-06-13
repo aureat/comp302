@@ -1,8 +1,11 @@
 package domain.game;
 
 import domain.card.ChanceCard;
+import domain.card.TerritoryCard;
 import domain.game.config.GameConfig;
+import domain.gamemap.ContinentType;
 import domain.gamemap.GameMap;
+import domain.gamemap.TerritoryType;
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
 import domain.player.Player;
@@ -116,10 +119,31 @@ public class Game {
 
     public void applyTerritoryCard() {
 
+        // Find the continent that the player has all the territories of
+        Player currentPlayer = getCurrentPlayer();
+        List<TerritoryCard> territoryCards = currentPlayer.getTerritoryCards();
+        List<ContinentType> continents = getMap().getContinents();
+        ContinentType selectedContinent = continents.get(0);
+        for (ContinentType continent : continents) {
+            List<TerritoryType> continentTerritories = continent.getTerritories();
+            if (continentTerritories.stream().allMatch(territory -> territoryCards.stream().anyMatch(card -> card.getTerritoryType() == territory))) {
+                selectedContinent = continent;
+                break;
+            }
+        }
+
+        // Find territories of the continent
+        List<TerritoryState> territories = getMapState().getTerritoryStates(selectedContinent);
+        territories.forEach(territory -> {
+            if (territory.getOwner() != currentPlayer) {
+                gameState.conquerTerritory(territory);
+            }
+        });
+
     }
 
     public boolean canApplyChanceCard() {
-        return gameState.isChanceCardDrawn();
+        return gameState.isChanceCardDrawn() && !getCurrentChanceCard().isUsed();
     }
 
     public ChanceCard getCurrentChanceCard() {
@@ -128,6 +152,7 @@ public class Game {
 
     public void applyChanceCard() {
         ChanceCard card = gameState.getCurrentChanceCard();
+        card.setUsed(true);
         card.apply();
         gameState.resetChanceCard();
     }

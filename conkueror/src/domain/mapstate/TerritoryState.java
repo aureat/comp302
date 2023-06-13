@@ -14,10 +14,6 @@ public class TerritoryState {
     private Player owner;
     private int armies;
     private boolean playable;
-    private boolean attacker;
-    private boolean defender;
-    private boolean donor;
-    private boolean receiver;
 
     public TerritoryState(TerritoryType territoryType) {
         this.territoryType = territoryType;
@@ -43,8 +39,18 @@ public class TerritoryState {
     }
 
     public void setOwner(Player owner) {
+        if (this.owner != null) {
+            this.owner.removeTerritory(this);
+        }
         this.owner = owner;
         owner.addTerritory(this);
+    }
+
+    public void removeOwner() {
+        if (owner != null) {
+            owner.removeTerritory(this);
+            owner = null;
+        }
     }
 
     public int getArmies() {
@@ -91,38 +97,4 @@ public class TerritoryState {
         return playable && owner != null && armies > 2;
     }
 
-    public boolean canStartFortify() {
-        return playable && owner != null && armies > 1;
-    }
-    public boolean isAttacker(){
-        return attacker;
-    }
-
-    public boolean isDefender() {
-        return defender;
-    }
-
-    public void setDefender(boolean defender) {
-        this.defender = defender;
-    }
-
-    public void setAttacker(boolean attacker) {
-        this.attacker = attacker;
-    }
-
-    public boolean isReceiver() {
-        return receiver;
-    }
-
-    public boolean isDonor() {
-        return donor;
-    }
-
-    public void setReceiver(boolean receiver) {
-        this.receiver = receiver;
-    }
-
-    public void setDonor(boolean donor) {
-        this.donor = donor;
-    }
 }

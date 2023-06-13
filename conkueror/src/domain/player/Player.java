@@ -171,8 +171,16 @@ public class Player {
         armyCards.remove(card);
     }
 
+    public List<ArmyCard> getArmyCards() {
+        return armyCards;
+    }
+
     public void addTerritoryCard(TerritoryCard card) {
         territoryCards.add(card);
+    }
+
+    public List<TerritoryCard> getTerritoryCards() {
+        return territoryCards;
     }
 
     public void removeTerritoryCard(TerritoryCard card) {

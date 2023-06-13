@@ -68,13 +68,13 @@ public class PauseView extends ViewPanel<PauseController> {
         stack1.addButton(menu.getAsset("resume"))
                 .addActionListener(e -> getController().redirect(Route.GameMap));
         stack1.addButton(menu.getAsset("help"))
-                .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
+                .addActionListener(e -> getController().redirect(Route.Help));
 
 
         // center the stack in the panel
         stack1.setBounds(
-                21,
-                21,
+                25,
+                25,
                 stack1.getPreferredSize().width,
                 stack1.getPreferredSize().height
         );
@@ -87,7 +87,6 @@ public class PauseView extends ViewPanel<PauseController> {
                 .addActionListener(e -> Context.get().getSystemActions().openNotImplemented());
         stack2.addButton(buttons.getAsset("quit-game"))
                 .addActionListener(e -> System.exit(0));
-
 
         // center the stack in the panel
         stack2.setBounds(

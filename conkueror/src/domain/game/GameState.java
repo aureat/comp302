@@ -124,14 +124,12 @@ public class GameState {
             Player player = CoreUtils.chooseRandom(players);
             if (territory.isPlayable() && territoryCount > player.getTerritoryCount() && territory.getOwner() == null) {
                 if (!player.getTerritories().contains(territory)) {
-                    player.addTerritory(territory);
                     territory.setOwner(player);
                 }
                 List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
                 neighbors.forEach(neighbor -> {
                     if (territoryCount > player.getTerritoryCount() && neighbor.getOwner() == null) {
                         if (!player.getTerritories().contains(neighbor)) {
-                            player.addTerritory(neighbor);
                             neighbor.setOwner(player);
                         }
                     }
@@ -149,7 +147,6 @@ public class GameState {
                     players.forEach(player -> {
                         if (player.getTerritoryCount() < territoryCount) {
                             if (!player.getTerritories().contains(state)) {
-                                player.addTerritory(state);
                                 state.setOwner(player);
                             }
                         }
@@ -157,7 +154,6 @@ public class GameState {
                     if (state.getOwner() == null) {
                         Player luckyPlayer = CoreUtils.chooseRandom(players);
                         if (!luckyPlayer.getTerritories().contains(state)) {
-                            luckyPlayer.addTerritory(state);
                             state.setOwner(luckyPlayer);
                         }
                     }
@@ -180,7 +176,7 @@ public class GameState {
     }
 
     public void giveDraftArmies() {
-        draftArmies = Math.floorDiv(currentPlayer.getTerritoryCount(), 3);
+        draftArmies = Math.floorDiv(currentPlayer.getTerritoryCount(), 2);
     }
 
     public void nextPhase() {
@@ -281,9 +277,6 @@ public class GameState {
     }
 
     public void conquerTerritory(TerritoryState territory) {
-        Player previousOwner = territory.getOwner();
-        previousOwner.removeTerritory(territory);
-        currentPlayer.addTerritory(territory);
         territory.setOwner(currentPlayer);
         territory.addArmies(1);
     }
@@ -301,7 +294,6 @@ public class GameState {
 
         // remove armies from both territories
         if (dice.hasWon()) {
-            from.removeArmies(1);
             to.removeArmies(1);
         }
 

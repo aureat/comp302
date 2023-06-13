@@ -98,12 +98,12 @@ public class GameMapView extends ViewPanel<GameMapController> {
         add(map);
 
         // Button Stack
-        ImageBtnStack stack1 = new ImageBtnStack(ImageBtnStack.VERTICAL, 48, 50, 22, 20);
+        ImageBtnStack stack1 = new ImageBtnStack(ImageBtnStack.VERTICAL, 48, 50, 16, 20);
         stack1.addButton(buttons.getAsset("pause"))
                 .addActionListener(e -> getController().redirect(Route.Pause));
         stack1.addButton(buttons.getAsset("help"))
                 .addActionListener(e -> getController().redirect(Route.Help));
-        positionNorthWest(stack1, 30, 30);
+        positionNorthWest(stack1, 25, 25);
         add(stack1);
 
         // Card Stack

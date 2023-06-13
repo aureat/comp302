@@ -125,6 +125,8 @@ public class GameController {
                 card.getEffect() == EffectType.Reinforcements ||
                 card.getEffect() == EffectType.NuclearStrike) {
             setChanceCardMode(true);
+        } else {
+            game.applyChanceCard();
         }
         view.cardName.setText(card.getName());
         view.effectButton.setVisible(false);

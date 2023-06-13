@@ -47,19 +47,19 @@ public class ChanceCard extends Card {
     public static EffectType getRandomType() {
         double rand = new Random().nextDouble();
 
-        if (rand < 0.05) {
+        if (rand < 0.12) {
             return EffectType.NuclearStrike;
         }
 
-        if (rand < 0.4) {
+        if (rand < 0.36) {
             return EffectType.Reinforcements;
         }
 
-        if (rand < 0.6) {
+        if (rand < 0.66) {
             return EffectType.Revolt;
         }
 
-        if (rand < 0.7) {
+        if (rand < 0.88) {
             return EffectType.Bombardment;
         }
 
