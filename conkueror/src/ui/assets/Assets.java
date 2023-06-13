@@ -24,6 +24,7 @@ public enum Assets {
     Icon("icon"),
     LogoSlogan("logo", 877, 200),
     LogoBasic("logo", 690, 110),
+    GameOver("logo", 862, 150),
     DevLogo("logo", 138, 85),
     MenuMd("menu", 48, 50),
     MenuLg("menu", 57, 59),

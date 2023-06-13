@@ -58,7 +58,7 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
             return;
 
         // construct label
-        label = new JLabel("0");
+        label = new JLabel(String.valueOf(state.getArmies()));
         label.setFont(Fonts.GilroyExtraBold.deriveFont(25f));
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalTextPosition(JLabel.CENTER);
@@ -67,9 +67,10 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
         label.setVerticalTextPosition(JLabel.CENTER);
         label.setForeground(Color.WHITE);
         label.setBounds((width - 50) / 2, (height - 30) / 2, 50, 30);
+        add(label);
         label.addMouseListener(this);
         label.addMouseMotionListener(this);
-        add(label);
+        repaint();
     }
 
     public boolean isPlayable() {
@@ -105,8 +106,13 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
     }
 
     public void update() {
-        if (label != null)
+        if (isDisabled() && label != null) {
+            remove(label);
+            label = null;
+        }
+        if (label != null) {
             label.setText(String.valueOf(state.getArmies()));
+        }
         repaint();
     }
 
@@ -117,6 +123,10 @@ public class MapTerritory extends JButton implements MouseListener, MouseMotionL
 
     public Color getFillColor() {
         Palette palette = getPalette();
+        if (isDisabled() && label != null) {
+            remove(label);
+            label = null;
+        }
         if (isSelected) {
             if (isHovered) {
                 return palette.territoryFillSelectedHover;

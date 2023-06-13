@@ -1,5 +1,7 @@
 package ui.service;
 
+import domain.card.ChanceCard;
+import domain.card.chance.EffectType;
 import domain.game.Game;
 import domain.game.Phase;
 import domain.mapstate.MapState;
@@ -26,7 +28,7 @@ public class MapController {
 
     public enum Mode {
         Build,
-        Game
+        Game,
     }
 
     private final MapBoard map;
@@ -75,7 +77,9 @@ public class MapController {
     }
 
     public void setSelectedMapTerritory(MapTerritory mapTerritory) {
-        selectedMapTerritory.setSelected(false);
+        if (selectedMapTerritory != null) {
+            selectedMapTerritory.setSelected(false);
+        }
         selectedMapTerritory = mapTerritory;
         selectedMapTerritory.setSelected(true);
     }
@@ -87,6 +91,10 @@ public class MapController {
         }
     }
 
+    public void selectAll() {
+        getMapTerritories().forEach(mapTerritory -> mapTerritory.setSelected(true));
+    }
+
     public void deselectAll() {
         getMapTerritories().forEach(mapTerritory -> mapTerritory.setSelected(false));
     }
@@ -95,82 +103,127 @@ public class MapController {
 
         if (mode == Mode.Build) {
             mapTerritory.getState().togglePlayable();
+            System.out.println(mapTerritory.getState().isPlayable());
             mapTerritory.toggleSelected();
             return;
         }
 
-        mapTerritory.toggleSelected();
+        if (!mapTerritory.getState().isPlayable()) {
+            return;
+        }
 
+        if (mode == Mode.Game) {
+            GameController.getInstance().updatePhasePanel();
+        }
 
-//        if (!isBuildMode && isPlayable) {
-//            if (Game.getInstance().getPhase() == Phase.Draft) {
-//                if (state.getOwner()==Game.getInstance().getCurrentplayer()) {
-//                    Game.getInstance().setDraftArmies(state);
-//                    Route.GameMap.getController().update();
-//                    update();
-//                }
-//            } else if (Game.getInstance().getPhase() == Phase.Attack) {
-//                if (state.getOwner() == Game.getInstance().getCurrentplayer() && state.canStartAttack()) {
-//                    MapController.deselectAll();
-//                    for (TerritoryState territory : MapState.getInstance().getTerritories().values()) {
-//                        if (territory.isAttacker()) {
-//                            territory.setAttacker(false);
-//                        }
-//                    }
-//                    setSelected(true);
-//                    state.setAttacker(true);
-//                    Route.GameMap.getController().update();
-//                    MapController.map.repaint();
-//                } else if (state.getOwner() != Game.getInstance().getCurrentplayer()) {
-//                    for (TerritoryState territory : MapState.getInstance().getTerritories().values()) {
-//                        if (territory.isAttacker()) {
-//                            for (TerritoryState t : MapState.getInstance().getNeighborsOf(territory) ){
-//                                if(t==state) {
-//                                    MapController.deselectAll();
-//                                    Game.getInstance().attackPhase(territory, state);
-//                                    territory.setAttacker(false);
-//                                    Route.GameMap.update();
-//                                    MapController.map.repaint();
-//                                    MapController.map.updateOnMap(territory);
-//                                    MapController.map.updateOnMap(state);
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            } else if (Game.getInstance().getPhase() == Phase.Fortify) {
-//                if (state.getOwner() == Game.getInstance().getCurrentplayer()&& !(state.isDonor())) {
-//                    setSelected(true);
-//                    state.setDonor(true);
-//                    for (TerritoryState t : state.getOwner().getTerritories()){
-//                        if (t!=state && t.isDonor()){
-//                            MapController.deselectAll();
-//                            state.setDonor(false);
-//                            Game.getInstance().fortifyPhase(t,state);
-//                            MapController.deselectAll();
-//                            t.setDonor(false);
-//                            Route.GameMap.update();
-//                            MapController.map.repaint();
-//                            MapController.map.updateOnMap(t);
-//                            MapController.map.updateOnMap(state);
-//                        }
-//                    }
-//                    Route.GameMap.update();
-//                    MapController.map.updateOnMap(state);
-//                    Route.GameMap.getController().update();
-//                    update();
-//                    MapController.map.repaint();
-//                }else if (state.getOwner() == Game.getInstance().getCurrentplayer()&& state.isDonor()){
-//                    setSelected(false);
-//                    state.setDonor(false);
-//                    Route.GameMap.update();
-//                    MapController.map.updateOnMap(state);
-//                    Route.GameMap.getController().update();
-//                    update();
-//                    MapController.map.repaint();
-//                }
-//            }
-//        }
+        ChanceCard card = game.getCurrentChanceCard();
+        boolean chanceCardMode = GameController.getInstance().isChanceCardMode();
+        boolean armyCardMode = GameController.getInstance().isArmyCardMode();
+
+        if (armyCardMode) {
+            if (mapTerritory.getState().getOwner() != game.getCurrentPlayer()) {
+                return;
+            }
+            game.armiesTo = mapTerritory.getState();
+            game.applyArmyCard();
+            updateMapTerritories();
+            GameController.getInstance().endArmyCard();
+            return;
+        }
+
+        if (chanceCardMode && card.getEffect() == EffectType.NuclearStrike) {
+            if (mapTerritory.getState().getOwner() == game.getCurrentPlayer()) {
+                return;
+            }
+            game.nukeTo = mapTerritory.getState();
+            game.applyChanceCard();
+            updateMapTerritories();
+            GameController.getInstance().endEffectCard();
+            return;
+        }
+
+        if (chanceCardMode && card.getEffect() == EffectType.Reinforcements) {
+            if (mapTerritory.getState().getOwner() != game.getCurrentPlayer()) {
+                return;
+            }
+            game.reinforcementsTo = mapTerritory.getState();
+            game.applyChanceCard();
+            updateMapTerritories();
+            GameController.getInstance().endEffectCard();
+            return;
+        }
+
+        if (chanceCardMode && card.getEffect() == EffectType.Revolt) {
+            if (game.revoltFrom == null && mapTerritory.getState().getOwner() == game.getCurrentPlayer()) {
+                game.revoltFrom = mapTerritory.getState();
+                setSelectedMapTerritory(mapTerritory);
+                return;
+            }
+            if (game.revoltFrom != mapTerritory.getState() && mapTerritory.getState().getOwner() == game.getCurrentPlayer()) {
+                game.revoltTo = mapTerritory.getState();
+                game.applyChanceCard();
+                deselect();
+                updateMapTerritories();
+                GameController.getInstance().endEffectCard();
+            }
+            return;
+        }
+
+        if (game.getPhase() == Phase.Draft && mapTerritory.getState().getOwner() == game.getCurrentPlayer()) {
+            Game.getInstance().performDraft(mapTerritory.getState());
+            mapTerritory.update();
+            GameController.getInstance().updatePhasePanel();
+            return;
+        }
+
+        if (game.getPhase() == Phase.Attack && selectedMapTerritory == mapTerritory) {
+            List<TerritoryState> neighbors = game.getAttackableNeighborsOf(selectedMapTerritory.getState());
+            neighbors.forEach(neighbor -> getMapTerritory(neighbor).setSelected(false));
+            deselect();
+            return;
+        }
+
+        if (game.getPhase() == Phase.Attack && selectedMapTerritory == null) {
+            if (
+                    mapTerritory.getState().getOwner() == game.getCurrentPlayer() &&
+                    mapTerritory.getState().canStartAttack()
+            ) {
+                    setSelectedMapTerritory(mapTerritory);
+                    List<TerritoryState> neighbors = game.getAttackableNeighborsOf(mapTerritory.getState());
+                    neighbors.forEach(neighbor -> getMapTerritory(neighbor).setSelected(true));
+            }
+            return;
+        }
+
+        if (game.getPhase() == Phase.Attack && selectedMapTerritory != null) {
+            List<TerritoryState> neighbors = game.getAttackableNeighborsOf(selectedMapTerritory.getState());
+            if (neighbors.contains(mapTerritory.getState())) {
+                game.performAttack(selectedMapTerritory.getState(), mapTerritory.getState());
+            }
+            selectedMapTerritory.update();
+            mapTerritory.update();
+            neighbors.forEach(neighbor -> getMapTerritory(neighbor).setSelected(false));
+            deselect();
+            return;
+        }
+
+        if (game.getPhase() == Phase.Fortify && mapTerritory.getState().getOwner() == game.getCurrentPlayer()) {
+            if (selectedMapTerritory != null) {
+                game.performFortify(selectedMapTerritory.getState(), mapTerritory.getState());
+                selectedMapTerritory.update();
+                mapTerritory.update();
+                deselect();
+                deselectAll();
+                return;
+            }
+            setSelectedMapTerritory(mapTerritory);
+            game.getCurrentPlayer().getTerritories().forEach(territory -> {
+                if (territory != mapTerritory.getState()) {
+                    getMapTerritory(territory).setSelected(true);
+                }
+            });
+            return;
+        }
     }
 
 }

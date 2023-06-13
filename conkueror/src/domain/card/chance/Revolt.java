@@ -7,15 +7,14 @@ public class Revolt implements ChanceEffect {
 
     @Override
     public void applyEffect() {
-        // TODO: Implement
-        // terr to get armies
-        TerritoryState terrfrom = Game.getInstance().getMapState().getTerritoryState("Alaska");
-        // terr to add armies
-        TerritoryState terrto = Game.getInstance().getMapState().getTerritoryState("North Western");
+        TerritoryState terrfrom = Game.getInstance().revoltFrom;
+        TerritoryState terrto = Game.getInstance().revoltTo;
         int from = terrfrom.getArmies();
         int to = terrto.getArmies();
         terrfrom.setArmies(1);
         terrto.setArmies(from+to);
+        Game.getInstance().revoltFrom = null;
+        Game.getInstance().revoltTo = null;
     }
 
 }

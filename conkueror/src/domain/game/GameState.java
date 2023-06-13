@@ -123,40 +123,53 @@ public class GameState {
         mapState.getTerritoryStates().forEach(territory -> {
             Player player = CoreUtils.chooseRandom(players);
             if (territory.isPlayable() && territoryCount > player.getTerritoryCount() && territory.getOwner() == null) {
-                player.addTerritory(territory);
-                territory.setOwner(player);
+                if (!player.getTerritories().contains(territory)) {
+                    player.addTerritory(territory);
+                    territory.setOwner(player);
+                }
                 List<TerritoryState> neighbors = mapState.getNeighborsOf(territory);
                 neighbors.forEach(neighbor -> {
                     if (territoryCount > player.getTerritoryCount() && neighbor.getOwner() == null) {
-                        player.addTerritory(neighbor);
-                        neighbor.setOwner(player);
+                        if (!player.getTerritories().contains(neighbor)) {
+                            player.addTerritory(neighbor);
+                            neighbor.setOwner(player);
+                        }
                     }
                 });
             }
         });
+
+        // if there are remaining territories
+        List<TerritoryState> remaining = mapState.getTerritoryStates().stream().filter(state -> state.getOwner() == null).toList();
 
         // distribute remaining territories
-        mapState.getTerritoryStates().forEach(state -> {
-            if (state.getOwner() == null) {
-                players.forEach(player -> {
-                    if (player.getTerritoryCount() < territoryCount) {
-                        player.addTerritory(state);
-                        state.setOwner(player);
+        if (remaining.size() > 0) {
+            mapState.getTerritoryStates().forEach(state -> {
+                if (state.isPlayable() && state.getOwner() == null) {
+                    players.forEach(player -> {
+                        if (player.getTerritoryCount() < territoryCount) {
+                            if (!player.getTerritories().contains(state)) {
+                                player.addTerritory(state);
+                                state.setOwner(player);
+                            }
+                        }
+                    });
+                    if (state.getOwner() == null) {
+                        Player luckyPlayer = CoreUtils.chooseRandom(players);
+                        if (!luckyPlayer.getTerritories().contains(state)) {
+                            luckyPlayer.addTerritory(state);
+                            state.setOwner(luckyPlayer);
+                        }
                     }
-                });
-                if (state.getOwner() == null){
-                    Player luckyPlayer = CoreUtils.chooseRandom(players);
-                    luckyPlayer.addTerritory(state);
-                    state.setOwner(luckyPlayer);
                 }
-            }
-        });
+            });
+        }
 
         // distribute armies
-        int armies = getStartingArmies();
+        int armies = (int) Math.ceil((double) getStartingArmies() / map.getTerritories().size() * getPlayersCount());
         mapState.getTerritoryStates().forEach(state -> {
             if (state.getOwner() != null) {
-                state.setArmies(Math.floorDiv(armies, state.getOwner().getTerritoryCount()));
+                state.setArmies(armies);
             }
         });
 
@@ -167,17 +180,24 @@ public class GameState {
     }
 
     public void giveDraftArmies() {
-        draftArmies = Math.floorDiv(currentPlayer.getTerritoryCount(), 2);
+        draftArmies = Math.floorDiv(currentPlayer.getTerritoryCount(), 3);
     }
 
     public void nextPhase() {
-
+        System.out.println(players.size());
+        if (isGameOver()) {
+            String winner = players.get(0).getFullName();
+            System.out.println(winner + " won the game!");
+            endGame();
+        }
         // if game is not started yet, start it
         if (phase == null) {
             shufflePlayers();
             shareTerritories();
+            deck = new Deck(map, players.size());
             phase = Phase.Draft;
             currentPlayer = players.get(0);
+            System.out.println(players.size());
             giveDraftArmies();
         }
 
@@ -207,6 +227,10 @@ public class GameState {
 
             // change player
             currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % players.size());
+            if (currentPlayer.getTerritoryCount() == 0) {
+                removePlayerFromGame(currentPlayer);
+                nextPhase();
+            }
 
             // award chance card
             drawChanceCard();
@@ -216,6 +240,14 @@ public class GameState {
 
         }
 
+    }
+
+    public boolean canGoToNextPhase() {
+        if (phase == Phase.Draft) {
+            return draftArmies == 0;
+        }
+
+        return true;
     }
 
     public void drawFromDeck() {
@@ -281,7 +313,7 @@ public class GameState {
         }
 
         // if the previous owner lost all territories, remove him from the game
-        if (previousOwner.hasAnyTerritory()) {
+        if (!previousOwner.hasAnyTerritory()) {
             removePlayerFromGame(previousOwner);
         }
 
@@ -297,8 +329,8 @@ public class GameState {
             return;
         }
 
-        from.setArmies(from.getArmies() - 1);
-        to.setArmies(to.getArmies() + 1);
+        from.removeArmies(1);
+        to.addArmies(1);
     }
 
     public ChanceCard getCurrentChanceCard() {

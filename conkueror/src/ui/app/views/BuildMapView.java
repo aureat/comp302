@@ -39,6 +39,8 @@ public class BuildMapView extends ViewPanel<BuildMapController> {
                 map.getWidth(),
                 map.getHeight()
         );
+        MapController.get().selectAll();
+        add(map);
 
         JLabel label = new JLabel("BUILD MAP");
         label.setFont(Fonts.GilroyExtraBold.deriveFont(32f));
@@ -55,7 +57,11 @@ public class BuildMapView extends ViewPanel<BuildMapController> {
                 continueBtn.getPreferredSize().height
         );
         add(continueBtn);
-        add(map);
+
+
+        setComponentZOrder(map, 2);
+        setComponentZOrder(label, 1);
+        setComponentZOrder(continueBtn, 0);
 
     }
 

@@ -2,7 +2,6 @@ package domain.game;
 
 import domain.card.ChanceCard;
 import domain.game.config.GameConfig;
-import domain.gamemap.ContinentType;
 import domain.gamemap.GameMap;
 import domain.mapstate.MapState;
 import domain.mapstate.TerritoryState;
@@ -30,12 +29,22 @@ public class Game {
 
     private GameState gameState;
 
+    public TerritoryState nukeTo;
+    public TerritoryState revoltFrom;
+    public TerritoryState revoltTo;
+    public TerritoryState reinforcementsTo;
+    public TerritoryState armiesTo;
+
     private Game() {
 
     }
 
     public void setSelectedTerritory(TerritoryState state) {
         gameState.setSelectedTerritory(state);
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 
     public void nextPhase() {
@@ -95,16 +104,10 @@ public class Game {
     }
 
     public void applyArmyCard() {
-        // TODO: Implement
-        //territory to add army card
-        if(getPhase().equals(Phase.Draft)){
-            TerritoryState terr = CoreUtils.chooseRandom(Game.getInstance().getCurrentPlayer().getTerritories());
-            int cardTradeResult = GameConfig.get().getArmyCardTradeResult(Game.getInstance().getCurrentPlayer().getArmyCards());
-            terr.setArmies(terr.getArmies()+cardTradeResult);
-        }
-
-
-
+        TerritoryState terr = armiesTo;
+        int cardTradeResult = GameConfig.get().getArmyCardTradeResult(Game.getInstance().getCurrentPlayer().getArmyTypes());
+        terr.setArmies(terr.getArmies() + cardTradeResult);
+        getCurrentPlayer().resetArmyCards();
     }
 
     public boolean canApplyTerritoryCard() {
@@ -112,10 +115,7 @@ public class Game {
     }
 
     public void applyTerritoryCard() {
-        // TODO: Implement
-        if(canApplyTerritoryCard()){
 
-        }
     }
 
     public boolean canApplyChanceCard() {
@@ -128,8 +128,28 @@ public class Game {
 
     public void applyChanceCard() {
         ChanceCard card = gameState.getCurrentChanceCard();
-        getCurrentPlayer().addEffect(card.getEffect());
         card.apply();
+        gameState.resetChanceCard();
+    }
+
+    public void performDraft(TerritoryState state) {
+        gameState.performDraft(state);
+    }
+
+    public void performAttack(TerritoryState attacker, TerritoryState defender) {
+        gameState.performAttack(attacker, defender);
+    }
+
+    public void performFortify(TerritoryState from, TerritoryState to) {
+        gameState.performFortify(from, to);
+    }
+
+    public List<TerritoryState> getAttackableNeighborsOf(TerritoryState state) {
+        return gameState.getMapState().getAttackableNeighborsOf(state);
+    }
+
+    public boolean canGoToNextPhase() {
+        return gameState.canGoToNextPhase();
     }
 
     public void createNewGame() {

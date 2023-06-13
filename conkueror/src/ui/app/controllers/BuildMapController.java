@@ -18,6 +18,7 @@ public class BuildMapController extends ViewController {
 
     public void nextStep() {
         game.shareTerritories();
+        game.nextPhase();
         redirect(Route.GameMap);
     }
 

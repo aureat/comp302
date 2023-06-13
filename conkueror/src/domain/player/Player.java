@@ -5,6 +5,7 @@ import domain.card.chance.EffectType;
 import domain.game.Game;
 import domain.game.config.GameConfig;
 import domain.gamemap.ContinentType;
+import domain.gamemap.TerritoryType;
 import domain.mapstate.TerritoryState;
 import org.jetbrains.annotations.NotNull;
 import util.CoreUtils;
@@ -102,21 +103,19 @@ public class Player {
         isComputer = computer;
     }
 
-    public  List<ArmyType> getArmyCards(){
-        List<ArmyType> armyTypes = armyCards.stream().map(ArmyCard::getArmyType).toList();
-        return armyTypes;
-    }
-
     public boolean canApplyTerritoryCards() {
         if (territoryCards.size() == 0)
             return false;
 
-        // check if the cards are all in the same continent
         List<ContinentType> continents = Game.getInstance().getMap().getContinents();
-        return continents.stream().anyMatch(
-                continent -> territoryCards.stream()
-                        .allMatch(card -> card.getTerritoryType().getContinent() == continent)
-        );
+        for (ContinentType continent : continents) {
+            List<TerritoryType> continentTerritories = continent.getTerritories();
+            if (continentTerritories.stream().allMatch(territory -> territoryCards.stream().anyMatch(card -> card.getTerritoryType() == territory))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean canApplyArmyCards() {
@@ -126,6 +125,18 @@ public class Player {
         // check if card trade result is not 0
         List<ArmyType> armyTypes = armyCards.stream().map(ArmyCard::getArmyType).toList();
         return GameConfig.get().getArmyCardTradeResult(armyTypes) != 0;
+    }
+
+    public List<ArmyType> getArmyTypes() {
+        return armyCards.stream().map(ArmyCard::getArmyType).toList();
+    }
+
+    public int getAllArmiesCount() {
+        return territories.stream().mapToInt(TerritoryState::getArmies).sum();
+    }
+
+    public void resetArmyCards() {
+        armyCards.clear();
     }
 
     public List<EffectType> getEffects() {
