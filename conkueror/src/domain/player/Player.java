@@ -131,6 +131,10 @@ public class Player {
         return armyCards.stream().map(ArmyCard::getArmyType).toList();
     }
 
+    public int getAllArmiesCount() {
+        return territories.stream().mapToInt(TerritoryState::getArmies).sum();
+    }
+
     public void resetArmyCards() {
         armyCards.clear();
     }

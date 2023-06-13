@@ -44,14 +44,9 @@ public class App {
             /* Load application in the background */
             (new SwingWorker<Void, Void>() {
                 @Override
-                protected Void doInBackground() throws Exception {
+                protected Void doInBackground() {
                     appController.create();
                     appController.runApplicationLoader();
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
                     return null;
                 }
 

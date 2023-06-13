@@ -167,6 +167,12 @@ public class GameMapView extends ViewPanel<GameMapController> {
         fortifyLabel.setVisible(false);
 
         nextButton.addActionListener(e -> {
+
+            if (Game.getInstance().getPhase() == Phase.GameOver) {
+                getController().redirect(Route.GameOver);
+                return;
+            }
+
             MapController.get().deselect();
             Game.getInstance().nextPhase();
             if (Game.getInstance().getPhase() == Phase.Draft) {

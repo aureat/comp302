@@ -5,6 +5,8 @@ import domain.card.chance.EffectType;
 import domain.game.Game;
 import domain.game.Phase;
 import domain.player.Player;
+import ui.app.Context;
+import ui.app.router.Route;
 import ui.app.views.GameMapView;
 import ui.assets.Assets;
 import ui.components.core.AssetRenderer;
@@ -56,6 +58,7 @@ public class GameController {
     }
 
     public void updatePhasePanel() {
+
         if (game.getPhase() == null) {
             return;
         }

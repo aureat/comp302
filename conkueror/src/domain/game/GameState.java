@@ -145,7 +145,7 @@ public class GameState {
         // distribute remaining territories
         if (remaining.size() > 0) {
             mapState.getTerritoryStates().forEach(state -> {
-                if (state.getOwner() == null) {
+                if (state.isPlayable() && state.getOwner() == null) {
                     players.forEach(player -> {
                         if (player.getTerritoryCount() < territoryCount) {
                             if (!player.getTerritories().contains(state)) {
@@ -184,7 +184,12 @@ public class GameState {
     }
 
     public void nextPhase() {
-
+        System.out.println(players.size());
+        if (isGameOver()) {
+            String winner = players.get(0).getFullName();
+            System.out.println(winner + " won the game!");
+            endGame();
+        }
         // if game is not started yet, start it
         if (phase == null) {
             shufflePlayers();
@@ -222,6 +227,10 @@ public class GameState {
 
             // change player
             currentPlayer = players.get((players.indexOf(currentPlayer) + 1) % players.size());
+            if (currentPlayer.getTerritoryCount() == 0) {
+                removePlayerFromGame(currentPlayer);
+                nextPhase();
+            }
 
             // award chance card
             drawChanceCard();
@@ -234,15 +243,11 @@ public class GameState {
     }
 
     public boolean canGoToNextPhase() {
-        if (phase == null) {
-            return true;
-        } else if (phase == Phase.Draft) {
+        if (phase == Phase.Draft) {
             return draftArmies == 0;
-        } else if (phase == Phase.Attack) {
-            return true;
-        } else {
-            return phase == Phase.Fortify;
         }
+
+        return true;
     }
 
     public void drawFromDeck() {

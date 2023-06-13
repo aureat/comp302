@@ -13,6 +13,8 @@ import ui.components.core.ImageBtnStack;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @View(at = Route.Pause)
@@ -24,6 +26,9 @@ public class PauseView extends ViewPanel<PauseController> {
     private final Assets buttons = Assets.ButtonLg;
     private final Assets avatar = Assets.AvatarCircular;
     private final Assets frame = Assets.ColorFrame;
+
+    private List<JTextField> acounts = new ArrayList<>();
+    private List<JTextField> tcounts = new ArrayList<>();
 
     public PauseView() {
         setLayout(null);
@@ -97,6 +102,7 @@ public class PauseView extends ViewPanel<PauseController> {
         ImageIcon blackBack = board.getAsset("bg").getImageIcon(896,469);
         JLabel boardLabel = new JLabel(blackBack);
         boardLabel.setBounds((getContainerWidth()-896)/2,(getContainerHeight()-469)/2,896,469);
+
         for(int i = 0; i<Game.getInstance().getPlayersCount();i++){
             ImageIcon cAvatar = avatar.getAsset(Game.getInstance().getPlayers().get(i).getAvatarString()).getImageIcon(57,57);
             JLabel avatarLabel = new JLabel(cAvatar);
@@ -132,7 +138,8 @@ public class PauseView extends ViewPanel<PauseController> {
             aLabel.setBounds(blackBack.getIconWidth()-160,21+73*i,70,57);
             aLabel.setLayout(new BorderLayout());
             JTextField aCount = new JTextField();
-            aCount.setText(String.format("%d",Game.getInstance().getPlayers().get(i).getTerritories().size()));
+            acounts.add(aCount);
+            aCount.setText(String.valueOf(Game.getInstance().getPlayers().get(i).getAllArmiesCount()));
             aCount.setEditable(false);
             aCount.setBorder(new LineBorder(new Color(1f,0f,0f,0f )));
             aCount.setFont(Fonts.GilroyBold.deriveFont(24f));
@@ -146,7 +153,8 @@ public class PauseView extends ViewPanel<PauseController> {
             tLabel.setBounds(blackBack.getIconWidth()-60,21+73*i,70,57);
             tLabel.setLayout(new BorderLayout());
             JTextField tCount = new JTextField();
-            tCount.setText(String.format("%d",Game.getInstance().getPlayers().get(i).getTerritoryCount()));
+            tcounts.add(tCount);
+            tCount.setText(String.valueOf(Game.getInstance().getPlayers().get(i).getTerritoryCount()));
             tCount.setEditable(false);
             tCount.setBorder(new LineBorder(new Color(1f,0f,0f,0f )));
             tCount.setFont(Fonts.GilroyBold.deriveFont(24f));
@@ -162,4 +170,12 @@ public class PauseView extends ViewPanel<PauseController> {
 
     }
 
+    @Override
+    public void onMount() {
+        super.onMount();
+        for (int i = 0; i < Game.getInstance().getPlayersCount(); i++) {
+            acounts.get(i).setText(String.valueOf(Game.getInstance().getPlayers().get(i).getAllArmiesCount()));
+            tcounts.get(i).setText(String.valueOf(Game.getInstance().getPlayers().get(i).getTerritoryCount()));
+        }
+    }
 }

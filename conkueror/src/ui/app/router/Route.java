@@ -31,6 +31,9 @@ public enum Route {
     /** Screen for playing the game */
     GameMap,
 
+    /** Screen for when the game is over */
+    GameOver,
+
     /** Screen where the player can pause the game and see the leaderboard */
     Pause,
 
