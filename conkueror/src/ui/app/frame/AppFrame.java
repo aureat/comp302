@@ -5,6 +5,7 @@ import ui.assets.AssetLoader;
 import util.SystemInfo;
 
 import javax.swing.*;
+import javax.swing.plaf.MenuBarUI;
 import java.awt.*;
 import java.util.List;
 
@@ -28,8 +29,7 @@ public class AppFrame extends JFrame {
          * Initializes and mounts the MenuBar and PopupMenu (MacOS only)
          */
         initMenuBar();
-        initPopupMenu();
-
+//        initPopupMenu();
     }
 
     public AppMenuBar getAppMenuBar() {
@@ -77,8 +77,16 @@ public class AppFrame extends JFrame {
 
     private void initMenuBar() {
         if (SystemInfo.isMacOS) {
-            menuBar = new AppMenuBar(this);
-            setJMenuBar(menuBar);
+//            menuBar = new AppMenuBar(this);
+//            var menuBar = new MenuBar();
+//            menuBar.add(new Menu("Test Menu"));
+//            Desktop.getDesktop().setDefaultMenuBar(menuBar);
+//            setMenuBar(menuBar);
+            var menuBar = new MenuBar();
+            setMenuBar(menuBar);
+            menuBar = getMenuBar();
+            System.out.println(menuBar.getMenu(0));
+//            menuBar.add(new Menu("Test Menu"));
         }
     }
 
