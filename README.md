@@ -1,4 +1,3 @@
-## ConKUeror: Koç University Dominion
 ![Cover](cover.png)
 
 ConKUeror is a game built in Java as a term project for COMP 302: Software Engineering course at Koç University in Spring 2023.
