@@ -2,8 +2,8 @@
 
 ConKUeror is a game built in Java as a term project for COMP 302: Software Engineering course at Koç University in Spring 2023.
 - Custom application and routing framework inspired by React Router
-- Custom reactive-like functional programming framework for UI, inspired by React and Vue
-- Java design patterns implemented throughout the project
+- Custom reactive functional programming framework for UI, inspired by React and Vue
+- OOP design patterns implemented throughout the project
 - Custom designed beautiful UI components inspired by RISK: Global Domination desktop game
 - Multithreaded application engine using Java's new Virtual Threads
 - Built with Java 21 and Swing
